@@ -1,0 +1,126 @@
+<section class="add_admin p-2 my-3">
+    <div class="w-100 text-end">
+        <svg
+          (click)="close()"
+          style="cursor: pointer"
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5896 8.39922L8.40913 13.5797"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.5922 13.5824L8.40677 8.39694"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+  
+      <div class="title text-center mb-5">
+        <h2 class="text-default fw-bold m-auto">Make a Transaction</h2>
+      </div>
+  <div class="container">
+    <div
+      class="provider_img mb-5 d-flex justify-content-start align-items-center"
+    >
+      <div
+        class="upload_img mx-2 d-flex justify-content-center align-items-center"
+        style="
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background-color: #f4f4f4;
+        "
+      >
+        <input
+          #file
+          hidden
+          id="cover"
+          type="file"
+          class="custom-file-upload"
+          (change)="onProfileCoverChange($event)"
+        />
+        @if (cover_images.length==0) {
+        <img (click)="file.click()" src="assets/images/upload.svg" alt="" />
+        } @if (cover_images.length!=0) {
+        <img
+          (click)="file.click()"
+          style="width: 60px; height: 60px; border-radius: 50%"
+          [src]="this.cover_images[0]"
+          alt=""
+        />
+        }
+      </div>
+
+      <div>
+        <h5>Receipt Image</h5>
+        <p class="m-0" style="color: #bbbbbb">
+          {{
+            cover_images.length == 0
+              ? "Upload Receipt Image"
+              : "Size :" + " " + this.cover_uploded_img[0].size + " " + "Kb"
+          }}
+        </p>
+      </div>
+      <p class="text-danger mt-2" *ngIf="f.receipt.errors && submitted">
+        *This field is required
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form class="form" [formGroup]="form" (ngSubmit)="add()">
+          <div class="row">
+            <div class="form-group col-12 mb-3">
+              <label for="name_en" class="m-1 text-dark">
+              Amount
+              </label>
+              <input
+                type="text"
+                id="name_en"
+                class="form-control"
+                placeholder="Enter Amount"
+                formControlName="amount"
+                [ngClass]="{ 'is-invalid': submitted && f.amount.errors }"
+              />
+              <span class="eye text-danger">
+              SAR
+            </span>
+              <p class="text-danger mt-2" *ngIf="f.amount.errors && submitted">
+                *This field is required
+              </p>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-md-12">
+              <button type="submit"  class="btn confirm w-100">
+                Make a Transaction
+              </button>
+              
+            </div>
+          
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  </div>
+</section>

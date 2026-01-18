@@ -1,0 +1,424 @@
+<section class="home">
+  <div class="statistics">
+    <div class="row main my-5 d-flex align-items-center">
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+        <h2 class="text-default fw-bold m-auto">Overview</h2>
+      </div>
+      <div
+        class="fw-bold title col-xl-2 col-lg-3 col-md-6 col-12 offset-xl-4 offset-lg-3"
+      >
+        <button
+          class="btn btn-success me-3 py-2 px-3 w-100"
+          [matMenuTriggerFor]="menu"
+        >
+          <span style="text-transform: capitalize"> {{ selectedDate }}</span>
+          <img src="assets/images/Stroke_1.svg" class="mx-3" />
+        </button>
+
+        <mat-menu #menu="matMenu" class="p-2">
+          <button
+            mat-menu-item
+            (click)="$event.stopPropagation()"
+            style="text-transform: capitalize"
+          >
+            <mat-radio-group
+              aria-label="Select an option"
+              [(ngModel)]="selectedDate"
+              (change)="statusChange($event)"
+            >
+              <mat-radio-button [value]="'last week'"
+                ><span class="text-grey">Last Week</span></mat-radio-button
+              >
+              <br />
+              <mat-radio-button [value]="'last month'"
+                ><span class="text-grey">Last Month</span></mat-radio-button
+              >
+              <br />
+              <mat-radio-button [value]="'last three months'"
+                ><span class="text-grey"
+                  >Last three Month</span
+                ></mat-radio-button
+              >
+              <br />
+              <mat-radio-button [value]="'last year'" class="last"
+                ><span class="text-grey">Last Year</span></mat-radio-button
+              >
+              <br />
+            </mat-radio-group>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="lodstat">
+      @for (item of [].constructor(3); track $index) {
+      <div class="col-lg-4 mb-1">
+        <div
+          class="ph-item d-flex align-items-center"
+          style="padding: 18px 15px 7px"
+        >
+          <div class="ph-col-2">
+            <div class="ph-avatar" style="width: 4px"></div>
+          </div>
+
+          <div>
+            <div class="ph-row p-0">
+              <div class="ph-col-6"></div>
+              <div class="ph-col-6 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-8 empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      } @for (item of [].constructor(2); track $index) {
+      <div class="col-lg-6 mb-1">
+        <div
+          class="ph-item d-flex align-items-center"
+          style="padding: 18px 15px 7px"
+        >
+          <div class="ph-col-2">
+            <div class="ph-avatar" style="width: 4px"></div>
+          </div>
+
+          <div>
+            <div class="ph-row p-0">
+              <div class="ph-col-6"></div>
+              <div class="ph-col-6 empty"></div>
+              <div class="ph-col-4"></div>
+              <div class="ph-col-8 empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="row" *ngIf="!lodstat">
+      <div class="col-lg-4">
+        <div class="card">
+          <div>
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="30" cy="30" r="30" fill="#FDE9EB" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M29.9764 35.0195C24.175 35.0195 19.2207 35.8967 19.2207 39.4095C19.2207 42.9224 24.1436 43.831 29.9764 43.831C35.7778 43.831 40.7307 42.9524 40.7307 39.441C40.7307 35.9295 35.8093 35.0195 29.9764 35.0195Z"
+                stroke="#E21B33"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M29.9764 30.0098C33.7835 30.0098 36.8692 26.9227 36.8692 23.1155C36.8692 19.3084 33.7835 16.2227 29.9764 16.2227C26.1692 16.2227 23.0821 19.3084 23.0821 23.1155C23.0692 26.9098 26.1349 29.9969 29.9278 30.0098H29.9764Z"
+                stroke="#E21B33"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="mx-3">
+            <h5 class="statistics_head">Total Number of active users</h5>
+            <h5 class="statistics_title">
+              {{ Statistics?.active_users_count }} Users
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div>
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="30" cy="30" r="30" fill="#E1F3E6" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M26.386 34.8105C31.9195 34.8105 36.649 35.649 36.649 38.9985C36.649 42.348 31.951 43.2105 26.386 43.2105C20.851 43.2105 16.123 42.3795 16.123 39.0285C16.123 35.6775 20.8195 34.8105 26.386 34.8105Z"
+                stroke="#02B730"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M26.3856 30.03C22.7526 30.03 19.8066 27.0855 19.8066 23.4525C19.8066 19.8195 22.7526 16.875 26.3856 16.875C30.0171 16.875 32.9631 19.8195 32.9631 23.4525C32.9766 27.072 30.0516 30.0165 26.4321 30.03H26.3856Z"
+                stroke="#02B730"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M36.7227 28.3219C39.1242 27.9844 40.9737 25.9234 40.9782 23.4289C40.9782 20.9704 39.1857 18.9304 36.8352 18.5449"
+                stroke="#02B730"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M39.8926 34.0977C42.2191 34.4442 43.8436 35.2602 43.8436 36.9402C43.8436 38.0967 43.0786 38.8467 41.8426 39.3162"
+                stroke="#02B730"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="mx-3">
+            <h5 class="statistics_head">Total Number of service providers</h5>
+            <h5 class="statistics_title">
+              {{ Statistics?.service_providers_count }}
+              providers
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div>
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="30" cy="30" r="30" fill="#F5F5E1" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M26.386 34.8105C31.9195 34.8105 36.649 35.649 36.649 38.9985C36.649 42.348 31.951 43.2105 26.386 43.2105C20.851 43.2105 16.123 42.3795 16.123 39.0285C16.123 35.6775 20.8195 34.8105 26.386 34.8105Z"
+                stroke="#CDCB02"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M26.3856 30.03C22.7526 30.03 19.8066 27.0855 19.8066 23.4525C19.8066 19.8195 22.7526 16.875 26.3856 16.875C30.0171 16.875 32.9631 19.8195 32.9631 23.4525C32.9766 27.072 30.0516 30.0165 26.4321 30.03H26.3856Z"
+                stroke="#CDCB02"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M36.7227 28.3219C39.1242 27.9844 40.9737 25.9234 40.9782 23.4289C40.9782 20.9704 39.1857 18.9304 36.8352 18.5449"
+                stroke="#CDCB02"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M39.8926 34.0977C42.2191 34.4442 43.8436 35.2602 43.8436 36.9402C43.8436 38.0967 43.0786 38.8467 41.8426 39.3162"
+                stroke="#CDCB02"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="mx-3">
+            <h5 class="statistics_head">Total Number of packaging providers</h5>
+            <h5 class="statistics_title">
+              {{ Statistics?.service_providers_count }} Providers
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div>
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="30" cy="30" r="30" fill="#E1EEF6" />
+              <path
+                d="M41.2153 30.1601V21.2531C41.2153 21.1398 41.181 21.0291 41.117 20.9355C41.053 20.842 40.9622 20.77 40.8566 20.7289L26.829 15.2746C26.6979 15.2236 26.5524 15.2236 26.4212 15.2746L12.3938 20.7289C12.2882 20.77 12.1974 20.842 12.1334 20.9355C12.0694 21.0291 12.0352 21.1398 12.0352 21.2531V37.4508C12.0352 37.5641 12.0694 37.6748 12.1334 37.7684C12.1974 37.8619 12.2882 37.9339 12.3938 37.975L26.4213 43.4293C26.5524 43.4803 26.6979 43.4803 26.829 43.4293L34.0622 40.6169C35.2444 43.0677 37.7543 44.7628 40.6527 44.7628C44.6846 44.7628 47.9648 41.4827 47.9648 37.4508C47.9648 33.608 44.9854 30.4482 41.2153 30.1601ZM26.6251 26.1039L23.5336 24.9019C27.6922 23.2851 31.8506 21.6681 36.009 20.0511L39.1006 21.2531L26.6251 26.1039ZM18.7934 23.0587L31.2684 18.2078L34.4569 19.4475C30.2984 21.0646 26.14 22.6816 21.9815 24.2983L18.7934 23.0587ZM17.8038 23.8809L21.419 25.2866V27.9822L19.8732 26.6656C19.801 26.6041 19.7143 26.5618 19.6214 26.5428C19.5284 26.5237 19.4321 26.5285 19.3415 26.5567L17.8039 27.0349L17.8038 23.8809ZM26.6251 16.4024L29.7163 17.6043L17.2413 22.4552L14.1498 21.2531L26.6251 16.4024ZM13.1602 22.0754L16.6788 23.4435V27.546C16.6788 27.7833 16.7928 28.009 16.9836 28.1494C17.0783 28.2187 17.1879 28.2649 17.3036 28.2843C17.4193 28.3036 17.538 28.2956 17.65 28.2609L19.3797 27.723L21.3095 29.3666C21.4184 29.4593 21.5516 29.5188 21.6932 29.5384C21.8348 29.5579 21.9791 29.5366 22.109 29.4769C22.2388 29.4167 22.3486 29.3207 22.4257 29.2002C22.5027 29.0798 22.5438 28.9398 22.5441 28.7968V25.7241L26.0627 27.0922V42.0828L13.1602 37.066V22.0754ZM27.1876 42.0829V27.0922L40.0903 22.0754V30.1601C36.3202 30.4482 33.3407 33.6081 33.3407 37.4508C33.3407 38.187 33.4505 38.8979 33.6538 39.5686L27.1876 42.0829ZM40.6528 43.6378C37.2411 43.6378 34.4657 40.8623 34.4657 37.4508C34.4657 34.0391 37.2412 31.2636 40.6528 31.2636C44.0643 31.2636 46.8398 34.0392 46.8398 37.4508C46.8398 40.8623 44.0643 43.6378 40.6528 43.6378ZM44.9898 33.975C44.6987 33.684 44.3118 33.5237 43.9002 33.5237C43.4887 33.5237 43.1018 33.684 42.8106 33.975L39.2583 37.5274L38.286 36.3039C37.9924 35.9345 37.553 35.7225 37.0806 35.7225C36.733 35.7231 36.3958 35.8409 36.1235 36.0569C35.9649 36.1823 35.8327 36.3379 35.7347 36.5147C35.6366 36.6915 35.5746 36.886 35.5522 37.087C35.5287 37.2878 35.5452 37.4912 35.6009 37.6856C35.6565 37.88 35.7502 38.0613 35.8764 38.2193L37.8747 40.7339C38.0177 40.9331 38.2061 41.0954 38.4243 41.2074C38.6425 41.3194 38.8842 41.3778 39.1294 41.3778C39.5401 41.3778 39.9264 41.2175 40.2174 40.9266L44.9899 36.1541C45.5905 35.5533 45.5905 34.5757 44.9898 33.975ZM44.1943 35.3586L39.4218 40.1311C39.3837 40.17 39.3382 40.2008 39.288 40.2217C39.2377 40.2426 39.1838 40.2532 39.1294 40.2528C39.0619 40.2534 38.9953 40.2374 38.9355 40.2062C38.8756 40.1751 38.8243 40.1297 38.786 40.0742C38.7794 40.0646 38.7724 40.0553 38.7651 40.0462L36.7571 37.5194C36.7231 37.4769 36.6979 37.4281 36.6829 37.3758C36.668 37.3235 36.6635 37.2687 36.6698 37.2147C36.6759 37.1606 36.6926 37.1083 36.7189 37.0607C36.7453 37.0131 36.7809 36.9713 36.8236 36.9375C36.8965 36.8791 36.9872 36.8473 37.0806 36.8475C37.208 36.8475 37.3264 36.9046 37.4053 37.0038L38.7698 38.7209C38.8191 38.783 38.881 38.8339 38.9514 38.8704C39.0217 38.9069 39.099 38.9281 39.1782 38.9326C39.2573 38.9372 39.3365 38.925 39.4106 38.8968C39.4847 38.8685 39.5519 38.8249 39.6079 38.7688L43.606 34.7705C43.6446 34.7318 43.6904 34.7011 43.7409 34.6802C43.7914 34.6593 43.8456 34.6486 43.9002 34.6487C44.0113 34.6487 44.1157 34.692 44.1943 34.7705C44.2722 34.8486 44.3159 34.9543 44.3159 35.0646C44.3159 35.1748 44.2722 35.2806 44.1943 35.3586Z"
+                fill="#0582D2"
+              />
+            </svg>
+          </div>
+          <div class="mx-3">
+            <h5 class="statistics_head">Total Number of finished orders</h5>
+            <h5 class="statistics_title">
+              {{ Statistics?.finished_orders_count }} Orders
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div>
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="30" cy="30" r="30" fill="#FAF3EF" />
+              <g clip-path="url(#clip0_3036_11386)">
+                <path
+                  d="M46.5744 19.9433L30.229 12.0524C30.1575 12.0179 30.0791 12 29.9997 12C29.9203 12 29.842 12.0179 29.7705 12.0524L13.425 19.9433C13.3357 19.9864 13.2604 20.0539 13.2076 20.1379C13.1549 20.2219 13.127 20.319 13.127 20.4182V39.5818C13.127 39.681 13.1549 39.7781 13.2076 39.8621C13.2604 39.9461 13.3357 40.0136 13.425 40.0567L29.7704 47.9476C29.8419 47.9821 29.9203 48 29.9997 48C30.0791 48 30.1575 47.9821 30.229 47.9476L46.5744 40.0567C46.6637 40.0136 46.739 39.9461 46.7918 39.8621C46.8445 39.7781 46.8725 39.681 46.8725 39.5818V20.4183C46.8724 20.3191 46.8445 20.2219 46.7918 20.1379C46.739 20.0539 46.6637 19.9864 46.5744 19.9433ZM29.9997 13.1129L45.1321 20.4182L40.7456 22.5359C40.7178 22.5142 40.6879 22.4953 40.6563 22.4796L25.6266 15.2241L29.9997 13.1129ZM24.4357 15.8203L39.5461 23.115L36.4513 24.609L21.3471 17.3173L24.4357 15.8203ZM39.8996 24.1154V29.6381L37.0089 31.0337V25.5109L39.8996 24.1154ZM45.8178 39.2509L30.527 46.6325V28.64L34.1744 26.8793C34.2367 26.8492 34.2926 26.8071 34.3386 26.7554C34.3847 26.7037 34.4202 26.6434 34.443 26.5781C34.4658 26.5127 34.4755 26.4434 34.4716 26.3743C34.4676 26.3052 34.4501 26.2375 34.42 26.1751C34.3899 26.1127 34.3478 26.0569 34.2961 26.0108C34.2444 25.9647 34.1841 25.9293 34.1187 25.9065C34.0534 25.8837 33.9841 25.874 33.915 25.8779C33.8458 25.8819 33.7782 25.8994 33.7158 25.9295L29.9997 27.7235L28.5375 27.0176C28.4751 26.9875 28.4074 26.9699 28.3383 26.9659C28.2692 26.962 28.1999 26.9717 28.1345 26.9945C28.0691 27.0173 28.0089 27.0528 27.9572 27.0989C27.9055 27.145 27.8634 27.2008 27.8333 27.2632C27.8032 27.3256 27.7857 27.3932 27.7817 27.4624C27.7778 27.5315 27.7875 27.6008 27.8103 27.6661C27.8331 27.7315 27.8685 27.7918 27.9146 27.8435C27.9607 27.8952 28.0165 27.9373 28.0789 27.9674L29.4724 28.64V46.6325L14.1816 39.2508V21.2584L25.8254 26.8795C25.8967 26.9141 25.975 26.9321 26.0543 26.9321C26.1738 26.9322 26.2898 26.8918 26.3833 26.8174C26.4768 26.743 26.5422 26.639 26.5689 26.5225C26.5956 26.406 26.582 26.2839 26.5302 26.1762C26.4784 26.0685 26.3915 25.9816 26.2839 25.9297L14.8673 20.4182L20.1059 17.8892L35.9469 25.5366C35.9492 25.5398 35.9518 25.5427 35.9542 25.5459V31.8739C35.9542 31.9632 35.9769 32.051 36.0201 32.1291C36.0633 32.2072 36.1257 32.273 36.2013 32.3205C36.2769 32.3679 36.3633 32.3954 36.4524 32.4004C36.5415 32.4053 36.6304 32.3876 36.7108 32.3488L40.6563 30.4441C40.7456 30.401 40.8209 30.3336 40.8736 30.2496C40.9264 30.1656 40.9543 30.0684 40.9543 29.9692V23.6063L45.8178 21.2584V39.2509Z"
+                  fill="#FFB58B"
+                  stroke="#FFB58B"
+                  stroke-width="0.5"
+                />
+                <path
+                  d="M18.5343 37.2065L16.1355 36.0485C16.0096 35.9877 15.8646 35.9794 15.7326 36.0255C15.6005 36.0715 15.4922 36.1682 15.4314 36.2941C15.3706 36.4201 15.3623 36.565 15.4083 36.6971C15.4544 36.8291 15.551 36.9375 15.677 36.9983L18.0757 38.1563C18.147 38.1909 18.2253 38.2088 18.3045 38.2089C18.4038 38.2089 18.501 38.181 18.5851 38.1282C18.6692 38.0755 18.7367 38 18.7798 37.9107C18.8099 37.8483 18.8275 37.7806 18.8314 37.7115C18.8354 37.6423 18.8257 37.5731 18.8029 37.5077C18.7801 37.4423 18.7446 37.3821 18.6985 37.3304C18.6524 37.2787 18.5966 37.2366 18.5343 37.2065ZM20.7419 35.7695L16.1388 33.5473C16.0132 33.4888 15.8696 33.4821 15.739 33.5287C15.6085 33.5753 15.5015 33.6714 15.4412 33.7962C15.381 33.921 15.3723 34.0645 15.417 34.1957C15.4618 34.3269 15.5564 34.4352 15.6803 34.4972L20.2833 36.7194C20.3547 36.7539 20.4329 36.7719 20.5122 36.772C20.6317 36.7721 20.7478 36.7317 20.8413 36.6573C20.9349 36.5829 21.0003 36.4789 21.027 36.3624C21.0537 36.2458 21.04 36.1237 20.9882 36.016C20.9364 35.9083 20.8495 35.8214 20.7419 35.7695Z"
+                  fill="#FFB58B"
+                  stroke="#FFB58B"
+                  stroke-width="0.5"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_3036_11386">
+                  <rect
+                    width="36"
+                    height="36"
+                    fill="white"
+                    transform="translate(12 12)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="mx-3">
+            <h5 class="statistics_head">Total Number of current orders</h5>
+            <h5 class="statistics_title">
+              {{ Statistics?.current_orders_count }} Orders
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="dashboard orders w-100">  
+ 
+    <form [formGroup]="form" class="mt-4">  
+        <div class="row justify-content-center"> 
+            <h1 class="col-lg-6 col-md-4 col-12"  data-aos="fade-right" data-aos-offset="100" data-aos-delay="50" data-aos-duration="1000" data-aos-easing="ease-in-out"><span class="fw-bold">Orders</span> </h1>
+ 
+            <div class="col-lg-6 col-md-8 col-12"> 
+                <div class="row justify-content-end">  
+                    <div class="col-lg-auto col-6" formGroupName="sortGroup">
+                        <button  class="btn btn-soft-danger me-3 py-2 px-3"  [matMenuTriggerFor]="sort">
+                            <img src="assets/images/actions/sort-by.svg">
+                            <span> Sort By</span>
+                        </button>
+         
+                        <mat-menu #sort="matMenu" class="p-2">
+                            <mat-label class="py-2 ms-2 d-flex"> <span class="m-auto">Sort By</span></mat-label>
+                            <button class="orders" mat-menu-item  (click)="$event.stopPropagation();" style="height:100px">
+                                <mat-radio-group aria-label="Select an option" formControlName="sort_by_date">
+                                    <mat-radio-button [value]="'desc'"><span class="text-grey">Old to New</span></mat-radio-button> <br>
+                                    <mat-radio-button [value]="'asc'"><span class="text-grey">New to Old</span></mat-radio-button> <br>
+                                </mat-radio-group>
+                            </button>
+                            
+                            <div class="example-button-row d-flex justify-content-center mt-1 p-3">
+                                <button class="btn btn-danger w-100 me-1">Apply</button>
+                                <button class="btn btn-outline-danger w-100" >Reset</button>
+                            </div>
+                        </mat-menu>   
+                    </div>
+                    
+                    <div class="col-lg-auto col-6" formGroupName="statusGroup">  
+                      
+                            <button  class="btn btn-danger me-3 py-2 px-3"  [matMenuTriggerFor]="filter">
+                                <img class="" src="assets/images/actions/filter.svg"> 
+                                <span> Filter by </span>
+                            </button>
+            
+                            <mat-menu #filter="matMenu"  class="p-2 " >
+                                <mat-label class="pt-3 ms-2 d-flex"> <span class="m-auto">Filter By</span></mat-label>
+                                <button class="orders" mat-menu-item  (click)="$event.stopPropagation()" style="transition: height 0.5s ease-in-out " [ngStyle]="{'height':isOpened.isHovered? '150px' : (!isOpened.isHovered? '80px'  : null) }">
+                                    <div class="col-md-12 col-12 form-group">
+                                      
+                                        <mat-form-field class="w-100">
+                                        <input matInput readonly [matDatepicker]="picker"   placeholder="Card Expiration" #ref  formControlName="date">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div> 
+                                      
+                                   
+                                </button>
+                                <div class="example-button-row d-flex justify-content-center mt-1 px-3 pb-2" >
+                                    <button class="btn btn-danger w-100 me-1" >Apply</button>
+                                    <button class="btn btn-outline-danger w-100" >Reset</button>
+                                </div>
+                            </mat-menu>   
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </form>
+
+    <div class="card-body"> 
+       <div class="row"> 
+ 
+            <mat-tab-group [(selectedIndex)]="matTabGroup" >  
+  
+                <mat-tab label="New">
+                </mat-tab>
+                   
+                <mat-tab label="Current"></mat-tab>
+
+                <mat-tab label="Finished"></mat-tab>
+                    
+                <mat-tab label="Cancelled"></mat-tab>
+                    
+            </mat-tab-group>
+            osama
+          
+        </div>
+    </div>
+</section>
+  -->
+<!-- <div class="row"> 
+ 
+    <mat-tab-group [(selectedIndex)]="matTabGroup" (selectedTabChange)="resetShowItem($event)">  
+
+        <mat-tab label="New">
+          New
+        </mat-tab>
+           
+        <mat-tab label="Current">
+          Current
+        </mat-tab>
+
+        <mat-tab label="Finished">
+          Finished
+        </mat-tab>
+            
+        <mat-tab label="Cancelled">
+          Cancelled
+        </mat-tab>
+            
+    </mat-tab-group>
+  
+  
+</div> -->

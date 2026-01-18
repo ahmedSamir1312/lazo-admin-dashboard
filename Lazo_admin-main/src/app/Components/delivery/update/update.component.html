@@ -1,0 +1,139 @@
+<section class="add_admin p-4">
+  <div class="container">
+    <div class="w-100 text-end">
+      <svg
+        (click)="close()"
+        style="cursor: pointer"
+        width="22"
+        height="22"
+        viewBox="0 0 22 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.5896 8.39922L8.40913 13.5797"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M13.5922 13.5824L8.40677 8.39694"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <div class="title text-center mb-5">
+      <h2 class="text-default fw-bold m-auto">Add New Delivery Time</h2>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <form class="form" [formGroup]="form" (ngSubmit)="update()">
+          <div class="row" *ngIf="data?.type == 'Time'">
+            <!-- FROM DATE -->
+            <div class="col-md-12 col-12 form-group toggle-example mb-4">
+              <label class="mb-3">From Time</label>
+
+              <input
+                readonly
+                class="form-control"
+                placeholder="Select From Time"
+                formControlName="from"
+                [ngxTimepicker]="fromPicker"
+                (onChange)="timeValueChange('from', $event)"
+                (timeSet)="timeValueChange('from', $event)"
+                [ngStyle]="{
+                  border:
+                    submitted && f.from?.errors?.required
+                      ? '1px solid red'
+                      : null
+                }"
+              />
+              <ngx-material-timepicker #fromPicker></ngx-material-timepicker>
+
+              <p
+                class="text-danger mt-2"
+                *ngIf="submitted && f.from?.errors?.required"
+              >
+                *This field is required
+              </p>
+            </div>
+
+            <!-- TO DATE -->
+            <div class="col-md-12 col-12 form-group toggle-example mb-4">
+              <label class="mb-3">To Time</label>
+
+              <input
+                readonly
+                class="form-control"
+                placeholder="Select To Time"
+                formControlName="to"
+                [ngxTimepicker]="toPicker"
+                (timeSet)="timeValueChange('to', $event)"
+                [ngStyle]="{
+                  border: submitted && f.to?.errors ? '1px solid red' : null
+                }"
+              />
+              <ngx-material-timepicker #toPicker></ngx-material-timepicker>
+
+              <p class="text-danger mt-2" *ngIf="submitted && f.to?.errors">
+                *This field is required
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-12 col-12 form-group toggle-example mb-4"
+            *ngIf="data?.type == 'Time'"
+          >
+            <label class="mb-3 me-5">Is Current Day Included</label>
+            <mat-slide-toggle
+              formControlName="is_current_day_included"
+              class="check_user_right"
+            >
+            </mat-slide-toggle>
+            <div
+              class="text-danger mt-2"
+              *ngIf="submitted && f.is_current_day_included?.errors"
+            >
+              *This field is required
+            </div>
+          </div>
+          <div class="row" *ngIf="data?.type == 'Fees'">
+            <div class="col-md-12 col-12 form-group toggle-example mb-4">
+              <label class="mb-3">Amount</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter Fees"
+                formControlName="amount"
+                [ngStyle]="{
+                  border: submitted && f.amount?.errors ? '1px solid red' : null
+                }"
+              />
+              <p class="text-danger mt-2" *ngIf="submitted && f.amount?.errors">
+                *This field is required
+              </p>
+            </div>
+          </div>
+          <div class="row my-3">
+            <button type="submit" class="btn btn-danger w-100">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

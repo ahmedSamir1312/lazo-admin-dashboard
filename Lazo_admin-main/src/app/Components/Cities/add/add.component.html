@@ -1,0 +1,210 @@
+<section class="add_admin p-4">
+  <div class="container">
+    <div class="w-100 text-end">
+      <svg
+        (click)="close()"
+        style="cursor: pointer"
+        width="22"
+        height="22"
+        viewBox="0 0 22 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.5896 8.39922L8.40913 13.5797"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M13.5922 13.5824L8.40677 8.39694"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
+          stroke="#8088A4"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <div class="title text-center mb-5">
+      <h2 class="text-default fw-bold m-auto">Add City</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form class="form" [formGroup]="form" (ngSubmit)="add()">
+          <div class="row">
+            <div class="col-lg-12 mb-4">
+              <div class="form-group">
+                <label class="mb-3">City in English </label>
+                <input
+                  placeholder="Enter City in English
+                  "
+                  type="text"
+                  class="form-control"
+                  formControlName="name_en"
+                  [ngStyle]="{
+                    border:
+                      submitted && f.name_en.errors
+                        ? '1px solid red'
+                        : submitted && f.name_en.errors
+                        ? '1px solid #ebebeb'
+                        : null
+                  }"
+                />
+                <p
+                  class="text-danger mt-2"
+                  *ngIf="f.name_en?.errors && submitted"
+                >
+                  *This field is required
+                </p>
+              </div>
+            </div>
+
+            <div class="col-lg-12 mb-4">
+              <div class="form-group">
+                <label class="mb-3">City in Arabic </label>
+                <input
+                  placeholder="Enter City in Arabic
+                  "
+                  type="text"
+                  class="form-control"
+                  formControlName="name_ar"
+                  [ngStyle]="{
+                    border:
+                      submitted && f.name_ar.errors
+                        ? '1px solid red'
+                        : submitted && f.name_ar.errors
+                        ? '1px solid #ebebeb'
+                        : null
+                  }"
+                />
+                <p
+                  class="text-danger mt-2"
+                  *ngIf="f.name_ar?.errors && submitted"
+                >
+                  *This field is required
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-12 mb-4">
+              <div class="form-group position-relative">
+                <label class="mb-3">Country</label>
+                <!-- <span style="position: absolute; top:55px; right: 20px; z-index: 22;" >  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 8.5L12 15.5L5 8.5" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg></span> -->
+
+                <ng-select
+                  [items]="Countries"
+                  #select
+                  placeholder="Choose Country"
+                  (close)="select.blur()"
+                  [clearable]="false"
+                  bindLabel="name_en"
+                  bindValue="id"
+                  [multiple]="false"
+                  dropdownPosition="top"
+                  formControlName="country_id"
+                ></ng-select>
+                <p
+                  class="text-danger mt-2"
+                  *ngIf="f.country_id?.errors && submitted"
+                >
+                  *This Country is required
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-12 mb-4">
+              <div class="form-group">
+                <label class="mb-3">Location </label>
+                <div class="row">
+                  <div class="col-10">
+                    <input
+                      placeholder="Enter Location (lat && lng)
+                  "
+                      type="text"
+                      class="form-control"
+                      [value]="
+                        f.lat.value ? f.lat.value + ',' + f.lng.value : ''
+                      "
+                      [ngStyle]="{
+                        border:
+                          submitted && f.lat.errors
+                            ? '1px solid red'
+                            : submitted && f.lat.errors
+                            ? '1px solid #ebebeb'
+                            : null
+                      }"
+                    />
+                  </div>
+                  <div class="col-2">
+                    <button
+                      class="btn w-100"
+                      type="button"
+                      (click)="openMap('300ms', '300ms')"
+                    >
+                      <svg
+                        width="27px"
+                        height="27px"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#ffffff"
+                      >
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          <path
+                            d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z"
+                            stroke="#ffffff"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                          <path
+                            d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z"
+                            stroke="#ffffff"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </g>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <p class="text-danger mt-2" *ngIf="f.lat?.errors && submitted">
+                  *This field is required
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-md-6">
+              <button type="submit" class="btn confirm w-100">Add</button>
+            </div>
+            <div class="col-md-6">
+              <button type="button" (click)="close()" class="btn cancel w-100">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

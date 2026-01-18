@@ -1,0 +1,30 @@
+.add_admin{
+    input {
+        color: #8088A4;
+        &::placeholder{
+            color: #8088A4 !important;
+            font-size: 14px;
+        }
+    }
+
+    .btn{
+        transition: all .4s ease-in-out;
+        &:hover{
+            background-color: #a80c1e;
+            color: #fff !important;
+        }
+        &:focus{
+            outline: none;
+            box-shadow: none;
+        }
+    }
+    .confirm{
+        background-color: #E21B33;
+        color: #fff;
+    }  
+    .cancel{
+        border: 1px solid #E21B33;
+        background-color: #fff;
+        color: #E21B33; 
+    }
+}

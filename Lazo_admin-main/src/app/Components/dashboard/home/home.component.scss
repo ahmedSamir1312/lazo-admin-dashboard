@@ -1,0 +1,38 @@
+.statistics{
+    .btn{
+        background-color: #F8E4E6;
+        border: none;
+        color: #E21B33;
+        &:hover{
+            background-color: #E21B33;
+            color: #fff;
+            img{
+                filter: brightness(0) saturate(100%) invert(99%) sepia(26%) saturate(0%) hue-rotate(357deg) brightness(109%)
+                contrast(100%);  
+            }
+        }
+    }
+    .card{
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-direction: row;
+        padding:15px  20px;
+        margin-bottom:20px ;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        background-color: #fff;
+        border: 1px solid #E9EAEF;
+        .statistics_head {
+            font-size: 18px;
+           color: #8088A4
+        }
+        .statistics_title{
+            font-size: 18px;
+            font-weight: 600;
+        }
+}
+}

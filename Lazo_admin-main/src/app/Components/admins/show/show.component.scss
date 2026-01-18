@@ -1,0 +1,24 @@
+.Admins{
+    .buttons  {
+        .btn-soft-success{
+            background-color:#E1F3E6 ;
+            width: 100%;
+            color: #02B730;
+        }
+        .btn-outline-danger{
+            background-color: #fff;
+            border: 1px solid #E21B33;
+            color: #E21B33;
+            width: 100%;
+        }
+        .btn-danger{
+            background-color: #E21B33;
+            color: #fff;
+            width: 100%;
+            img{
+                width: 20px;
+                filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7472%) hue-rotate(114deg) brightness(109%) contrast(97%);
+            }
+        }
+}
+}

@@ -1,0 +1,173 @@
+<div class="mt-5" *ngIf="loading">
+  <app-palceholder-table [header]="header"></app-palceholder-table>
+</div>
+<div
+  class="row mt-5"
+  *ngIf="!loading && (details | search : receivedData).length == 0"
+>
+  <div class="col-lg-4 m-auto text-center">
+    @if (this.account_type=='service_provider') {
+    <img src="assets/images/services.svg" alt="" />} @if
+    (this.account_type!='service_provider') {
+    <img src="assets/images/packiging.svg" alt="" />}
+
+    <div class="fw-bold title col-12">
+      <h2 class="text-default fw-bold text-center">
+        Add new
+        {{ this.account_type == "service_provider" ? "service" : " packaging" }}
+        providers
+      </h2>
+    </div>
+    <p style="color: #8088a4; font-size: 20px">
+      When you add
+      {{ this.account_type == "service_provider" ? "service" : " packaging" }}
+      provider it will appear here
+    </p>
+    <button
+      class="btn btn-danger custom px-4 w-100"
+      [routerLink]="['/add_provider']"
+    >
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+          fill="white"
+        />
+      </svg>
+
+      <span class="mx-2"> Add New Provider</span>
+    </button>
+  </div>
+</div>
+<div
+  class="row"
+  *ngIf="!loading && (details | search : receivedData).length > 0"
+>
+  <div class="col-12 table-responsive mt-5">
+    <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="500"
+      [scrollWindow]="false"
+      (scrolled)="onScroll($event)"
+    >
+      <table class="table text-center table-bordered providers">
+        <tr
+          class="background-info text-default position-sticky"
+          style="top: -1px; z-index: 33"
+        >
+          @for (head of header; track $index) {
+          <td scope="col">{{ head }}</td>
+          }
+        </tr>
+        @for (item of (details|search:receivedData); track $index) {
+        <tr class="table_body text-center">
+          <td scope="col">
+            {{ $index + 1 }}
+          </td>
+
+          <td scope="col">
+            <img
+              onerror="this.src='assets/images/profile.svg'"
+              [src]="item.imagePath"
+              alt=""
+              style="width: 50px; height: 50px; border-radius: 50%"
+            />
+            {{ item.name_en }}
+          </td>
+          <td scope="col">
+            {{ item.owner_name }}
+          </td>
+          @if (this.type=='active') {
+          <td scope="col">{{ item.new_orders }} Orders</td>
+          <td scope="col">{{ item.current_orders }} Orders</td>
+          <td scope="col">{{ item.finished_orders }} Orders</td>
+          <td scope="col">
+            <mat-slide-toggle
+              [disabled]="item.status == 'blocked'"
+              (change)="toggle(item, 'block')"
+              class="check_user_right"
+              [checked]="item.status == 'active'"
+            >
+            </mat-slide-toggle>
+          </td>
+          <td scope="col">
+            <mat-slide-toggle
+              [disabled]="item.status == 'active'"
+              (change)="toggle(item, 'unblock')"
+              class="check_user"
+              [checked]="item.status == 'blocked'"
+            >
+            </mat-slide-toggle>
+          </td>
+          @if((this.type=='active') && (this.account_type=='service_provider'))
+          {
+          <td scope="col">
+            <mat-slide-toggle
+              (change)="togglepromoted(item)"
+              class="check_user_right"
+              [checked]="item.is_promoted == '1'"
+            >
+            </mat-slide-toggle>
+          </td>
+          } } @if (this.type!='active') {
+          <td scope="col">{{ item.city?.name_en }}</td>
+          <td scope="col">{{ item.phone }}</td>
+          <td scope="col">{{ item.business_type }}</td>
+
+          <td scope="col">Services</td>
+          @if (this.type=='blocked') {
+          <td scope="col">
+            <mat-slide-toggle
+              [disabled]="item.status == 'active'"
+              (change)="toggle(item, 'unblock')"
+              class="check_user"
+              [checked]="item.status == 'blocked'"
+            >
+            </mat-slide-toggle>
+          </td>
+          } }
+
+          <td scope="col">
+            <div class="row buttons mt-2">
+              @if ((this.type=='active')||(this.type=='blocked')){
+              <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
+                <a
+                  role="button"
+                  class="btn btn-outline-danger"
+                  (click)="openDeleteModal(item, '100ms', '100ms')"
+                >
+                  <img src="assets/images/actions/lazo_delete.svg" /> Delete
+                </a>
+              </div>
+              }
+              <div
+                class="align-self-center mb-2"
+                [ngClass]="
+                  this.type == 'active' || this.type == 'blocked'
+                    ? 'col-6'
+                    : 'col-12'
+                "
+              >
+                <a
+                  role="button"
+                  class="btn btn-danger"
+                  [routerLink]="['/provider_details', item.id]"
+                >
+                  View Details
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        }
+      </table>
+    </div>
+  </div>
+</div>

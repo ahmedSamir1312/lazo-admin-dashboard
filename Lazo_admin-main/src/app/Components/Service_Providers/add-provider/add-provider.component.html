@@ -1,0 +1,43 @@
+<section class="my-5">
+  <mat-stepper
+    [linear]="isLinear"
+    #stepper="matHorizontalStepper"
+    labelPosition="bottom"
+    linear
+    ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}"
+    labelPosition="bottom"
+    [selectedIndex]="stepIndex"
+  >
+    <ng-template matStepperIcon="edit">
+      <mat-icon>done</mat-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="adjust">
+      <mat-icon>circle</mat-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="from">
+      <mat-icon>circle</mat-icon>
+    </ng-template>
+
+    <ng-template matStepperIcon="last">
+      <mat-icon>circle</mat-icon>
+    </ng-template>
+
+    <mat-step label="Basic Information" aria-selected="true" state="adjust">
+      <app-basic-info (basicEvent)="receiveBasicEvent($event)"></app-basic-info>
+    </mat-step>
+
+    <mat-step label="Social Media" state="from">
+      <app-social-info
+        (socialEvent)="receiveSocialEvent($event)"
+      ></app-social-info>
+    </mat-step>
+
+    <mat-step label="Registering Data" state="last">
+      <app-registeration-data
+        (registerEvent)="receiveRegisterationEvent($event)"
+      ></app-registeration-data>
+    </mat-step>
+  </mat-stepper>
+</section>

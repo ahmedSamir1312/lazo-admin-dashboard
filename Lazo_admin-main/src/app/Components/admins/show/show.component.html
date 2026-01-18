@@ -1,0 +1,90 @@
+<section class="Admins">
+    <div class="row main my-5 d-flex align-items-center">
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+        <h2 class="text-default fw-bold m-auto">Admins</h2>
+      </div>
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+        <button (click)="AddAdmin('300ms', '300ms')" class="btn btn-danger  custom px-4 " >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z" fill="white"/>
+                </svg>
+                
+       
+                <span class="mx-2"> Add New Admin</span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+        <div
+        class="col-12 table-responsive mt-3"
+        *ngIf="!loading && Admins.length > 0"
+      >
+    
+          <!--  (scrolled)="onScroll($event)" -->
+          <table class="table text-center table-bordered">
+            <tr
+              class="background-info text-default position-sticky"
+              style="top: -1px; z-index: 33"
+            >
+              @for (head of header; track $index) {
+              <td>{{ head }}</td>
+              }
+            </tr>
+            @for (item of Admins; track $index) {
+            <tr class="table_body text-center">
+              <td scope="col">
+                {{ $index + 1 }}
+              </td>
+  
+              <td scope="col">
+                {{ item.name }}
+              </td>
+              <td scope="col">
+                {{ item.role}}
+              </td>
+              <td scope="col">
+                {{ item.phone }}
+              </td>
+              <td scope="col">
+             <span>{{ item.
+                permissions?.length
+                 }} Roles</span>
+              </td>
+  
+           
+              <td scope="col">
+                <mat-slide-toggle  [disabled]="item.status
+                == 'blocked'"  (change)="toggle(item , 'blocked')"   class="check_user_right" [checked]="item.status
+                == 'active'">
+               <!-- (change)="toggle(item)"  -->
+                </mat-slide-toggle>
+              </td>
+              <td scope="col">
+                <mat-slide-toggle [disabled]="item.status
+                == 'active'"    (change)="toggle(item , 'active')"    class="check_user" [checked]="item.status
+                == 'blocked'">
+             
+                </mat-slide-toggle>
+              </td>
+              <td scope="col">
+                <div class="row buttons justify-content-center">
+                    <div class="col-lg-4 co-md-4 col-4 align-self-center mb-2">
+                        <a role="button" (click)="EditAdmin(item,'300ms', '300ms')" class=" btn btn-soft-success " > <img src="assets/images/actions/lazo_edit.svg" > Edit </a>
+                    </div>
+                    <div class="col-lg-4 co-md-4 col-4  align-self-center mb-2">
+                        <a role="button" (click)="openDeleteModal(item,'100ms','100ms')" class=" btn btn-outline-danger" > <img src="assets/images/actions/lazo_delete.svg"> Delete </a>
+                    </div>
+                    <div class="col-lg-4 co-md-4 col-4  align-self-center mb-2">
+                        <a role="button" class=" btn btn-danger"   (click)=" showDetails(item,'500ms','500ms')">  View Details </a>
+                    </div>
+                </div>
+
+              </td>
+            </tr>
+            }
+          </table>
+    
+      </div>
+        <app-palceholder-table [header]="header"  *ngIf="loading"  ></app-palceholder-table>
+        </div>
+        </section>

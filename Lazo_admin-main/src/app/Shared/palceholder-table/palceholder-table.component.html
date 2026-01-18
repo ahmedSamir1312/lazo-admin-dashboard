@@ -1,0 +1,27 @@
+<div class="col-12 table-responsive mt-3">
+    <table class="table text-center table-bordered">
+      <tr
+        class="background-info text-default position-sticky"
+        style="top: -1px; z-index: 33"
+      >
+        @for (head of header; track $index) {
+        <td>{{ head }}</td>
+        }
+      </tr>
+      @for (item of [].constructor(6); track $index) {
+        <tr>
+        @for (item of [].constructor(header.length); track $index) {
+          <td scope="col" >
+            <div class="ph-item m-0" style="top:5px;border: none;">
+                <div class="ph-col-12">
+                    <div class="ph-row">
+                        <div class="ph-col-12 big"></div>
+                    </div>
+                 </div>
+            </div>
+       </td>
+        }
+      </tr>
+      }
+    </table>
+    </div>

@@ -1,0 +1,61 @@
+<section>
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">Cards & Taps</h2>
+    </div>
+
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+      <button
+        class="btn btn-danger custom px-4"
+        (click)="addCard_Tap('300ms', '300ms')"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+            fill="white"
+          />
+        </svg>
+
+        <span class="mx-2">
+          Add New {{ this.type == "Cards" ? "Card" : "Tap" }}</span
+        >
+      </button>
+    </div>
+  </div>
+</section>
+<div class="row">
+  <div class="col-12">
+    <mat-tab-group
+      [(selectedIndex)]="matTabGroup"
+      (selectedTabChange)="resetShowItem($event)"
+    >
+      <mat-tab label="Cards">
+        @if (!loading && type=='Cards') {
+        <app-table
+          [data]="[{ details: details, type: type, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+
+      <mat-tab label="Taps">
+        @if (!loading&&type=='Taps') {
+        <app-table
+          [data]="[{ details: details, type: type, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+    </mat-tab-group>
+    <div class="mt-5">
+      <app-palceholder-table
+        [header]="header"
+        *ngIf="loading"
+      ></app-palceholder-table>
+    </div>
+  </div>
+</div>

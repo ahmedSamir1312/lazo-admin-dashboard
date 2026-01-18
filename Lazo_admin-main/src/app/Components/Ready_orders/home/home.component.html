@@ -1,0 +1,47 @@
+<section>
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">{{ title }}</h2>
+    </div>
+  </div>
+</section>
+<div class="row">
+  <div class="col-12">
+    <!--  -->
+    <mat-tab-group
+      [(selectedIndex)]="matTabGroup"
+      (selectedTabChange)="resetShowItem($event)"
+    >
+      <mat-tab label="new">
+        @if (this.type=='new') {
+        <app-table
+          [data]="[{ type: type, family: order_family, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+
+      <mat-tab label="current">
+        @if (this.type=='current') {
+        <app-table
+          [data]="[{ type: type, family: order_family, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+
+      <mat-tab label="finished">
+        @if (this.type=='finished') {
+        <app-table
+          [data]="[{ type: type, family: order_family, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+      <mat-tab label="cancelled">
+        @if (this.type=='cancelled') {
+        <app-table
+          [data]="[{ type: type, family: order_family, header: header }]"
+        ></app-table>
+        }
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

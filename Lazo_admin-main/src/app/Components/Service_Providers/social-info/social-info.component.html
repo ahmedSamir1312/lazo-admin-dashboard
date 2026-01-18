@@ -1,0 +1,74 @@
+<form [formGroup]="form" class="add_admin">
+  <div class="row">
+    <div class="form-group col-md-6 col-12 mb-3">
+      <label for="instagram_link" class="mb-2 text-dark">
+        Instagram Link ( Optional )
+      </label>
+      <input
+        type="url"
+        id="instagram_link"
+        class="form-control"
+        placeholder="Enter Instagram Link"
+        formControlName="instagram_link"
+        [ngClass]="{ 'is-invalid': f.instagram_link?.errors?.pattern }"
+      />
+      <p class="text-danger mt-2" *ngIf="f.instagram_link?.errors?.pattern">
+        *Field data should be a url like => (https://www.abc.com)
+      </p>
+    </div>
+
+    <div class="form-group col-md-6 col-12 mb-3">
+      <label for="snapchat_link" class="mb-2">
+        Snapchat Link ( Optional )
+      </label>
+      <input
+        type="url"
+        id="snapchat_link"
+        class="form-control"
+        placeholder="Enter Instagram Link"
+        formControlName="snapchat_link"
+        [ngClass]="{ 'is-invalid': f.snapchat_link?.errors?.pattern }"
+      />
+    </div>
+
+    <div class="form-group col-md-6 col-12 mb-3">
+      <label for="tiktok_link" class="mb-2"> Tik Tok Link ( Optional ) </label>
+      <input
+        type="url"
+        id="tiktok_link"
+        class="form-control"
+        placeholder="Enter Tik tok Link"
+        formControlName="tiktok_link"
+        [ngClass]="{ 'is-invalid': f.tiktok_link?.errors?.pattern }"
+      />
+      <p class="text-danger mt-2" *ngIf="f.tiktok_link?.errors?.pattern">
+        *Field data should be a url like => (https://www.abc.com)
+      </p>
+    </div>
+
+    <div class="form-group col-md-6 col-12 mb-3">
+      <label for="x_link" class="mb-2"> Tik Tok Link ( Optional ) </label>
+      <input
+        type="url"
+        id="x_link"
+        class="form-control"
+        placeholder="Enter X Link"
+        formControlName="x_link"
+        [ngClass]="{ 'is-invalid': f.x_link?.errors?.pattern }"
+      />
+      <p class="text-danger mt-2" *ngIf="f.x_link?.errors?.pattern">
+        *Field data should be a url like => (https://www.abc.com)
+      </p>
+    </div>
+  </div>
+  <div class="text-end mt-3">
+    <button
+      class="btn btn-danger px-5 mx-2"
+      type="button"
+      (click)="sendSocialForm()"
+      [disabled]="form.invalid"
+    >
+      Next
+    </button>
+  </div>
+</form>

@@ -1,0 +1,123 @@
+@if (loading) {
+<div class="mt-5">
+  <app-palceholder-table [header]="header"></app-palceholder-table>
+</div>
+}
+<div class="card-body mt-5">
+    <div class="fw-bold title mb-3 ">
+        <h2 class="text-default fw-bold m-auto">Wallet</h2>
+      </div>
+    <div class="toggle mb-5">
+
+      <div class="row">
+     
+        <div class="title col-xl-8 col-lg-8 col-md-8 col-12 p-2">
+          <h2 class="text-default fw-bold m-auto">Total balance</h2>
+        
+        </div>
+        <div
+          class="col-xl-4 title  col-lg-4 col-m-4 col-12 text-end align-self-center"
+        >
+        <h2 class="fw-bold m-auto">{{current_balance}} SAR</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+<div
+  class="row"
+
+>
+<!-- <div class="fw-bold title  ">
+    <h2 class="text-default fw-bold m-auto">Transactions</h2>
+  </div> -->
+  <div class="row main  d-flex align-items-center">
+    <div class="fw-bold title col-xl-7 col-lg-7 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">Transactions</h2>
+    </div>
+    <div class="fw-bold title col-xl-5 col-lg-5 col-md-6 col-12">
+        <div class="row">
+            <div class="col-md-7">
+              <div class="search">
+                <img src="assets/images/Search.svg" alt="" class="search_svg">
+                <input type="text"  class="w-100 "  placeholder="search ..." (keyup)="sendData($event)" >
+              </div>  
+            </div>
+            <div class="col-md-5">
+                <button class="btn btn-danger custom px-2 w-100"   (click)="make_transactions('300ms', '300ms')" >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+                        fill="white"
+                      />
+                    </svg>
+              
+                    <span class="mx-2" >Make a Transaction</span>
+                  </button>
+            </div>
+        </div>
+      </div>
+  
+  
+    </div>
+  <div    *ngIf="!loading && (details | search : receivedData).length > 0" class="col-12 table-responsive mt-5">
+    <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="500"
+      [scrollWindow]="false"
+      (scrolled)="onScroll($event)"
+    >
+      <table class="table text-center table-bordered providers">
+        <tr
+          class="background-info text-default position-sticky"
+          style="top: -1px; z-index: 33"
+        >
+          @for (head of header; track $index) {
+          <td scope="col">{{ head }}</td>
+          }
+        </tr>
+        @for (item of (details|search:receivedData); track $index) {
+        <tr class="table_body text-center">
+          <td scope="col">
+            {{ $index + 1 }}
+          </td>
+
+          <td scope="col">
+            {{ item.number }}
+          </td>
+
+          <td scope="col">{{ item.sender }}</td>
+      
+          <td scope="col">
+            @if (item?.receipt) {
+                <a [href]="item?.receipt" class="text-danger" target="_blank">receipt</a>
+            }@else{
+                <span class="text-danger">No receipt</span>
+            }
+            </td>
+            <td scope="col">{{ item.date_time }}</td>
+            <td scope="col">
+                @if(item?.status=='Income'){
+                    <span class="text-success"> {{item?.amount}}</span>
+                }@else{
+                    <span class="text-danger"> {{item?.amount}}</span>
+                }
+            </td>
+        </tr>
+        }
+      </table>
+    </div>
+  </div>
+  @if ( !loading && (details | search : receivedData).length == 0) {
+    <div class="text-center mt-5">
+        <h2 class="text-danger">No data found</h2>
+        </div>
+  }
+</div>

@@ -1,0 +1,21 @@
+<section>
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">{{ title() }}</h2>
+    </div>
+
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+      <button class="btn btn-danger px-4" (click)="add()">Create New</button>
+    </div>
+  </div>
+</section>
+<div class="row">
+  <div class="col-12">
+    @if (this.type=='Time') {
+    <app-table
+      [data]="[{ type: type, family: order_family, header: timeHeader }]"
+      [refreshTrigger]="refreshCounter"
+    ></app-table>
+    }
+  </div>
+</div>

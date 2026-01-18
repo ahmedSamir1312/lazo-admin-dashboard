@@ -1,0 +1,38 @@
+.add_admin{
+    input {
+        color: #8088A4;
+        &::placeholder{
+            color: #8088A4 !important;
+            font-size: 14px;
+        }
+    }
+    .eye {
+        position: relative;
+        float: right;
+        top: -37px;
+        right: 11px;
+        img {
+            filter: brightness(0) saturate(100%) invert(30%) sepia(97%) saturate(5457%) hue-rotate(342deg) brightness(88%) contrast(100%);
+        }
+    }
+    .btn{
+        transition: all .4s ease-in-out;
+        &:hover{
+            background-color: #a80c1e;
+            color: #fff !important;
+        }
+        &:focus{
+            outline: none;
+            box-shadow: none;
+        }
+    }
+    .confirm{
+        background-color: #E21B33;
+        color: #fff;
+    }  
+    .cancel{
+        border: 1px solid #E21B33;
+        background-color: #fff;
+        color: #E21B33; 
+    }
+}

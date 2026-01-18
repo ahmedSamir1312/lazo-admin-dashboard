@@ -1,0 +1,18 @@
+.category {
+  .buttons {
+    .btn-soft-success {
+      background-color: #e1f3e6;
+      width: 100%;
+      color: #02b730;
+    }
+
+    .btn-danger {
+      background-color: #e21b33;
+      color: #fff;
+      width: 100%;
+      img {
+        width: 20px;
+      }
+    }
+  }
+}

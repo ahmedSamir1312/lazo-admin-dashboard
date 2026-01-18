@@ -1,0 +1,795 @@
+<section class="order_details">
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+      <h2
+        class="text-default fw-bold m-auto"
+        (click)="goBack()"
+        style="cursor: pointer"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.5 19L8.5 12L15.5 5"
+            stroke="#130F26"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          /></svg
+        >{{ order.id }}
+      </h2>
+    </div>
+
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+      @if (order.order_family=="ready_made") { @switch (order.status_id){ @case
+      ('2') {
+      <button
+        (click)="accept_order('3')"
+        class="btn mx-1 custom px-4"
+        style="background-color: #02b730"
+      >
+        <span class="mx-1"> Accept</span>
+      </button>
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="cancel_order('300ms', '300ms')"
+      >
+        <span class="mx-1"> Cancel</span>
+      </button>
+
+      } @case ('3') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('4')"
+      >
+        <span class="mx-1"> Perparing</span>
+      </button>
+
+      } @case ('4') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('5')"
+      >
+        <span class="mx-1"> Ready for shipping</span></button
+      >} @case ('5') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('5.5')"
+      >
+        <span class="mx-1">On delivery </span></button
+      >} @case ('5.5') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('8')"
+      >
+        <span class="mx-1">Finished </span></button
+      >} } } @if (order.order_family=="collective") { @switch (order.status_id){
+      @case ('2') {
+      <button
+        (click)="accept_order('3')"
+        class="btn mx-1 custom px-4"
+        style="background-color: #02b730"
+      >
+        <span class="mx-1"> Accept</span>
+      </button>
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="cancel_order('300ms', '300ms')"
+      >
+        <span class="mx-1"> Cancel</span>
+      </button>
+
+      } @case ('3') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('4')"
+      >
+        <span class="mx-1"> Perparing</span>
+      </button>
+
+      } @case ('4') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('5')"
+      >
+        <span class="mx-1"> Ready for shipping</span></button
+      >} @case ('5') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('5.5')"
+      >
+        <span class="mx-1">On delivery </span></button
+      >} @case ('5.5') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('6')"
+      >
+        <span class="mx-1">Packaging </span></button
+      >} @case ('6') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('7')"
+      >
+        <span class="mx-1">On delivery </span></button
+      >} @case ('6.5') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('7')"
+      >
+        <span class="mx-1">On delivery </span></button
+      >} @case ('7') {
+      <button
+        class="btn mx-1 btn-danger custom px-4"
+        (click)="manageOrders('8')"
+      >
+        <span class="mx-1">Finished </span></button
+      >} } }
+    </div>
+  </div>
+  <div class="row my-4">
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Order Info</h5>
+        <div class="order_info">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/id.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Order ID </span>
+              <span class="data"> {{ order.id }}</span>
+            </div>
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/counts.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> No. of items </span>
+              <span class="data">{{ order.items_count }}</span>
+            </div>
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/Calendar.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Date / Time </span>
+              <span class="data"
+                >{{ order.delivery_time }} - {{ order.delivery_date }}
+                <button
+                  *ngIf="order.status_id >= 2 && order.status_id < 5"
+                  class="btn_edit"
+                  (click)="edit_date('0ms', '0ms')"
+                >
+                  <img src="assets/images/actions/lazo_edit.svg" /></button
+              ></span>
+            </div>
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/status.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1">Status </span>
+              <span class="data">
+                @switch (order.status_id){
+                <!-- #E1F3E6 -->
+                @case ('3') {
+                <span style="color: #e21b33; padding: 10px">{{
+                  order.status | slice : 0 : 9
+                }}</span
+                >} @case ('1') {
+                <span style="color: #cdcb02; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('2') {
+                <span style="color: #0582d2; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('6') {
+                <span style="color: #0582d2; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('7') {
+                <span style="color: #ffb58b; padding: 10px">{{
+                  order.status | slice : 0 : 12
+                }}</span
+                >} @case ('5.5') {
+                <span style="color: #ffb58b; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('5') {
+                <span style="color: #ac418e; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('6.5') {
+                <span style="color: #ac418e; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('4') {
+                <span style="color: #02b730; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('10') {
+                <span style="color: #e21b33; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('11') {
+                <span style="color: #e21b33; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('12') {
+                <span style="color: #e21b33; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('14') {
+                <span style="color: #e21b33; padding: 10px">{{
+                  order.status
+                }}</span
+                >} @case ('8') {
+                <span style="color: #9a6dff; padding: 10px">{{
+                  order.status
+                }}</span
+                >} }</span
+              >
+            </div>
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/provider.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Service provider ID </span>
+              @if(order?.order_family =='collective' && order?.is_multi_providers) {
+                @for(item of order?.order_items ; track item) {
+                  <span class="data name">
+                    {{item?.provider?.id}}  
+                  </span>
+                }
+               }
+               @else {
+                <span class="data">{{ order?.order_items[0]?.provider?.id }}</span>
+               }
+            
+            </div>
+            <div class="col-md-3 mb-3 text-center">
+              <img
+                src="assets/images/oder_details/Profile.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Service provider name </span>
+              
+               @if(order?.order_family =='collective' && order?.is_multi_providers) {
+                @for(item of order?.order_items ; track item) {
+                  <span class="data name">
+                    {{item?.provider?.name}}  
+                  </span>
+                }
+               }
+               @else {
+                <span class="data">
+                  {{ order?.order_items[0]?.provider.name_en }}
+                </span>
+               }
+              
+              
+            </div>
+            <div class="col-md-3 mb-3 text-center">
+              <img
+                src="assets/images/oder_details/User.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Client name </span>
+              <span class="data">{{ order?.user.name }}</span>
+            </div>
+            <div class="col-md-3 mb-3">
+              <img
+                src="assets/images/oder_details/family.svg"
+                alt=""
+                class="mx-1"
+              />
+              <span class="title_info mx-1"> Order type </span>
+              <span class="data">{{ order.type }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    @if((order.status_id==10
+    )||(order.status_id==11)||(order.status_id==14)||(order.status_id==12)){
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Cancelled on</h5>
+        <div class="order_info">
+          <div
+            class="row"
+            style="
+              background-color: #fafafa;
+              padding: 20px;
+              border: 1px solid #e6e9ec;
+              border-radius: 8px;
+            "
+          >
+            <div class="col-md-4">
+              <span class="mx-1">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.57812 7.83688H17.4314"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.7025 11.0914H13.7102"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.0032 11.0914H10.011"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.29816 11.0914H6.30588"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.7025 14.3302H13.7102"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.0032 14.3302H10.011"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.29816 14.3302H6.30588"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.3704 1.66663V4.40894"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.63795 1.66663V4.40894"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.5319 2.98267H6.4758C4.02856 2.98267 2.5 4.34594 2.5 6.85185V14.3932C2.5 16.9385 4.02856 18.3333 6.4758 18.3333H13.5242C15.9791 18.3333 17.5 16.9622 17.5 14.4563V6.85185C17.5077 4.34594 15.9868 2.98267 13.5319 2.98267Z"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="title_info mx-1"> Date / Time</span>
+              <span class="data">{{
+                order?.cancelled_at ? order?.cancelled_at : "-"
+              }}</span>
+            </div>
+            <div class="col-md-4 offset-md-4 text-end">
+              <span class="mx-1">
+                <svg
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M3.01109 15.0306H14.9969C16.3153 15.0306 17.1428 13.6056 16.4878 12.4606L10.4994 1.98979C9.84026 0.837292 8.17859 0.836458 7.51859 1.98896L1.52026 12.4598C0.865258 13.6048 1.69192 15.0306 3.01109 15.0306Z"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9.0026 9.17916V6.59583"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M8.99453 11.7499H9.00286"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="title_info mx-1"> Cancelled By</span>
+              <span class="data">{{
+                order?.cancelled_by ? order?.cancelled_by : "-"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @if((order.status_id==8)){
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Finished On</h5>
+        <div class="order_info">
+          <div
+            class="row"
+            style="
+              background-color: #fafafa;
+              padding: 20px;
+              border: 1px solid #e6e9ec;
+              border-radius: 8px;
+            "
+          >
+            <div class="col-md-4">
+              <span class="mx-1">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.57812 7.83688H17.4314"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.7025 11.0914H13.7102"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.0032 11.0914H10.011"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.29816 11.0914H6.30588"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.7025 14.3302H13.7102"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.0032 14.3302H10.011"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.29816 14.3302H6.30588"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.3704 1.66663V4.40894"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.63795 1.66663V4.40894"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M13.5319 2.98267H6.4758C4.02856 2.98267 2.5 4.34594 2.5 6.85185V14.3932C2.5 16.9385 4.02856 18.3333 6.4758 18.3333H13.5242C15.9791 18.3333 17.5 16.9622 17.5 14.4563V6.85185C17.5077 4.34594 15.9868 2.98267 13.5319 2.98267Z"
+                    stroke="#E21B33"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="title_info mx-1"> Date / Time</span>
+              <span class="data">{{
+                order?.finished_at ? order?.finished_at : "-"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Recipient Info</h5>
+        <div class="order_info">
+          <div
+            class="row"
+            style="
+              background-color: #fafafa;
+              padding: 20px;
+              border: 1px solid #e6e9ec;
+              border-radius: 8px;
+              align-items: center;
+            "
+          >
+            <div class="col-md-4">
+              <span class="title_info mx-1"> Recipient Name</span>
+              <span class="data">{{ order?.receiver_name }}</span>
+            </div>
+            <div class="col-md-4">
+              <span class="title_info mx-1"> Recipient Phone </span>
+              <span class="data">{{ order?.receiver_phone_number }}</span>
+            </div>
+            @if (order?.status_id !=1) {
+            <div class="col-md-4">
+              <span class="title_info mx-1"> Location </span>
+              @if (order?.status_id !=2) {
+              <span class="data">{{ order?.receiver_address }}</span>
+              } @if (order?.status_id ==2) {
+              <input
+                class="data"
+                type="text"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="receiver_address"
+              />
+              }
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Message</h5>
+        <div class="order_info">
+          <div
+            class="row"
+            style="
+              background-color: #fafafa;
+              padding: 20px;
+              border: 1px solid #e6e9ec;
+              border-radius: 8px;
+            "
+          >
+            <div class="col-md-4">
+              <span class="title_info mx-1"> From</span>
+              <span class="data">{{
+                order?.card_from ? order?.card_from : "-"
+              }}</span>
+            </div>
+            <div class="col-md-4">
+              <span class="title_info mx-1"> To</span>
+              <span class="data">{{
+                order?.card_to ? order?.card_to : "-"
+              }}</span>
+            </div>
+            <div class="col-md-4">
+              <span class="title_info mx-1"> Content</span>
+              <span class="data">{{
+                order?.card_message ? order?.card_message : "-"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Products</h5>
+        <div class="order_info">
+          <div class="row">
+            @for (product of order?.providers_items; track $index) {
+            <div
+              class="col-md-12 mb-3 position-relative"
+              style="
+                background-color: #fafafa;
+                padding: 20px;
+                border: 1px solid #e6e9ec;
+                border-radius: 8px;
+              "
+            >
+              <div class="provider-title mb-4 d-flex justify-content-between">
+                <h4 class="section_title text-danger fw-bold">
+                  {{ product?.name_en }}
+                </h4>
+                <hr class="my-2" />
+              </div>
+              <div
+                class="status w-25 text-end"
+                style="position: absolute; top: 20px; right: 20px"
+              >
+                @if (product?.status_id<3) {
+                <span
+                  style="
+                    color: #02b730;
+                    background-color: #e1f3e6;
+                    padding: 10px;
+                    margin-left: auto;
+                  "
+                  class="px-4 rounded"
+                  >New</span
+                >
+                }@else if(product?.status_id<7 || product?.status_id==11){
+                <span
+                  style="
+                    color: #cdcb02;
+                    background-color: #f5f5e1;
+                    padding: 10px;
+                    margin-left: auto;
+                  "
+                  class="px-4 rounded"
+                  >Current</span
+                >
+                }@else if (product?.status_id==8) {
+                <span
+                  style="
+                    color: #ffb58b;
+                    background-color: #3f3f3e;
+                    padding: 10px;
+                    margin-left: auto;
+                  "
+                  class="px-4 rounded"
+                  >Finished</span
+                >
+                }@else{
+                <span
+                  style="
+                    color: #e21b33;
+                    background-color: #fde9eb;
+                    padding: 10px;
+                    margin-left: auto;
+                  "
+                  class="px-4 rounded"
+                  >Canceled</span
+                >
+                }
+              </div>
+
+              <div class="card mb-4 border-0 bg-transparent shadow-sm">
+                <div class="row g-3 align-items-center">
+                  @for(item of product?.items;track item?.id){
+                  <div class="col-md-2 mb-3">
+                    <img
+                      [src]="item?.imagePath"
+                      class="img-fluid rounded shadow w-100 h-100"
+                      alt="{{ product?.product?.name_en }}"
+                      onerror="this.src='assets/images/image_placeholder.jpg'"
+                    />
+                  </div>
+                  <div class="col-md-10 mb-3">
+                    <div class="card-body p-0 ps-md-3">
+                      <h5 class="section_title text-dark mb-2">
+                        {{ item?.product?.name_en || item?.service?.name_en }}
+                      </h5>
+                      <p class="data text-muted mb-3 small">
+                        {{
+                          item?.product?.description_en ||
+                            item?.service?.description_en
+                        }}
+                      </p>
+                      <div class="d-flex align-items-center mb-2">
+                        <span class="text-danger section_title h5 mb-0 me-2">
+                          {{ item?.total_price_after_discount }} SAR
+                        </span>
+                        <span
+                          class="data text-muted"
+                          style="text-decoration: line-through"
+                        >
+                          {{ item?.product?.price || item?.service?.price }} SAR
+                        </span>
+                      </div>
+
+                      @if(item?.selected_products_list_items_names?.length > 0)
+                      {
+                      <div class="mt-3 pt-3 border-top">
+                        <p class="mb-1 text-secondary small">
+                          <strong>Extra Items:</strong>
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                          @for(name of item?.selected_products_list_items_names;
+                          track $index) {
+                          <span class="badge bg-light text-dark border">
+                            {{ name }}
+                          </span>
+                          }
+                        </div>
+                      </div>
+                      }
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 my-3">
+      <div class="card info">
+        <h5 class="section_title">Payment Details</h5>
+        <div class="order_info">
+          <div
+            class="d-flex justify-content-between align-items-center"
+            style="
+              background-color: #fafafa;
+              padding: 20px;
+              border: 1px solid #e6e9ec;
+              border-radius: 8px;
+            "
+          >
+            <div>
+              <span class="title_info mx-1 fw-bold"> Payment Method</span>
+              <span class="data">{{ order.payment_method }}</span>
+            </div>
+            <div>
+              <span class="title_info mx-1 fw-bold"> Order Price </span>
+              <span class="data">{{ order.total_before_discount }} SAR</span>
+            </div>
+            <div>
+              <span class="title_info mx-1 fw-bold"> Shipping Fees </span>
+              <span class="data">{{ order.shipping_fee }} SAR</span>
+            </div>
+            <div>
+              <span class="title_info text-danger mx-1 fw-bold">
+                Discount
+                {{
+                  order.promocode_discount_value
+                    ? order.promocode_discount_value
+                    : 0
+                }}
+                {{ order.promocode_discount_type == "percent" ? "%" : "SAR" }}
+              </span>
+            </div>
+
+            <div>
+              <span class="title_info mx-1 fw-bold">Total Price </span>
+              <span class="data fw-bold text-black"
+                >{{ order.total_with_shipping_fee }} SAR</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

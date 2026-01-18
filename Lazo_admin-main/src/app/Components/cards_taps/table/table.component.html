@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-12 table-responsive mt-5">
+    <table class="table text-center table-bordered">
+      <tr
+        class="background-info text-default position-sticky"
+        style="top: -1px; z-index: 33"
+      >
+        @for (head of data[0]?.header; track $index) {
+        <td>{{ head }}</td>
+        }
+      </tr>
+      @for (item of data[0]?.details; track $index) {
+      <tr class="table_body text-center">
+        <td scope="col">
+          {{ $index + 1 }}
+        </td>
+
+        <td scope="col">
+          {{ item.name_en }}
+        </td>
+        <td scope="col">
+          {{ item.name_ar }}
+        </td>
+        <td scope="col">
+          <a
+            [href]="item.imagePath"
+            target="_blank"
+            style="text-decoration: none"
+            >imagePath
+          </a>
+        </td>
+        <td scope="col">{{ item.price }} SAR</td>
+
+        <td scope="col">
+          <mat-slide-toggle
+            (change)="toggle(item)"
+            class="check_user_right"
+            [checked]="item.is_visible == 1"
+          >
+          </mat-slide-toggle>
+        </td>
+        <td scope="col" style="width: 300px">
+          <div class="row buttons justify-content-center">
+            <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
+              <a
+                role="button"
+                class="btn btn-soft-success"
+                (click)="Editcard(item, '300ms', '300ms')"
+              >
+                <img src="assets/images/actions/lazo_edit.svg" /> Edit
+              </a>
+            </div>
+
+            <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
+              <a
+                role="button"
+                class="btn btn-danger"
+                (click)="openDeleteModal(item, '300ms', '300ms')"
+              >
+                <svg
+                  class="mx-1"
+                  width="17"
+                  height="18"
+                  viewBox="0 0 17 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.6887 7.20703C13.6887 7.20703 13.3041 11.9777 13.0809 13.9872C12.9747 14.947 12.3818 15.5094 11.4107 15.5271C9.56264 15.5604 7.71247 15.5625 5.86514 15.5236C4.93084 15.5044 4.34789 14.9349 4.24376 13.9922C4.01922 11.9649 3.63672 7.20703 3.63672 7.20703"
+                    stroke="white"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.6682 4.92057H2.65625"
+                    stroke="white"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M12.3537 4.92059C11.7976 4.92059 11.3188 4.52747 11.2097 3.98276L11.0376 3.12143C10.9313 2.72405 10.5715 2.44922 10.1614 2.44922H7.16299C6.75287 2.44922 6.39304 2.72405 6.28679 3.12143L6.11466 3.98276C6.00558 4.52747 5.52674 4.92059 4.9707 4.92059"
+                    stroke="white"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Delete
+              </a>
+            </div>
+          </div>
+        </td>
+      </tr>
+      }
+    </table>
+  </div>
+</div>

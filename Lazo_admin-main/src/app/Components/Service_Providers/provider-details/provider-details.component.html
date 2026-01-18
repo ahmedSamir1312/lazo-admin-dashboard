@@ -1,0 +1,698 @@
+<section class="dashboard w-100 profile_show">
+  <section>
+    <div class="row main my-5 d-flex align-items-center">
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+        <a href="javascript:void(0);" (click)="back()">
+          <h2 class="text-default text-dark fw-bold m-auto">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 12H4M4 12L10 18M4 12L10 6"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            Provider Details
+          </h2>
+        </a>
+      </div>
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+        @switch (provider.status){ @case ('pending') {
+
+        <button (click)=" togglePending(provider, 'accept')" class="btn mx-1 custom px-4" style="background-color: #02b730">
+          <span class="mx-1"> Accept</span>
+        </button>
+        <button class="btn mx-1 btn-danger custom px-4" (click)=" togglePending(provider, 'deleted')" >
+          <span class="mx-1"> Reject</span>
+        </button>
+
+        } @case ('active') {
+
+        <button class="btn mx-1 btn-danger custom px-4" (click)="openDeleteModal(provider,'100ms','100ms')">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.1032 7.88867C16.1032 7.88867 15.6507 13.5012 15.3882 15.8653C15.2632 16.9945 14.5657 17.6562 13.4232 17.677C11.249 17.7162 9.07234 17.7187 6.89901 17.6728C5.79984 17.6503 5.11401 16.9803 4.99151 15.8712C4.72734 13.4862 4.27734 7.88867 4.27734 7.88867"
+              stroke="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M17.2567 5.19987H3.125"
+              stroke="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.5335 5.20047C13.8793 5.20047 13.316 4.73797 13.1877 4.09714L12.9852 3.0838C12.8602 2.6163 12.4368 2.29297 11.9543 2.29297H8.42682C7.94432 2.29297 7.52099 2.6163 7.39599 3.0838L7.19349 4.09714C7.06516 4.73797 6.50182 5.20047 5.84766 5.20047"
+              stroke="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <span class="mx-1"> Delete Account</span>
+        </button>
+
+        } }
+      </div>
+    </div>
+  </section>
+
+  @if ((provider.status=='active')||(provider.status=='blocked')) {
+  <div class="card-body mt-5">
+    <div class="toggle mb-5">
+      <div class="row">
+        <div class="title col-xl-8 col-lg-8 col-md-8 col-12 p-2">
+          <h2 class="text-default fw-bold m-auto">Block Provider Account</h2>
+          <p>
+            account to disappears from the client app ( it’s data will appears
+            in any current, finished or cancelled order)
+          </p>
+        </div>
+        <div
+          class="col-xl-4 col-lg-4 col-m-4 col-12 text-end align-self-center"
+        >
+          <mat-slide-toggle
+            class="check_user"
+            (change)="toggle(provider)"
+            [checked]="provider.status == 'blocked'"
+          >
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+  <div class="row mt-5">
+    <mat-tab-group
+      [(selectedIndex)]="matTabGroup"
+      (selectedTabChange)="resetShowItem($event)"
+    >
+      <mat-tab label="Basic Information">
+        <ng-container>
+          <section class="add_admin p-4 bg-white my-5">
+            <div class="container">
+              <div
+                class="provider_img my-5 d-flex justify-content-start align-items-center"
+              >
+                <img
+                  class="me-2"
+                  onerror="this.src='assets/images/profile.svg'"
+                  [src]="provider.imagePath"
+                  alt=""
+                  style="width: 80px; height: 80px; border-radius: 50%"
+                />
+
+                <div>
+                  <h5>{{ provider.name }}</h5>
+                  <p class="m-0">{{ provider.bio }}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <form class="form">
+                    <div class="row">
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Store Name ( English )</label>
+                          <input
+                            readonly
+                            [value]="provider.name_en"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Store Name ( Arabic) </label>
+                          <input
+                            readonly
+                            [value]="provider.name_ar"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Store Owner Name </label>
+                          <input
+                            readonly
+                            [value]="provider.owner_name"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group position-relative">
+                          <label class="mb-3">Phone Number </label>
+                          @if (!provider.is_phone_verified &&provider.phone) {
+                          <button
+                            type="button"
+                            class="text-danger verify"
+                            (click)="
+                              verify_provider(provider,'phone', '100ms', '100ms')
+                            "
+                          >
+                            Verify Phone Numer
+                          </button>
+                          }
+                          <input
+                            readonly
+                            [value]="provider.phone"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group position-relative">
+                          <label class="mb-3">Email Adress</label>
+                          @if (!provider.is_email_verified &&provider.email) {
+                          <button
+                            type="button"
+                            class="text-danger verify"
+                            (click)="
+                              verify_provider(provider,'email', '100ms', '100ms')
+                            "
+                          >
+                            Verify Email Address
+                          </button>
+                          }
+                          <input
+                            readonly
+                            [value]="provider.email"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">City </label>
+                          <input
+                            readonly
+                            [value]="provider.city.name_en"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Account Type </label>
+                          <input
+                            readonly
+                            [value]="provider.account_type"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Tags </label>
+                          <input
+                            readonly
+                            [value]="tags"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group position-relative">
+                          <label class="mb-3">Provider App Percent (%)</label>
+                          @if (!updatePercent) {
+                          <button
+                            type="button"
+                            class="text-danger verify"
+                            (click)="
+                            updatePercent =!updatePercent
+                            "
+                          >
+                            Change App Percent
+                          </button>
+                          }@else{
+                            <button
+                            type="button"
+                            class="text-danger Change"
+                            (click)="
+                            updatePercentFunc()
+                            "
+                          >
+                          Confirm
+                          </button>
+                          }
+                          <input
+                            [readonly]="updatePercent?false:true"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="app_percent"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+      </mat-tab>
+
+      <mat-tab label="Social Media">
+        <ng-container>
+          <section class="add_admin p-4 bg-white my-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <form class="form">
+                    <div class="row my-5">
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Instagram Link</label>
+                          <input
+                            readonly
+                            [value]="provider.instagram_link"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Snapchat Link </label>
+                          <input
+                            readonly
+                            [value]="provider.snapchat_link"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">Tik Tok Link </label>
+                          <input
+                            readonly
+                            [value]="provider.tiktok_link"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                          <label class="mb-3">X Link </label>
+                          <input
+                            readonly
+                            [value]="provider.x_link"
+                            placeholder="
+                                    "
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ng-container>
+      </mat-tab>
+
+      <mat-tab label="Registering Data">
+        <ng-container>
+          <div class="add_admin p-5 bg-white my-5">
+            <div class="container">
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel
+                  [expanded]="true"
+                  class="optional_list mb-3"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title> Offline Stores </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="form">
+                        <div class="row mb-4">
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Do you has offline stores?</label
+                              >
+                              <input
+                                readonly
+                                [value]="
+                                  provider.has_offline_stores == 1
+                                    ? 'Yes'
+                                    : 'No'
+                                "
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Number Of Offline Store
+                              </label>
+                              <input
+                                readonly
+                                [value]="
+                                  provider.offline_stores_number
+                                    ? provider.offline_stores_number
+                                    : '0'
+                                "
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel
+                  [expanded]="true"
+                  class="optional_list mb-3"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title> Location </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="form">
+                        <div class="row mb-4">
+                          @if (provider?.locations.length==0) {
+                          <h5>there is no location</h5>
+                          } @for (item of provider?.locations; track $index) {
+                          <div class="col-lg-12 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3">Pick Location</label>
+                              <input
+                                readonly
+                                [value]="item?.address"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          }
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel
+                  [expanded]="true"
+                  class="optional_list mb-3"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title> Business Information </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="form">
+                        <div class="row mb-4">
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Do you provide delivery service?</label
+                              >
+                              <input
+                                readonly
+                                [value]="
+                                  provider.provide_delivery == 1 ? 'Yes' : 'No'
+                                "
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Select the business type
+                              </label>
+                              <input
+                                readonly
+                                [value]="provider.business_type"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Upload the commercial register
+                              </label>
+                             
+                              <div  class="form-control position-relative">
+                              @if (provider.commercial_register_image_path) {
+                                <svg width="29" height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M6.75 0C5.68437 0 4.8125 0.871875 4.8125 1.9375V29.0625C4.8125 30.1281 5.68437 31 6.75 31H26.125C27.1906 31 28.0625 30.1281 28.0625 29.0625V7.75L20.3125 0H6.75Z" fill="#E2E5E7"/>
+                                  <path d="M22.25 7.75H28.0625L20.3125 0V5.8125C20.3125 6.87813 21.1844 7.75 22.25 7.75Z" fill="#B0B7BD"/>
+                                  <path d="M28.0625 13.5625L22.25 7.75H28.0625V13.5625Z" fill="#CAD1D8"/>
+                                  <path d="M24.1875 25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562H1.90625C1.37344 26.1562 0.9375 25.7203 0.9375 25.1875V15.5C0.9375 14.9672 1.37344 14.5312 1.90625 14.5312H23.2188C23.7516 14.5312 24.1875 14.9672 24.1875 15.5V25.1875Z" fill="#F15642"/>
+                                  <path d="M5.16016 18.3551C5.16016 18.0993 5.36166 17.8203 5.68619 17.8203H7.47547C8.48297 17.8203 9.38972 18.4946 9.38972 19.7869C9.38972 21.0114 8.48297 21.6934 7.47547 21.6934H6.18219V22.7164C6.18219 23.0574 5.96519 23.2502 5.68619 23.2502C5.43044 23.2502 5.16016 23.0574 5.16016 22.7164V18.3551ZM6.18219 18.7958V20.7256H7.47547C7.99472 20.7256 8.40547 20.2674 8.40547 19.7869C8.40547 19.2453 7.99472 18.7958 7.47547 18.7958H6.18219ZM10.9068 23.2502C10.651 23.2502 10.372 23.1107 10.372 22.7706V18.3706C10.372 18.0925 10.651 17.8901 10.9068 17.8901H12.6806C16.2204 17.8901 16.1429 23.2502 12.7503 23.2502H10.9068ZM11.395 18.8356V22.3056H12.6806C14.7721 22.3056 14.8651 18.8356 12.6806 18.8356H11.395ZM17.3984 18.8976V20.1288H19.3737C19.6527 20.1288 19.9317 20.4078 19.9317 20.6781C19.9317 20.9339 19.6527 21.1431 19.3737 21.1431H17.3984V22.7697C17.3984 23.0409 17.2056 23.2492 16.9343 23.2492C16.5933 23.2492 16.3851 23.0409 16.3851 22.7697V18.3696C16.3851 18.0916 16.5943 17.8891 16.9343 17.8891H19.6536C19.9946 17.8891 20.1961 18.0916 20.1961 18.3696C20.1961 18.6176 19.9946 18.8966 19.6536 18.8966H17.3984V18.8976Z" fill="white"/>
+                                  <path d="M23.2188 26.1562H4.8125V27.125H23.2188C23.7516 27.125 24.1875 26.6891 24.1875 26.1562V25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562Z" fill="#CAD1D8"/>
+                                  </svg>
+                                  <span>
+                                    Commercial register.PDF
+                                  </span>
+                                  <a [href]="provider.commercial_register_image_path" class="text-danger view" target="_blank" rel="noopener noreferrer">View File</a>
+                              }
+                              @if (!provider.commercial_register_image_path) {-}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Upload self-employment document</label
+                              >
+                             
+                              <div  class="form-control position-relative">
+                               @if (provider.self_employment_document_path) {
+                                <svg width="29" height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M6.75 0C5.68437 0 4.8125 0.871875 4.8125 1.9375V29.0625C4.8125 30.1281 5.68437 31 6.75 31H26.125C27.1906 31 28.0625 30.1281 28.0625 29.0625V7.75L20.3125 0H6.75Z" fill="#E2E5E7"/>
+                                  <path d="M22.25 7.75H28.0625L20.3125 0V5.8125C20.3125 6.87813 21.1844 7.75 22.25 7.75Z" fill="#B0B7BD"/>
+                                  <path d="M28.0625 13.5625L22.25 7.75H28.0625V13.5625Z" fill="#CAD1D8"/>
+                                  <path d="M24.1875 25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562H1.90625C1.37344 26.1562 0.9375 25.7203 0.9375 25.1875V15.5C0.9375 14.9672 1.37344 14.5312 1.90625 14.5312H23.2188C23.7516 14.5312 24.1875 14.9672 24.1875 15.5V25.1875Z" fill="#F15642"/>
+                                  <path d="M5.16016 18.3551C5.16016 18.0993 5.36166 17.8203 5.68619 17.8203H7.47547C8.48297 17.8203 9.38972 18.4946 9.38972 19.7869C9.38972 21.0114 8.48297 21.6934 7.47547 21.6934H6.18219V22.7164C6.18219 23.0574 5.96519 23.2502 5.68619 23.2502C5.43044 23.2502 5.16016 23.0574 5.16016 22.7164V18.3551ZM6.18219 18.7958V20.7256H7.47547C7.99472 20.7256 8.40547 20.2674 8.40547 19.7869C8.40547 19.2453 7.99472 18.7958 7.47547 18.7958H6.18219ZM10.9068 23.2502C10.651 23.2502 10.372 23.1107 10.372 22.7706V18.3706C10.372 18.0925 10.651 17.8901 10.9068 17.8901H12.6806C16.2204 17.8901 16.1429 23.2502 12.7503 23.2502H10.9068ZM11.395 18.8356V22.3056H12.6806C14.7721 22.3056 14.8651 18.8356 12.6806 18.8356H11.395ZM17.3984 18.8976V20.1288H19.3737C19.6527 20.1288 19.9317 20.4078 19.9317 20.6781C19.9317 20.9339 19.6527 21.1431 19.3737 21.1431H17.3984V22.7697C17.3984 23.0409 17.2056 23.2492 16.9343 23.2492C16.5933 23.2492 16.3851 23.0409 16.3851 22.7697V18.3696C16.3851 18.0916 16.5943 17.8891 16.9343 17.8891H19.6536C19.9946 17.8891 20.1961 18.0916 20.1961 18.3696C20.1961 18.6176 19.9946 18.8966 19.6536 18.8966H17.3984V18.8976Z" fill="white"/>
+                                  <path d="M23.2188 26.1562H4.8125V27.125H23.2188C23.7516 27.125 24.1875 26.6891 24.1875 26.1562V25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562Z" fill="#CAD1D8"/>
+                                  </svg>
+                                  <span>
+                                    self-employment document.PDF
+                                  </span>
+                                  <a [href]="provider.self_employment_document_path" class="text-danger view" target="_blank" rel="noopener noreferrer">View File</a>
+                               }
+                               @if (!provider.self_employment_document_path) {-}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3">Store working hours</label>
+                              <div class="row">
+                                <div class="col-6">
+                                  <input
+                                    readonly
+                                    [value]="provider?.start_time
+                                    "
+                                    type="text"
+                                    class="form-control"
+                                  />
+                                </div>
+                                <div class="col-6">
+                                  <input
+                                    readonly
+                                    [value]="provider?.end_time
+                                    "
+                                    type="text"
+                                    class="form-control"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3">Store working days</label>
+                              <input
+                                readonly
+                                [value]="daysSentence"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel
+                  [expanded]="true"
+                  class="optional_list mb-3"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title> Bank Information </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="row">
+                    <div class="col-12">
+                      <form class="form">
+                        <div class="row mb-4">
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Bank</label
+                              >
+                              <input
+                                readonly
+                                [value]="
+                                  provider.bank_name?provider.bank_name:'-'"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Beneficiary name
+                              </label>
+                              <input
+                                readonly
+                                [value]="provider.beneficiary_name?provider.beneficiary_name:'-'"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Bank account number
+                              </label>
+                              <input
+                                readonly
+                                [value]="provider.bank_account_number?provider.bank_account_number:'-'"
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >Iban Number</label
+                              >
+                              <input
+                                readonly
+                                [value]="provider.iban?provider.iban:'-'
+                                "
+                                type="text"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                         
+
+                          <div class="col-lg-6 mb-4">
+                            <div class="form-group">
+                              <label class="mb-3"
+                                >IBAN Image / File
+                              </label>
+                             
+                              <div  class="form-control position-relative">
+                              @if (provider.iban_image_path) {
+                                <svg width="29" height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M6.75 0C5.68437 0 4.8125 0.871875 4.8125 1.9375V29.0625C4.8125 30.1281 5.68437 31 6.75 31H26.125C27.1906 31 28.0625 30.1281 28.0625 29.0625V7.75L20.3125 0H6.75Z" fill="#E2E5E7"/>
+                                  <path d="M22.25 7.75H28.0625L20.3125 0V5.8125C20.3125 6.87813 21.1844 7.75 22.25 7.75Z" fill="#B0B7BD"/>
+                                  <path d="M28.0625 13.5625L22.25 7.75H28.0625V13.5625Z" fill="#CAD1D8"/>
+                                  <path d="M24.1875 25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562H1.90625C1.37344 26.1562 0.9375 25.7203 0.9375 25.1875V15.5C0.9375 14.9672 1.37344 14.5312 1.90625 14.5312H23.2188C23.7516 14.5312 24.1875 14.9672 24.1875 15.5V25.1875Z" fill="#F15642"/>
+                                  <path d="M5.16016 18.3551C5.16016 18.0993 5.36166 17.8203 5.68619 17.8203H7.47547C8.48297 17.8203 9.38972 18.4946 9.38972 19.7869C9.38972 21.0114 8.48297 21.6934 7.47547 21.6934H6.18219V22.7164C6.18219 23.0574 5.96519 23.2502 5.68619 23.2502C5.43044 23.2502 5.16016 23.0574 5.16016 22.7164V18.3551ZM6.18219 18.7958V20.7256H7.47547C7.99472 20.7256 8.40547 20.2674 8.40547 19.7869C8.40547 19.2453 7.99472 18.7958 7.47547 18.7958H6.18219ZM10.9068 23.2502C10.651 23.2502 10.372 23.1107 10.372 22.7706V18.3706C10.372 18.0925 10.651 17.8901 10.9068 17.8901H12.6806C16.2204 17.8901 16.1429 23.2502 12.7503 23.2502H10.9068ZM11.395 18.8356V22.3056H12.6806C14.7721 22.3056 14.8651 18.8356 12.6806 18.8356H11.395ZM17.3984 18.8976V20.1288H19.3737C19.6527 20.1288 19.9317 20.4078 19.9317 20.6781C19.9317 20.9339 19.6527 21.1431 19.3737 21.1431H17.3984V22.7697C17.3984 23.0409 17.2056 23.2492 16.9343 23.2492C16.5933 23.2492 16.3851 23.0409 16.3851 22.7697V18.3696C16.3851 18.0916 16.5943 17.8891 16.9343 17.8891H19.6536C19.9946 17.8891 20.1961 18.0916 20.1961 18.3696C20.1961 18.6176 19.9946 18.8966 19.6536 18.8966H17.3984V18.8976Z" fill="white"/>
+                                  <path d="M23.2188 26.1562H4.8125V27.125H23.2188C23.7516 27.125 24.1875 26.6891 24.1875 26.1562V25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562Z" fill="#CAD1D8"/>
+                                  </svg>
+                                  <span>
+                                    IBAN File.PDF
+                                  </span>
+                                  <a [href]="provider.iban_image_path" class="text-danger view" target="_blank" rel="noopener noreferrer">View File</a>
+                              }
+                              @if (!provider.iban_image_path) {-}
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+
+                          
+                          </div>
+                       
+                      </form>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+        </ng-container>
+      </mat-tab>
+      <mat-tab label="Transactions">
+  @if (index==3) {
+    <app-transactions [provider_id]="provider?.id"></app-transactions>
+  }
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</section>

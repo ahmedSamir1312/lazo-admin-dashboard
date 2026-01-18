@@ -1,0 +1,21 @@
+.scroll-container {
+  max-height: 600px; /* Adjust this value based on your needs */
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Or if you want to use window scrolling instead of container scrolling, 
+   remove the scroll-container class and use: */
+
+/*
+.table-responsive {
+  max-height: 600px;
+  overflow-y: auto;
+}
+*/
+
+/* Loading spinner styling */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}

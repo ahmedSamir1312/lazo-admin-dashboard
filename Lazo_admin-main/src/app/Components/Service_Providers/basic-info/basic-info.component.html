@@ -1,0 +1,436 @@
+<section class="add_admin p-2 my-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div id="cover_parent">
+          <img
+            [src]="cover_images[cover_images.length - 1]"
+            height="100%"
+            width="100%"
+            *ngIf="cover_images.length != 0"
+            class="cover_image_uploaded"
+          />
+          <label
+            id="cover_child"
+            for="cover"
+            [ngStyle]="{
+              border:
+                submitted && cover_images.length == 0
+                  ? '1px solid #e21b33'
+                  : '1px solid transparent',
+              'background-color':
+                submitted && cover_images.length == 0 ? '#fff' : 'transparent'
+            }"
+          >
+            <div
+              class="ch_overlay text-center"
+              [ngClass]="{
+                show: cover_images.length != 0,
+                invalid_show: submitted && cover_images.length == 0
+              }"
+            >
+              <img src="assets/images/Frame.svg" />
+              <h3 class="mb-0">Cover Image</h3>
+              <span>Choose Cover</span>
+            </div>
+            <input
+              id="cover"
+              type="file"
+              class="custom-file-upload d-none"
+              multiple="false"
+              (change)="onProfileCoverChange($event)"
+              accept="image/*"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="col-xl-5 col-md-8 col-12 my-4">
+        <div
+          class="p-2"
+          style="
+            background-color: #94273533;
+            color: #88101f;
+            border-radius: 5px;
+          "
+        >
+          <img src="assets/images/actions/warning.svg" />
+          Cover image is required and should be less than 600 KB
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-start my-4">
+      <div class="d-flex">
+        <div
+          class="photo_parent"
+          [ngClass]="{
+            show: images.length != 0,
+            invalid_show: images.length == 0 && submitted
+          }"
+        >
+          <img
+            [src]="images[images.length - 1]"
+            *ngIf="images.length != 0"
+            height="100%"
+            width="100%"
+            class="cover_image_uploaded"
+          />
+          <label
+            id="photo_child"
+            for="profile_photo"
+            [ngStyle]="{
+              border:
+                images.length == 0 && submitted
+                  ? '1px solid #e21b33'
+                  : '1px solid transparent'
+            }"
+          >
+            <img
+              src="assets/images/Frame.svg"
+              width="50px"
+              [ngStyle]="{
+                display: images.length != 0 ? 'none' : 'block'
+              }"
+            />
+            <input
+              id="profile_photo"
+              type="file"
+              class="custom-file-upload d-none"
+              multiple="false"
+              (change)="onProfileChange($event)"
+              accept="image/*"
+            />
+          </label>
+        </div>
+        <h3 class="photo_details align-self-center ms-3 text-dark fw-bold mb-0">
+          @if(imagesUploaded){
+          <p class="mb-0 text-success">Image size is : {{ imageSize }}</p>
+          }@else { Upload Profile Photo }
+          <p class="mb-0 text-secondary"></p>
+        </h3>
+      </div>
+      <p
+        class="col-12 text-start text-danger mt-2"
+        *ngIf="!image_exist && submitted"
+      >
+        *This field is required
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <form class="form" [formGroup]="form">
+          <div class="row">
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="name_en" class="m-1 text-dark">
+                Store Name ( English )
+              </label>
+              <input
+                type="text"
+                id="name_en"
+                class="form-control"
+                placeholder="Enter Store Name ( English )"
+                formControlName="name_en"
+                [ngClass]="{ 'is-invalid': submitted && f.name_en.errors }"
+              />
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.name_en.errors?.required && submitted"
+              >
+                *This field is required
+              </p>
+              <p
+                *ngIf="form.get('name_en')?.hasError('pattern') && submitted"
+                class="text-danger mt-2"
+              >
+                Only English letters and numbers allowed
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="name_ar" class="m-1 text-dark"
+                >Store Name ( Arabic)</label
+              >
+              <input
+                type="text"
+                id="name_ar"
+                class="form-control"
+                placeholder="Enter Store Name ( Arabic )"
+                formControlName="name_ar"
+                [ngClass]="{ 'is-invalid': submitted && f.name_ar.errors }"
+              />
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.name_ar.errors?.required && submitted"
+              >
+                *This field is required
+              </p>
+              <p
+                *ngIf="form.get('name_ar')?.hasError('pattern') && submitted"
+                class="text-danger mt-2"
+              >
+                Only Arabic letters allowed
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="owner_name" class="m-1 text-dark"
+                >Store Owner Name</label
+              >
+              <input
+                type="text"
+                id="owner_name"
+                class="form-control"
+                placeholder="Store Owner Name"
+                formControlName="owner_name"
+                [ngClass]="{ 'is-invalid': submitted && f.owner_name.errors }"
+              />
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.owner_name.errors && submitted"
+              >
+                *This field is required
+              </p>
+            </div>
+            <div class="col-md-6 col-12 form-group mb-3">
+              <label for="" class="m-1 text-dark"> Choose City </label>
+              <ng-select
+                formControlName="city_id"
+                placeholder="Choose City"
+                [multiple]="false"
+                [ngClass]="{ 'is-invalid': submitted && f.city_id.errors }"
+              >
+                <ng-option *ngFor="let city of cities" [value]="city?.id">{{
+                  city?.name_en
+                }}</ng-option>
+              </ng-select>
+
+              <p class="text-danger mt-2" *ngIf="f.city_id.errors && submitted">
+                *This field is required
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="phone" class="m-1 text-dark">Phone Number</label>
+              <input
+                type="text"
+                id="phone"
+                class="form-control"
+                placeholder="536******"
+                formControlName="phone"
+                [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+              />
+              <p class="text-danger mt-2" *ngIf="f.phone.errors && submitted">
+                *This field is required
+              </p>
+
+              <p class="text-secondary mt-2" *ngIf="f.phone.errors?.pattern">
+                Hint : phone number should start with 5 and maximum is 9 digits
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="email" class="m-1 text-dark">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Enter email address"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+              />
+              <p class="text-danger mt-2" *ngIf="f.email.errors && submitted">
+                *This field is required
+              </p>
+            </div>
+
+            <div
+              class="col-md-6 col-12 form-group mb-3"
+              *ngIf="accountType == 'service_provider'"
+            >
+              <label for="" class="m-1 text-dark"> Tags </label>
+              <ng-select
+                class="mt-1"
+                placeholder="Choose Tags"
+                formControlName="tags_ids"
+                [multiple]="true"
+                [ngClass]="{ 'is-invalid': submitted && f.tags_ids.errors }"
+              >
+                <ng-option *ngFor="let tag of tags" [value]="tag?.id">{{
+                  tag?.name_en
+                }}</ng-option>
+              </ng-select>
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.tags_ids.errors && submitted"
+              >
+                *This field is required
+              </p>
+            </div>
+
+            <div class="col-md-6 col-12 form-group mb-3">
+              <label for="" class="m-1 text-dark"> Account Type </label>
+              <ng-select
+                class="mt-1"
+                formControlName="account_type"
+                placeholder="Choose Account Type "
+                [multiple]="false"
+                (change)="onAccountTypeChange($event)"
+                [ngClass]="{ 'is-invalid': submitted && f.account_type.errors }"
+              >
+                <ng-option *ngFor="let type of types" [value]="type?.value">{{
+                  type?.name_en
+                }}</ng-option>
+              </ng-select>
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.account_type.errors && submitted"
+              >
+                *This field is required
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="password" class="m-1 text-dark">Password</label>
+              <input
+                [type]="password == false ? 'password' : 'text'"
+                id="password"
+                class="form-control"
+                placeholder="Enter Password"
+                formControlName="password"
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              />
+              <span class="eye">
+                <img
+                  (click)="password = !password"
+                  src="assets/images/{{
+                    password == false ? 'eye' : 'hide'
+                  }}.svg"
+                  height="20px"
+                  width="20px"
+                />
+              </span>
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.password.errors && submitted"
+              >
+                <span *ngIf="f.password.errors.required"
+                  >*This field is required</span
+                >
+              </p>
+              <p class="text-secondary mt-2" *ngIf="f.password.errors">
+                <span *ngIf="f.password.errors.pattern"
+                  >Hint : password must be 8 or more characters with at least
+                  alphabetical
+                </span>
+              </p>
+            </div>
+
+            <div class="form-group col-md-6 col-12 mb-3">
+              <label for="confirm_password" class="m-1 text-dark"
+                >Confirm Password</label
+              >
+              <input
+                [type]="confirm_password == false ? 'password' : 'text'"
+                id="confirm_password"
+                class="form-control"
+                placeholder="Confirm Password"
+                formControlName="confirm_password"
+                [ngClass]="{
+                  'is-invalid': submitted && f.confirm_password.errors
+                }"
+              />
+              <span class="eye">
+                <img
+                  (click)="confirm_password = !confirm_password"
+                  src="assets/images/{{
+                    confirm_password == false ? 'eye' : 'hide'
+                  }}.svg"
+                  height="20px"
+                  width="20px"
+                />
+              </span>
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.confirm_password.errors && submitted"
+              >
+                *This field is required
+              </p>
+              <p
+                class="text-secondary mt-2"
+                *ngIf="
+                  f.confirm_password.value != f.password.value &&
+                  f.password.value != null &&
+                  f.confirm_password.value != null
+                "
+              >
+                password & confirm password should be matched
+              </p>
+            </div>
+            <div
+              class="form-group col-md-6 col-12 mb-3"
+              *ngIf="accountType == 'service_provider'"
+            >
+              <label for="bio_en" class="m-1 text-dark">
+                bio ( English )
+              </label>
+              <input
+                type="text"
+                id="bio_en"
+                class="form-control"
+                placeholder="Enter bio ( English )"
+                formControlName="bio_en"
+                [ngClass]="{ 'is-invalid': submitted && f.bio_en.errors }"
+              />
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.bio_en.errors?.required && submitted"
+              >
+                *This field is required
+              </p>
+              <p
+                *ngIf="form.get('bio_en')?.hasError('pattern') && submitted"
+                class="text-danger mt-2"
+              >
+                Only English letters and numbers allowed
+              </p>
+            </div>
+            <div
+              class="form-group col-md-6 col-12 mb-3"
+              *ngIf="accountType == 'service_provider'"
+            >
+              <label for="name_ar" class="m-1 text-dark">bio ( Arabic)</label>
+              <input
+                type="text"
+                id="bio_ar"
+                class="form-control"
+                placeholder="Enter bio ( Arabic )"
+                formControlName="bio_ar"
+                [ngClass]="{ 'is-invalid': submitted && f.bio_ar.errors }"
+              />
+              <p
+                class="text-danger mt-2"
+                *ngIf="f.bio_ar.errors?.required && submitted"
+              >
+                *This field is required
+              </p>
+              <p
+                *ngIf="form.get('bio_ar')?.hasError('pattern') && submitted"
+                class="text-danger mt-2"
+              >
+                Only Arabic letters allowed
+              </p>
+            </div>
+          </div>
+          <div class="text-end mt-3">
+            <button
+              class="btn btn-danger px-5 mx-2"
+              type="button"
+              (click)="sendBasicForm()"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

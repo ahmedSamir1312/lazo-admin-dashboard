@@ -1,0 +1,164 @@
+<section class="add_admin p-4">
+    <div class="container">
+      <div class="w-100 text-end">
+        <svg
+          (click)="close()"
+          style="cursor: pointer"
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5896 8.39922L8.40913 13.5797"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.5922 13.5824L8.40677 8.39694"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <div class="title text-center mb-5">
+        <h2 class="text-default fw-bold m-auto">    Edit Category </h2>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <form class="form" [formGroup]="form"  (ngSubmit)="add()">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+                <div class="form-group position-relative">
+                    <svg (click)="about.click()" class="upload" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.38948 7.87319H4.45648C2.42148 7.87319 0.771484 9.52319 0.771484 11.5582L0.771484 16.4332C0.771484 18.4672 2.42148 20.1172 4.45648 20.1172H15.5865C17.6215 20.1172 19.2715 18.4672 19.2715 16.4332V11.5482C19.2715 9.51919 17.6265 7.87319 15.5975 7.87319L14.6545 7.87319" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10.0215 1.08009V13.1211" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.10547 4.00781L10.0205 1.07981L12.9365 4.00781" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                  <label class="mb-3">Image
+                </label>
+                <input hidden id="file" accept="image/*" type="file" #about readonly class="custom-file-upload" multiple="" (change)="onImageChange($event)">
+                  <input
+                  readonly
+                    placeholder="Upload Image
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="image"
+                [ngStyle]="{'border': submitted && f.image.errors? '1px solid red' : (submitted && f.image.errors ? '1px solid #ebebeb' : null) }" />
+                @if (f.image?.value) {
+                    <div class="img my-3" >
+                        <img [src]="image" alt="" style="width: 100%; height: 200px;">
+                    </div>
+                }
+                  @if(f.image?.errors && submitted){
+                    <p class="text-danger mt-2" >
+                        *This field is required
+                    </p>
+                  }
+
+
+                </div>
+              </div>
+              <div class="col-lg-12 mb-4">
+                <div class="form-group position-relative">
+                    <svg (click)="cover.click()" class="upload" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.38948 7.87319H4.45648C2.42148 7.87319 0.771484 9.52319 0.771484 11.5582L0.771484 16.4332C0.771484 18.4672 2.42148 20.1172 4.45648 20.1172H15.5865C17.6215 20.1172 19.2715 18.4672 19.2715 16.4332V11.5482C19.2715 9.51919 17.6265 7.87319 15.5975 7.87319L14.6545 7.87319" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10.0215 1.08009V13.1211" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.10547 4.00781L10.0205 1.07981L12.9365 4.00781" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                  <label class="mb-3">Cover
+                </label>
+                <input hidden id="file" accept="image/*" type="file" #cover readonly class="custom-file-upload" multiple="" (change)="onCoverChange($event)">
+                  <input
+                  readonly
+                    placeholder="Upload Image
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="cover_image"
+                [ngStyle]="{'border': submitted && f.cover_image.errors? '1px solid red' : (submitted && f.image.errors ? '1px solid #ebebeb' : null) }" />
+                @if (f.cover_image?.value) {
+                    <div class="img my-3" >
+                        <img [src]="cover_image" alt="" style="width: 100%; height: 200px;">
+                    </div>
+                }
+                  @if(f.cover_image?.errors && submitted){
+                    <p class="text-danger mt-2" >
+                        *This field is required
+                    </p>
+                  }
+
+
+                </div>
+              </div>
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Category English Name
+                </label>
+                  <input
+                    placeholder="Enter Category English Name
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="name_en"
+                [ngStyle]="{'border': submitted && f.name_en.errors? '1px solid red' : (submitted && f.name_en.errors ? '1px solid #ebebeb' : null) }" />
+                  <p class="text-danger mt-2" *ngIf="f.name_en?.errors && submitted">
+                    *This field is required
+                </p>
+
+                </div>
+              </div>
+
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Category Arabic Name
+                </label>
+                  <input
+                    placeholder="Enter Category Arabic Name
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="name_ar"
+                [ngStyle]="{'border': submitted && f.name_ar.errors? '1px solid red' : (submitted && f.name_ar.errors ? '1px solid #ebebeb' : null) }" />
+                  <p class="text-danger mt-2" *ngIf="f.name_ar?.errors && submitted">
+                    *This field is required
+                </p>
+
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="row my-3">
+                <button type="submit"  class="btn confirm w-100">
+                  Edit Category
+                </button>
+
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>

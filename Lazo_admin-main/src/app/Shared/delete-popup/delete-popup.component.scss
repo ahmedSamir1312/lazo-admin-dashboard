@@ -1,0 +1,17 @@
+.delete_popup{
+    .btn{
+        transition: all .4s ease-in-out;
+        &:hover{
+            background-color: #a80c1e;
+            color: #fff !important;
+        }
+        &:focus{
+            outline: none;
+            box-shadow: none;
+        }
+    }
+    .confirm{
+        background-color: #E21B33;
+        color: #fff;
+    }
+}

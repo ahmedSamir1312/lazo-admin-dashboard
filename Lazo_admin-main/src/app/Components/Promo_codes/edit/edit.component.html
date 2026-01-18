@@ -1,0 +1,162 @@
+<section class="add_admin p-4">
+    <div class="container">
+      <div class="w-100 text-end">
+        <svg
+          (click)="close()"
+          style="cursor: pointer"
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5896 8.39922L8.40913 13.5797"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.5922 13.5824L8.40677 8.39694"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
+            stroke="#8088A4"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+  
+      <div class="title text-center mb-5">
+        <h2 class="text-default fw-bold m-auto">Edit Promo Code</h2>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <form class="form" [formGroup]="form"  (ngSubmit)="add()">
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Promo Code
+                </label>
+                  <input
+                    placeholder="Enter Promo Code
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="code"
+                [ngStyle]="{'border': submitted && f.code.errors? '1px solid red' : (submitted && f.code.errors ? '1px solid #ebebeb' : null) }" />
+                  <p class="text-danger mt-2" *ngIf="f.code?.errors && submitted">
+                    *This field is required
+                </p>
+    
+                </div>
+              </div>
+              <div class="col-lg-12 mb-4">
+                <div class="form-group position-relative">
+                  <label class="mb-3">Promo Code Type</label>
+                <!-- <span style="position: absolute; top:55px; right: 20px; z-index: 22;" >  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 8.5L12 15.5L5 8.5" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg></span> -->
+                    
+                  <ng-select [items]="types"
+                  style="border-radius: 8px;"
+                  #select
+                  class="promo"
+                  placeholder="Enter Promo Code Type "
+                  (close)="select.blur();" 
+                  [clearable]="false"
+                  bindLabel="name"
+                  bindValue="value"
+                  appendTo="body"
+                  dropdownPosition="bottom"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="selectedRolesIds"
+                  [ngStyle]="{'border': submitted &&!selectedRolesIds? '1px solid red' : (submitted &&!selectedRolesIds ? '1px solid #ebebeb' : null) }">
+               
+       </ng-select>
+       <p class="text-danger mt-2" *ngIf="!selectedRolesIds && submitted">
+        *This field is required
+    </p>
+  
+                </div>
+              </div>
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Promo Code Value
+  
+                </label>
+                  <input
+                    placeholder="Enter Promo Code Value
+  
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="value"
+                [ngStyle]="{'border': submitted && f.value.errors? '1px solid red' : (submitted && f.value.errors ? '1px solid #ebebeb' : null) }" />
+                  <p class="text-danger mt-2" *ngIf="f.value?.errors && submitted">
+                    <span class="text-danger mt-2" *ngIf="f.value.errors?.pattern"> * this field must be number</span>
+                    <span class="text-danger mt-2" *ngIf="f.value.errors?.required"> * this field is required</span>
+                </p>
+    
+                </div>
+              </div>
+              <div class="col-md-12 col-12 form-group toggle-example mb-4">
+                <label class="mb-3">Code Expiration Date
+
+                </label>
+                <input   [ngStyle]="{'border': submitted && f.value.errors? '1px solid red' : (submitted && f.value.errors ? '1px solid #ebebeb' : null) }" matInput readonly [matDatepicker]="picker" placeholder="Enter Code Expiration Date
+                " #ref (dateChange)="dateValueChange(ref)" formControlName="expiration_date">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <p class="text-danger mt-2" *ngIf="f.expiration_date?.errors && submitted">
+                      *This field is required
+                  </p>
+            </div>
+         
+         
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Times To Use
+                </label>
+                  <input
+                    placeholder="Enter Times To Use
+                    "
+                    type="text"
+                    class="form-control"
+                formControlName="allowed_usage_number"
+                [ngStyle]="{'border': submitted && f.allowed_usage_number.errors? '1px solid red' : (submitted && f.allowed_usage_number.errors ? '1px solid #ebebeb' : null) }" />
+                  <p class="text-danger mt-2" *ngIf="f.allowed_usage_number?.errors && submitted">
+                    <span class="text-danger mt-2" *ngIf="f.allowed_usage_number.errors?.pattern"> * this field must be number</span>
+                    <span class="text-danger mt-2" *ngIf="f.allowed_usage_number.errors?.required"> * this field is required</span>
+                </p>
+    
+                </div>
+              </div>
+            
+           
+           
+            
+            </div>
+            <div class="row my-3">
+                <button type="submit"  class="btn confirm w-100">
+                 Save
+                </button>
+                
+           
+             
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  

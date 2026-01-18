@@ -1,0 +1,15 @@
+.add_admin{
+    input {
+        color: #8088A4;
+        &::placeholder{
+            color: #8088A4 !important;
+            font-size: 14px;
+        }
+        &:focus{
+box-shadow: none;
+        }
+    }
+  
+   
+   
+}

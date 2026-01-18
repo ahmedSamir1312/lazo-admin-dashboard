@@ -1,0 +1,623 @@
+<form [formGroup]="form" class="add_admin">
+  <div>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel [expanded]="true" class="optional_list mb-3">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Offline Stores </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row my-1">
+          <div class="form-group col-md-6 col-12 mb-3">
+            <label for="offline_stores_number" class="mb-2 text-dark"
+              >Number Of Offline Store</label
+            >
+            <input
+              type="number"
+              [min]="0"
+              id="offline_stores_number"
+              class="form-control"
+              placeholder="Enter Number of offline store"
+              formControlName="offline_stores_number"
+              [ngClass]="{
+                'is-invalid': submitted && f.offline_stores_number.errors
+              }"
+              (blur)="addLocationLimit($event)"
+            />
+            <p
+              class="text-danger mt-2"
+              *ngIf="f.offline_stores_number.errors && submitted"
+            >
+              *This field is required
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        class="location optional_list mb-3"
+        [expanded]="true"
+        *ngIf="f.has_offline_stores.value == 1"
+      >
+        <mat-expansion-panel-header class="d-flex">
+          <mat-panel-title> Location </mat-panel-title>
+          <mat-panel-description
+            (click)="$event.stopPropagation(); addLocation()"
+          >
+            <button type="button" class="btn btn-danger w-100 custom">
+              Add Address
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div
+          class="locations my-1"
+          formArrayName="locations"
+          [ngClass]="{ 'p-3': f['locations']?.errors?.maxlength }"
+          [ngStyle]="{
+            border: f['locations']?.errors?.maxlength
+              ? '1px solid red'
+              : '1px solid transparent'
+          }"
+        >
+          <div
+            class="row"
+            *ngFor="let location of locations().controls; let i = index"
+          >
+            <ng-container [formGroupName]="i">
+              <div class="form-group col-md-10 col-8 align-self-center">
+                <label for="loc" class="mb-2 text-dark">Pick Location</label>
+                <input
+                  type="text"
+                  [readonly]="true"
+                  id="loc"
+                  class="form-control"
+                  placeholder="Pick your location from map"
+                  formControlName="address"
+                  [ngStyle]="{
+                    border:
+                      f['locations']['controls'][i]?.controls?.address?.errors
+                        ?.required && submitted
+                        ? '1px solid red'
+                        : !f['locations']['controls'][i]?.controls?.address
+                            ?.errors?.required && submitted
+                        ? '1px solid #F4F5F7'
+                        : null
+                  }"
+                />
+                <div class="eye" (click)="openMap(i)">
+                  <img src="assets/images/Location.svg" />
+                </div>
+
+                <input
+                  type="hidden"
+                  class="form-control"
+                  formControlName="lat_lng"
+                />
+              </div>
+              <div class="col-md-2 col-4 align-self-center">
+                <button
+                  class="btn btn-outline-danger w-100 mt-2"
+                  (click)="removeLocation(i)"
+                >
+                  delete
+                </button>
+              </div>
+            </ng-container>
+            <p
+              class="text-danger"
+              *ngIf="
+                f['locations']['controls'][i]?.controls?.address?.errors &&
+                submitted
+              "
+            >
+              *This field is required
+            </p>
+          </div>
+          <p class="text-danger mt-2" *ngIf="f['locations']?.errors?.maxlength">
+            *number of locations should be equal to number of stores
+          </p>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" class="optional_list mb-3">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Business Information </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div class="col-md-6 col-12 form-group mb-3">
+            <label for="provide_delivery" class="mb-2 text-dark">
+              Do you provide delivery service?</label
+            >
+
+            <ng-select
+              formControlName="provide_delivery"
+              placeholder="Do you provide delivery service?"
+              [multiple]="false"
+              [ngClass]="{
+                'is-invalid': submitted && f.provide_delivery.errors
+              }"
+            >
+              <ng-option
+                *ngFor="let delivery of deliveries"
+                [value]="delivery?.value"
+                >{{ delivery?.name_en }}</ng-option
+              >
+            </ng-select>
+
+            <p
+              class="text-danger mt-2"
+              *ngIf="f.provide_delivery.errors && submitted"
+            >
+              *This field is required
+            </p>
+          </div>
+
+          <div class="col-md-6 col-12 form-group mb-3">
+            <label for="business_type" class="mb-2 text-dark">
+              Select the business type</label
+            >
+
+            <ng-select
+              formControlName="business_type"
+              placeholder="Select the business type"
+              (change)="changeBusinessType($event)"
+              [multiple]="false"
+              [ngClass]="{ 'is-invalid': submitted && f.business_type.errors }"
+            >
+              <ng-option
+                *ngFor="let business of businesses"
+                [value]="business.value"
+                >{{ business.name_en }}</ng-option
+              >
+            </ng-select>
+
+            <p
+              class="text-danger mt-2"
+              *ngIf="f.business_type.errors && submitted"
+            >
+              *This field is required
+            </p>
+          </div>
+
+          <div
+            class="col-12 form-group mb-2"
+            *ngIf="form.value.business_type == 'cooperation'"
+          >
+            <label class="mb-1 mx-1">Upload the commercial register </label>
+
+            <div
+              class="form-control mb-2"
+              [ngClass]="{
+                'is-invalid':
+                  f.commercial_register_image?.errors?.required && submitted
+              }"
+            >
+              <span
+                class="upload"
+                *ngIf="commercial_register_image.length == 0"
+              >
+                <svg
+                  width="29"
+                  height="31"
+                  viewBox="0 0 29 31"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.75 0C5.68437 0 4.8125 0.871875 4.8125 1.9375V29.0625C4.8125 30.1281 5.68437 31 6.75 31H26.125C27.1906 31 28.0625 30.1281 28.0625 29.0625V7.75L20.3125 0H6.75Z"
+                    fill="#E2E5E7"
+                  />
+                  <path
+                    d="M22.25 7.75H28.0625L20.3125 0V5.8125C20.3125 6.87813 21.1844 7.75 22.25 7.75Z"
+                    fill="#B0B7BD"
+                  />
+                  <path
+                    d="M28.0625 13.5625L22.25 7.75H28.0625V13.5625Z"
+                    fill="#CAD1D8"
+                  />
+                  <path
+                    d="M24.1875 25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562H1.90625C1.37344 26.1562 0.9375 25.7203 0.9375 25.1875V15.5C0.9375 14.9672 1.37344 14.5312 1.90625 14.5312H23.2188C23.7516 14.5312 24.1875 14.9672 24.1875 15.5V25.1875Z"
+                    fill="#F15642"
+                  />
+                  <path
+                    d="M5.16016 18.3551C5.16016 18.0993 5.36166 17.8203 5.68619 17.8203H7.47547C8.48297 17.8203 9.38972 18.4946 9.38972 19.7869C9.38972 21.0114 8.48297 21.6934 7.47547 21.6934H6.18219V22.7164C6.18219 23.0574 5.96519 23.2502 5.68619 23.2502C5.43044 23.2502 5.16016 23.0574 5.16016 22.7164V18.3551ZM6.18219 18.7958V20.7256H7.47547C7.99472 20.7256 8.40547 20.2674 8.40547 19.7869C8.40547 19.2453 7.99472 18.7958 7.47547 18.7958H6.18219ZM10.9068 23.2502C10.651 23.2502 10.372 23.1107 10.372 22.7706V18.3706C10.372 18.0925 10.651 17.8901 10.9068 17.8901H12.6806C16.2204 17.8901 16.1429 23.2502 12.7503 23.2502H10.9068ZM11.395 18.8356V22.3056H12.6806C14.7721 22.3056 14.8651 18.8356 12.6806 18.8356H11.395ZM17.3984 18.8976V20.1288H19.3737C19.6527 20.1288 19.9317 20.4078 19.9317 20.6781C19.9317 20.9339 19.6527 21.1431 19.3737 21.1431H17.3984V22.7697C17.3984 23.0409 17.2056 23.2492 16.9343 23.2492C16.5933 23.2492 16.3851 23.0409 16.3851 22.7697V18.3696C16.3851 18.0916 16.5943 17.8891 16.9343 17.8891H19.6536C19.9946 17.8891 20.1961 18.0916 20.1961 18.3696C20.1961 18.6176 19.9946 18.8966 19.6536 18.8966H17.3984V18.8976Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M23.2188 26.1562H4.8125V27.125H23.2188C23.7516 27.125 24.1875 26.6891 24.1875 26.1562V25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562Z"
+                    fill="#CAD1D8"
+                  /></svg
+                >Upload the commercial register
+              </span>
+              <span
+                class="upload"
+                *ngIf="commercial_register_image.length != 0"
+              >
+                <img
+                  [src]="environment + f.commercial_register_image?.value"
+                  alt=""
+                  style="width: 25px; height: 25px"
+                />
+                Commercial register Image
+              </span>
+
+              <img
+                src="assets/images/actions/Upload.svg"
+                class="upload_img"
+                (click)="commercial_register_images.click()"
+              />
+              <input
+                hidden
+                id="commercial_register_image"
+                #commercial_register_images
+                accept="image/*"
+                type="file"
+                class="custom-file-upload"
+                multiple=""
+                (change)="onCommercialRegisterChange($event)"
+              />
+            </div>
+            <p
+              class="text-danger mt-2"
+              *ngIf="f.commercial_register_image?.errors?.required && submitted"
+            >
+              *This field is required
+            </p>
+          </div>
+
+          <div
+            class="col-12 form-group mb-2"
+            *ngIf="form.value.business_type == 'individual'"
+          >
+            <label class="mb-1 mx-1">Upload self-employment document</label>
+
+            <div
+              class="form-control mb-2"
+              [ngClass]="{
+                'is-invalid':
+                  f.self_employment_document?.errors?.required && submitted
+              }"
+            >
+              <span class="upload" *ngIf="self_employment_document.length == 0">
+                <svg
+                  width="29"
+                  height="31"
+                  viewBox="0 0 29 31"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.75 0C5.68437 0 4.8125 0.871875 4.8125 1.9375V29.0625C4.8125 30.1281 5.68437 31 6.75 31H26.125C27.1906 31 28.0625 30.1281 28.0625 29.0625V7.75L20.3125 0H6.75Z"
+                    fill="#E2E5E7"
+                  />
+                  <path
+                    d="M22.25 7.75H28.0625L20.3125 0V5.8125C20.3125 6.87813 21.1844 7.75 22.25 7.75Z"
+                    fill="#B0B7BD"
+                  />
+                  <path
+                    d="M28.0625 13.5625L22.25 7.75H28.0625V13.5625Z"
+                    fill="#CAD1D8"
+                  />
+                  <path
+                    d="M24.1875 25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562H1.90625C1.37344 26.1562 0.9375 25.7203 0.9375 25.1875V15.5C0.9375 14.9672 1.37344 14.5312 1.90625 14.5312H23.2188C23.7516 14.5312 24.1875 14.9672 24.1875 15.5V25.1875Z"
+                    fill="#F15642"
+                  />
+                  <path
+                    d="M5.16016 18.3551C5.16016 18.0993 5.36166 17.8203 5.68619 17.8203H7.47547C8.48297 17.8203 9.38972 18.4946 9.38972 19.7869C9.38972 21.0114 8.48297 21.6934 7.47547 21.6934H6.18219V22.7164C6.18219 23.0574 5.96519 23.2502 5.68619 23.2502C5.43044 23.2502 5.16016 23.0574 5.16016 22.7164V18.3551ZM6.18219 18.7958V20.7256H7.47547C7.99472 20.7256 8.40547 20.2674 8.40547 19.7869C8.40547 19.2453 7.99472 18.7958 7.47547 18.7958H6.18219ZM10.9068 23.2502C10.651 23.2502 10.372 23.1107 10.372 22.7706V18.3706C10.372 18.0925 10.651 17.8901 10.9068 17.8901H12.6806C16.2204 17.8901 16.1429 23.2502 12.7503 23.2502H10.9068ZM11.395 18.8356V22.3056H12.6806C14.7721 22.3056 14.8651 18.8356 12.6806 18.8356H11.395ZM17.3984 18.8976V20.1288H19.3737C19.6527 20.1288 19.9317 20.4078 19.9317 20.6781C19.9317 20.9339 19.6527 21.1431 19.3737 21.1431H17.3984V22.7697C17.3984 23.0409 17.2056 23.2492 16.9343 23.2492C16.5933 23.2492 16.3851 23.0409 16.3851 22.7697V18.3696C16.3851 18.0916 16.5943 17.8891 16.9343 17.8891H19.6536C19.9946 17.8891 20.1961 18.0916 20.1961 18.3696C20.1961 18.6176 19.9946 18.8966 19.6536 18.8966H17.3984V18.8976Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M23.2188 26.1562H4.8125V27.125H23.2188C23.7516 27.125 24.1875 26.6891 24.1875 26.1562V25.1875C24.1875 25.7203 23.7516 26.1562 23.2188 26.1562Z"
+                    fill="#CAD1D8"
+                  /></svg
+                >Upload self-employment document
+              </span>
+              <span class="upload" *ngIf="self_employment_document.length != 0">
+                <img
+                  [src]="environment + f.self_employment_document?.value"
+                  alt=""
+                  style="width: 25px; height: 25px"
+                />
+                Self-employment Image
+              </span>
+
+              <img
+                src="assets/images/actions/Upload.svg"
+                class="upload_img"
+                (click)="self_employment_documents.click()"
+              />
+              <input
+                hidden
+                #self_employment_documents
+                id="self_employment_document"
+                type="file"
+                accept="image/*"
+                class="custom-file-upload"
+                (change)="onSelfEmpDocChange($event)"
+              />
+            </div>
+            <p
+              class="text-danger mt-2"
+              *ngIf="f.self_employment_document?.errors?.required && submitted"
+            >
+              *This field is required
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" class="optional_list mb-3">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Working Days </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div
+            class="my-1 px-0"
+            formArrayName="days_hours"
+            [ngClass]="{ days_error: submitted && selected.length == 0 }"
+          >
+            <ng-container
+              *ngFor="let hour of workHours().controls; let index = index"
+            >
+              <!-- <div class="mb-2 row"
+                                [ngClass]="{'days_error':( 
+                                ((f['days_hours']['controls'][index]?.controls?.days?.value!=false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value==null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value ==null )) )||  
+                                ((f['days_hours']['controls'][index]?.controls?.days?.value==false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value!=null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value !=null )) ) 
+                                 )}" [id]="'parent'+index">  
+
+                                <ng-container  [formGroupName]="index">
+                                    <div class="col-md-4 col-12 checkbox">  
+                                        <input [id]="'days'+index" type="checkbox" formControlName="days">
+                                        <label [for]="'days'+index" class="checkbox col-12">  
+                                            <span></span>
+                                            {{days[index].name}} {{days[index].value}}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4 col-12"> 
+                                        <div class="toggle-example w-100">
+                                            <input [ngxTimepicker]="toggleTimepicker" [disableClick]="true" readonly placeholder="From" formControlName="start_time">  
+                                            <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
+                                            <ngx-material-timepicker #toggleTimepicker (timeChanged)="startTimeChanges($event ,index)"></ngx-material-timepicker>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12"> 
+                                        <div class="toggle-example w-100">
+                                            <input [ngxTimepicker]="toggleTimepickerTo" [disableClick]="true" readonly placeholder="To"  formControlName="end_time"> 
+                                            <ngx-material-timepicker-toggle [for]="toggleTimepickerTo"></ngx-material-timepicker-toggle>
+                                            <ngx-material-timepicker #toggleTimepickerTo (timeChanged)="startTimeChanges($event ,index)"></ngx-material-timepicker>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-danger mt-2" *ngIf=" ( 
+                                        ((f['days_hours']['controls'][index]?.controls?.days?.value!=false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value==null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value ==null )) )||  
+                                        ((f['days_hours']['controls'][index]?.controls?.days?.value==false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value!=null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value !=null )) ) 
+                                        && submitted )
+                                            ">
+                                        *You have to assign time (from and to ) to selected day
+                                    </p> 
+
+                                    <p class="text-danger ms-1" [id]="'h'+index"></p> 
+                                </ng-container>
+                            
+                            </div> -->
+              <div class="mb-2 row" [id]="'parent' + index">
+                <!--[ngClass]="{'days_error':( 
+                                ((f['days_hours']['controls'][index]?.controls?.days?.value!=false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value==null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value ==null )) )||  
+                                ((f['days_hours']['controls'][index]?.controls?.days?.value==false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value!=null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value !=null )) ) 
+                                )  && submitted } " -->
+
+                <ng-container [formGroupName]="index">
+                  <div class="col-md-4 col-12 checkbox">
+                    <input
+                      [id]="'days' + index"
+                      type="checkbox"
+                      formControlName="days"
+                    />
+                    <label [for]="'days' + index" class="checkbox col-12">
+                      <span></span>
+                      {{ days[index].name }}
+                    </label>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="toggle-example w-100">
+                      <input
+                        [ngxTimepicker]="toggleTimepicker"
+                        [disableClick]="true"
+                        readonly
+                        placeholder="From"
+                        formControlName="start_time"
+                      />
+                      <ngx-material-timepicker-toggle
+                        [for]="toggleTimepicker"
+                      ></ngx-material-timepicker-toggle>
+                      <ngx-material-timepicker
+                        #toggleTimepicker
+                        (timeChanged)="startTimeChanges($event, index)"
+                      ></ngx-material-timepicker>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="toggle-example w-100">
+                      <input
+                        [ngxTimepicker]="toggleTimepickerTo"
+                        [disableClick]="true"
+                        readonly
+                        placeholder="To"
+                        formControlName="end_time"
+                      />
+                      <ngx-material-timepicker-toggle
+                        [for]="toggleTimepickerTo"
+                      ></ngx-material-timepicker-toggle>
+                      <ngx-material-timepicker
+                        #toggleTimepickerTo
+                        (timeChanged)="startTimeChanges($event, index)"
+                      ></ngx-material-timepicker>
+                    </div>
+                  </div>
+
+                  <!-- <p class="text-danger mt-2" *ngIf=" ( 
+                                    ((f['days_hours']['controls'][index]?.controls?.days?.value!=false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value==null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value ==null )) )||  
+                                    ((f['days_hours']['controls'][index]?.controls?.days?.value==false) && ( (f['days_hours']['controls'][index]?.controls?.start_time?.value!=null) || (f['days_hours']['controls'][index]?.controls?.end_time?.value !=null )) ) 
+                                    ) && submitted">
+                                    *You have to assign time (from and to ) to selected day
+                                </p>   -->
+
+                  <p class="text-danger" [id]="'h' + index"></p>
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <p
+              class="text-danger mt-2 ms-2"
+              *ngIf="submitted && selected.length == 0"
+            >
+              *You have to choose at least one day and it's working hours
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" class="optional_list mb-3">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Bank Information </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div class="form-group col-md-6 col-12 mb-3">
+            <label for="bank_name" class="m-1 text-dark"> Bank Name </label>
+            <input
+              type="text"
+              id="bank_name"
+              class="form-control"
+              placeholder="Enter Bank Name"
+              formControlName="bank_name"
+              [ngClass]="{ 'is-invalid': submitted && f['bank_name']?.errors }"
+            />
+            <p
+              class="text-danger mt-2"
+              *ngIf="f?.['bank_name']?.errors?.required && submitted"
+            >
+              * this field is required
+            </p>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-3">
+            <label for="beneficiary_name" class="m-1 text-dark">
+              Beneficiary Name
+            </label>
+            <input
+              type="text"
+              id="beneficiary_name"
+              class="form-control"
+              placeholder=" Enter Beneficiary Name"
+              formControlName="beneficiary_name"
+              [ngClass]="{
+                'is-invalid': submitted && f['beneficiary_name']?.errors
+              }"
+            />
+            <p
+              class="text-danger mt-2"
+              *ngIf="f['beneficiary_name']?.errors && submitted"
+            >
+              * this field is required
+            </p>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-3">
+            <label for="bank_account_number" class="m-1 text-dark">
+              Account Number
+            </label>
+            <input
+              type="number"
+              [min]="0"
+              id="bank_account_number"
+              class="form-control"
+              placeholder=" Enter Account Number"
+              formControlName="bank_account_number"
+              [ngClass]="{
+                'is-invalid': submitted && f['bank_account_number']?.errors
+              }"
+            />
+            <p
+              class="text-danger mt-2"
+              *ngIf="f['bank_account_number']?.errors?.required && submitted"
+            >
+              * this field is required
+            </p>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-3">
+            <label for="iban" class="m-1 text-dark"> IBAN Number </label>
+            <input
+              type="text"
+              id="iban"
+              class="form-control"
+              placeholder=" Enter IBAN Number"
+              formControlName="iban"
+              [ngClass]="{ 'is-invalid': submitted && f['iban']?.errors }"
+            />
+            <p class="text-danger mt-2" *ngIf="f['iban']?.errors && submitted">
+              * this field is required
+            </p>
+            <p
+              class="text-secondary mt-2"
+              *ngIf="f['iban']?.errors?.pattern && submitted"
+            >
+              IBAN format is invalid
+            </p>
+          </div>
+
+          <div class="col-md-6 col-12 form-group mb-3">
+            <label class="mb-1 mx-1"> Upload IBAN Image </label>
+            <div
+              class="offer mb-2"
+              [ngClass]="{ 'is-invalid': submitted && f['iban_image']?.errors }"
+            >
+              <span *ngIf="iban_img.length == 0"> IBAN Image </span>
+              <span class="upload" *ngIf="iban_img.length != 0">
+                <img
+                  class="upload"
+                  src="assets/images/{{
+                    iban_image_type == 'pdf' ? 'pdf' : 'signup_upload'
+                  }}.svg"
+                  height="20px"
+                />
+                IBAN
+                {{
+                  iban_image_type == "pdf"
+                    ? "File.PDF"
+                    : "Image." + iban_image_type
+                }}
+              </span>
+              <label class="" for="iban_image">
+                <img src="assets/images/actions/upload.svg" />
+                <input
+                  id="iban_image"
+                  type="file"
+                  accept="application/pdf,image/*"
+                  class="custom-file-upload d-none"
+                  multiple=""
+                  (change)="onIbanChange($event)"
+                />
+              </label>
+            </div>
+            <p
+              class="text-danger mt-2"
+              *ngIf="f['iban_image']?.errors && submitted"
+            >
+              * this field is required
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="text-end mt-3">
+    <button class="btn btn-danger px-5" (click)="sendRegisterationForm()">
+      Add Provider
+    </button>
+  </div>
+</form>

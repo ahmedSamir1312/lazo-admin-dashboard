@@ -1,0 +1,89 @@
+<section>
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-7 col-lg-7 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">{{ title }}</h2>
+    </div>
+    <div class="fw-bold title col-xl-5 col-lg-5 col-md-6 col-12">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="search">
+            <img src="assets/images/Search.svg" alt="" class="search_svg" />
+            <input
+              type="text"
+              class="w-100"
+              placeholder="search ..."
+              (keyup)="sendData($event)"
+            />
+          </div>
+        </div>
+        <div class="col-md-5">
+          <button
+            class="btn btn-danger custom px-2 w-100"
+            [routerLink]="['/add_provider']"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+                fill="white"
+              />
+            </svg>
+
+            <span class="mx-2"> Add New Provider</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="row">
+  <div class="col-12">
+    <!--  -->
+    <mat-tab-group
+      [(selectedIndex)]="matTabGroup"
+      (selectedTabChange)="resetShowItem($event)"
+    >
+      <mat-tab label="Active Providers">
+        @if (this.type=='active') {
+        <app-providwe-table
+          [data]="[{ type: type, family: this.account_type, header: header }]"
+        ></app-providwe-table>
+        }
+      </mat-tab>
+
+      <mat-tab label="Joining Requests">
+        @if (this.type=='pending') {
+        <app-providwe-table
+          [data]="[
+            { type: type, family: this.account_type, header: main_header }
+          ]"
+        ></app-providwe-table>
+        }
+      </mat-tab>
+
+      <mat-tab label="Blocked Accounts">
+        @if (this.type=='blocked') {
+        <app-providwe-table
+          [data]="[
+            { type: type, family: this.account_type, header: block_header }
+          ]"
+        ></app-providwe-table>
+        }
+      </mat-tab>
+      <mat-tab label="Deleted Accounts">
+        @if (this.type=='deleted') {
+        <app-providwe-table
+          [data]="[
+            { type: type, family: this.account_type, header: main_header }
+          ]"
+        ></app-providwe-table>
+        }
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

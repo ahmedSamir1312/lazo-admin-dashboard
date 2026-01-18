@@ -1,0 +1,51 @@
+<section class="add_admin p-4">
+    <div class="container">
+      <div class="w-100 text-end">
+       
+      </div>
+  
+      <div class="title text-center mb-5">
+        <h2 class="text-default fw-bold m-auto">Reason of cancelation </h2>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <form class="form" >
+            <div class="row">
+              <div class="col-lg-12 mb-4">
+                <div class="form-group">
+                  <label class="mb-3">Reason of cancelation
+                </label>
+                  <input
+                    placeholder="Reason of cancelation
+                    "
+                    [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="reason"
+                    type="text"
+                    class="form-control"
+            
+                />
+                
+    
+                </div>
+              </div>
+           
+            
+            
+           
+           
+            
+            </div>
+            <div class="row my-3">
+              <div class="col-12">
+                <button type="button"  (click)="close()" [disabled]="reason==''" class="btn confirm w-100">
+                Submit
+                </button>
+                
+              </div>
+            
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>

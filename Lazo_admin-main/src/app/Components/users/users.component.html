@@ -1,0 +1,69 @@
+<section class="users">
+  <div class="row main my-5 d-flex align-items-center">
+    <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+      <h2 class="text-default fw-bold m-auto">Users</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div
+      class="col-12 table-responsive mt-3"
+      *ngIf="!loading && Users.length > 0"
+    >
+      <div
+        class="search-results"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="500"
+        [scrollWindow]="false"
+        (scrolled)="onScroll($event)"
+      >
+        <!--  (scrolled)="onScroll($event)" -->
+        <table class="table text-center table-bordered">
+          <tr
+            class="background-info text-default position-sticky"
+            style="top: -1px; z-index: 33"
+          >
+            @for (head of header; track $index) {
+            <td>{{ head }}</td>
+            }
+          </tr>
+          @for (item of Users; track $index) {
+          <tr class="table_body text-center">
+            <td scope="col">
+              {{ $index + 1 }}
+            </td>
+
+            <td scope="col">
+              {{ item.name }}
+            </td>
+            <td scope="col">
+              {{ item.email ? item.email : "-" }}
+            </td>
+            <td scope="col">
+              {{ item.phone }}
+            </td>
+            <td scope="col">
+              {{ item.city }}
+            </td>
+
+            <td scope="col">{{ item.finished_orders_count }} Orders</td>
+            <td scope="col">{{ item.current_orders_count }} Orders</td>
+            <td scope="col">
+              <mat-slide-toggle
+                (change)="toggle(item)"
+                class="check_user"
+                [checked]="item.status == 'blocked'"
+              >
+              </mat-slide-toggle>
+            </td>
+          </tr>
+          }
+        </table>
+      </div>
+    </div>
+    <app-palceholder-table
+      [header]="header"
+      *ngIf="loading"
+    ></app-palceholder-table>
+  </div>
+</section>

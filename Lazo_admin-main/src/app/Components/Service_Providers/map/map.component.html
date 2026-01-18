@@ -1,0 +1,55 @@
+<section class="add_admin p-4">
+  <div class="row">
+    <!-- حقل البحث -->
+    <div class="col-8">
+      <input
+        class="form-control"
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Search for a location..."
+        (keyup.enter)="searchLocation(searchQuery)"
+      />
+    </div>
+    <div class="col-4">
+      <button
+        class="btn btn-danger w-100"
+        (click)="searchLocation(searchQuery)"
+        [disabled]="!searchQuery"
+      >
+        Search
+      </button>
+    </div>
+
+    <!-- الخريطة -->
+    <div class="col-12 my-3">
+      <div id="map" style="height: 400px"></div>
+    </div>
+
+    <!-- عرض الموقع -->
+    <div class="col-12 my-3">
+      <input
+        class="form-control"
+        type="text"
+        [(ngModel)]="Location_name"
+        placeholder="Selected location..."
+        readonly
+      />
+    </div>
+
+    <!-- الأزرار -->
+    <div class="col-6">
+      <button class="w-100 btn btn-danger" (click)="locateUser()">
+        Locate Me
+      </button>
+    </div>
+    <div class="col-6">
+      <button
+        class="w-100 btn btn-danger"
+        (click)="close()"
+        [disabled]="!Location_name"
+      >
+        Set Location
+      </button>
+    </div>
+  </div>
+</section>

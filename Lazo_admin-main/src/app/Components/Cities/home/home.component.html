@@ -1,0 +1,130 @@
+<section class="category">
+  <section class="Admins">
+    <div class="row main my-5 d-flex align-items-center">
+      <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12">
+        <h2 class="text-default fw-bold m-auto">Cities</h2>
+      </div>
+@if(!loading && Cities.length > 0){
+  <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end"    >
+    <button class="btn btn-danger custom px-4"   (click)="AddCats('300ms', '300ms')">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+          fill="white"
+        />
+      </svg>
+
+      <span class="mx-2"> Add New City</span>
+    </button>
+  </div>
+}
+
+    </div>
+    <!-- && categories.length == 0 -->
+     @if(!loading && Cities.length == 0){
+      <div class="row"   >
+        <div class="col-lg-3 m-auto text-center">
+
+
+
+
+            <div class="fw-bold title col-12 ">
+              <h2 class="text-default fw-bold text-center ">Add new City</h2>
+            </div>
+            <p style="color: #8088A4; font-size: 20px;">When you add Cities it will appear here</p>
+            <button class="btn btn-danger custom w-100 px-4" (click)="AddCats('300ms', '300ms')" >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.4935 5.82682H8.17057V1.50391C8.17057 0.856693 7.64591 0.332031 6.9987 0.332031C6.35148 0.332031 5.82682 0.856693 5.82682 1.50391V5.82682H1.50391C0.856693 5.82682 0.332031 6.35148 0.332031 6.9987C0.332031 7.64591 0.856693 8.17057 1.50391 8.17057H5.82682V12.4935C5.82682 13.1407 6.35148 13.6654 6.9987 13.6654C7.64591 13.6654 8.17057 13.1407 8.17057 12.4935V8.17057H12.4935C13.1407 8.17057 13.6654 7.64591 13.6654 6.9987C13.6654 6.35148 13.1407 5.82682 12.4935 5.82682Z"
+                  fill="white"
+                />
+              </svg>
+
+              <span class="mx-2"> Add New Color</span>
+            </button>
+        </div>
+      </div>
+    }
+
+    <div class="row">
+      @if(!loading && Cities.length > 0){
+        <div
+        class="col-12 table-responsive mt-3"
+
+      >
+        <!--  (scrolled)="onScroll($event)" -->
+        <table class="table text-center table-bordered">
+          <tr
+            class="background-info text-default position-sticky"
+            style="top: -1px; z-index: 33"
+          >
+            @for (head of header; track $index) {
+            <td>{{ head }}</td>
+            }
+          </tr>
+          @for (item of Cities; track $index) {
+          <tr class="table_body text-center">
+            <td scope="col">
+              {{ $index + 1 }}
+            </td>
+
+            <td scope="col">
+              {{ item.name_en }}
+            </td>
+            <td scope="col">
+              {{ item.name_ar }}
+            </td>
+            <td scope="col">
+              {{item.lat}} && {{item.lng}}
+            </td>
+
+
+
+            <td scope="col" style="width: 300px;">
+              <div class="row buttons justify-content-center">
+                <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
+
+                  <a role="button" class="btn btn-soft-success"  (click)="EditCat(item,'300ms', '300ms')">
+                    <img src="assets/images/actions/lazo_edit.svg" /> Edit
+                  </a>
+                </div>
+
+                <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
+                  <a role="button" class="btn btn-danger"  (click)="openDeleteModal(item,'100ms','100ms')">
+                    <svg class="mx-1" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.6887 7.20703C13.6887 7.20703 13.3041 11.9777 13.0809 13.9872C12.9747 14.947 12.3818 15.5094 11.4107 15.5271C9.56264 15.5604 7.71247 15.5625 5.86514 15.5236C4.93084 15.5044 4.34789 14.9349 4.24376 13.9922C4.01922 11.9649 3.63672 7.20703 3.63672 7.20703" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14.6682 4.92057H2.65625" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.3537 4.92059C11.7976 4.92059 11.3188 4.52747 11.2097 3.98276L11.0376 3.12143C10.9313 2.72405 10.5715 2.44922 10.1614 2.44922H7.16299C6.75287 2.44922 6.39304 2.72405 6.28679 3.12143L6.11466 3.98276C6.00558 4.52747 5.52674 4.92059 4.9707 4.92059" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                         Delete
+                  </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          }
+        </table>
+      </div>
+      }
+
+      @if(loading){
+      <app-palceholder-table
+        [header]="header"
+
+      ></app-palceholder-table>
+    }
+    </div>
+  </section>
+</section>
