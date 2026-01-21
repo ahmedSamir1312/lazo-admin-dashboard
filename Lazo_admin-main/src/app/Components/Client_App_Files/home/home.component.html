@@ -61,11 +61,11 @@
               rows="10"
               [(ngModel)]="termsContent"
               placeholder="Type your Terms & Conditions here. You can include sections like:
-1. Introduction
-2. User Responsibilities
-3. Privacy Policy
-4. Termination
-5. Governing Law..."
+                1. Introduction
+                2. User Responsibilities
+                3. Privacy Policy
+                4. Termination
+                5. Governing Law..."
               style="min-height: 250px; resize: vertical"
             >
             </textarea>
@@ -73,7 +73,7 @@
               <button
                 (click)="saveTerms()"
                 class="btn btn-danger px-4"
-                [disabled]="!termsContent.trim()"
+                [disabled]="!termsContent?.trim()"
               >
                 <svg
                   width="18"
@@ -307,7 +307,7 @@
               <button
                 (click)="saveAbout()"
                 class="btn btn-danger px-4"
-                [disabled]="!aboutContent.trim()"
+                [disabled]="!aboutContent?.trim()"
               >
                 <svg
                   width="18"

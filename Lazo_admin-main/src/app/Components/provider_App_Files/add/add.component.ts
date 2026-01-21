@@ -47,7 +47,7 @@ add(){
 
   if(this.form.invalid){ return}
   let form ={
-    type:'client',
+    type:'provider',
     ...this.form.value,
  
   }

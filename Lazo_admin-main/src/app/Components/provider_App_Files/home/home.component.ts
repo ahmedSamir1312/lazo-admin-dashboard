@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   saveTerms() {
-    if (!this.termsContent.trim()) {
+    if (!this.termsContent?.trim()) {
       this.toast.warning('Please enter Terms & Conditions content', 'Warning');
       return;
     }
@@ -129,7 +129,7 @@ export class HomeComponent implements OnInit {
   }
 
   saveAbout() {
-    if (!this.aboutContent.trim()) {
+    if (!this.aboutContent?.trim()) {
       this.toast.warning('Please enter Privacy Policy content', 'Warning');
       return;
     }

@@ -75,7 +75,7 @@
               <button
                 (click)="saveTerms()"
                 class="btn btn-danger px-4"
-                [disabled]="!termsContent.trim()"
+                [disabled]="!termsContent?.trim()"
               >
                 <svg
                   width="18"
@@ -309,7 +309,7 @@
               <button
                 (click)="saveAbout()"
                 class="btn btn-danger px-4"
-                [disabled]="!aboutContent.trim()"
+                [disabled]="!aboutContent?.trim()"
               >
                 <svg
                   width="18"
