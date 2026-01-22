@@ -1,4 +1,8 @@
-.add_admin{
+.add_admin {
+    .pointer {
+        cursor: pointer;
+    }
+
     input {
         color: #8088A4;
         &::placeholder{

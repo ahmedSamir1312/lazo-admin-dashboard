@@ -8,198 +8,244 @@ import { DeletePopupComponent } from '../../../Shared/delete-popup/delete-popup.
 import { largepopup, smallpopup } from '../../../Shared/configration';
 import { AddComponent } from '../add/add.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormsModule } from '@angular/forms';
-
+import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatExpansionModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   loading: boolean = true;
   files: any;
+  termsSubmitted:boolean =false;
+  policiesSubmitted:boolean =false;
   termsContent: string = '';
   aboutContent: string = '';
   isEditingTerms: boolean = false;
   isEditingAbout: boolean = false;
-
+  aboutUsSubmitted:boolean = false;
+  form!:FormGroup;
   constructor(
-    private cats: AppService,
+    private service: AppService,
     private toast: ToastrService,
     private dialog: MatDialog,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private formBuilder:FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.showCats();
+    this.form = this.formBuilder.group({
+      type : ['provider',Validators.required],
+      terms: this.formBuilder.group({
+        terms_conditions_en: [null, [Validators.required , Validators.pattern("^[A-Za-z0-9\\s.,!?;:(){}\\[\\]<>\"'\\-]+$")]],
+        terms_conditions_ar: [null, [Validators.required , Validators.pattern("^[\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9\\s.,!?؛:(){}\\[\\]<>ـ«»\"'\\-]+$")]],
+      }),
+      policies: this.formBuilder.group({
+        privacy_policy_en: [null, [Validators.required , Validators.pattern("^[A-Za-z0-9\\s.,!?;:(){}\\[\\]<>\"'\\-]+$")]],
+        privacy_policy_ar: [null, [Validators.required , Validators.pattern("^[\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9\\s.,!?؛:(){}\\[\\]<>ـ«»\"'\\-]+$")]],
+      }),
+      about: this.formBuilder.group({
+        about_app_en: [null, [Validators.required , Validators.pattern("^[A-Za-z0-9\\s.,!?;:(){}\\[\\]<>\"'\\-]+$")]],
+        about_app_ar: [null, [Validators.required , Validators.pattern("^[\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9\\s.,!?؛:(){}\\[\\]<>ـ«»\"'\\-]+$")]],
+      })
+    })
+
+    this.showProviderAppFiles();
   }
 
-  showCats() {
-    this.loading = true;
-    this.cats.clintsfils().subscribe((stats: any) => {
-      console.log(stats.data);
-      this.termsContent = stats.data?.provider_app_info?.terms_conditions;
-      this.aboutContent = stats.data?.provider_app_info?.privacy_policy;
-      this.files = stats.data;
+  showProviderAppFiles() {
+   this.loading = true;
+   this.spinner.show();
+    this.service.appInfo().subscribe((response: any) => {
+      console.log(response.data);
+      this.spinner.hide();
+      this.form.controls['terms'].patchValue({
+        terms_conditions_en: response.data?.provider_app_info?.terms_conditions_en,
+        terms_conditions_ar:response.data?.provider_app_info?.terms_conditions_ar,
+      })
+
+      this.form.controls['policies'].patchValue({
+        privacy_policy_en: response.data?.provider_app_info?.privacy_policy_en,
+        privacy_policy_ar:response.data?.provider_app_info?.privacy_policy_ar,
+      })
+
+      this.form.controls['about'].patchValue({
+        about_app_en: response.data?.provider_app_info?.about_app_en,
+        about_app_ar:response.data?.provider_app_info?.about_app_ar,
+      })
+      
+     
+      this.files = response.data;
       this.loading = false;
+    },(err:any)=>{
+      this.loading=false;
+      this.spinner.hide();
     });
+  }
+  
+  get f():any {
+    return this.form.controls;
   }
 
   saveTerms() {
-    if (!this.termsContent?.trim()) {
-      this.toast.warning('Please enter Terms & Conditions content', 'Warning');
+   this.termsSubmitted=true;
+    if (this.f['terms'].invalid) {
+      this.toast.warning('Please enter terms and conditions content', 'Warning');
       return;
     }
-
-    this.spinner.show();
+    // console.log(this.form.value.terms)
     const form = {
-      terms_conditions: this.termsContent,
-      type: 'provider',
+     ...this.form.value.terms,
+     type:this.form.value.type
     };
-    this.cats.setfile(form).subscribe(
-      (setRes: any) => {
-        this.spinner.hide();
-        if (setRes.status == true) {
-          this.toast.success(
-            'Terms & Conditions saved successfully!',
-            'Success',
-            {
-              timeOut: 3000,
-              positionClass: 'toast-top-right',
-            }
-          );
-          this.showCats();
-          this.termsContent = '';
-        } else {
-          this.toast.error(setRes.message, 'Error');
-        }
-      },
-      (setErr: any) => {
-        this.spinner.hide();
-        this.toast.error(setErr.error.errors[0], 'Error');
+
+    this.service.setfile(form).subscribe((setRes: any) => {
+      this.termsSubmitted=false;
+      if (setRes.status == true) {
+        this.toast.success('Terms and conditions saved successfully!', 'Success',{ timeOut: 3000, positionClass: 'toast-top-right' });
+        this.showProviderAppFiles();
+      } 
+      else {
+        this.toast.error(setRes.message, 'Error');
       }
-    );
-
-    // // Create a text file from the content
-    // const blob = new Blob([this.termsContent], { type: 'text/plain' });
-    // const file = new File([blob], 'terms_and_conditions.txt', {
-    //   type: 'text/plain',
-    // });
-
-    // this.cats.uploadFiles([file]).subscribe(
-    //   (res: any) => {
-    //     this.spinner.hide();
-    //     if (res.status == true) {
-    //       let form = {
-    //         terms_conditions: res.data[0],
-    //         type: 'provider',
-    //       };
-    //       this.cats.setfile(form).subscribe(
-    //         (setRes: any) => {
-    //           if (setRes.status == true) {
-    //             this.toast.success(
-    //               'Terms & Conditions saved successfully!',
-    //               'Success',
-    //               {
-    //                 timeOut: 3000,
-    //                 positionClass: 'toast-top-right',
-    //               }
-    //             );
-    //             this.showCats();
-    //             this.termsContent = '';
-    //           } else {
-    //             this.toast.error(setRes.message, 'Error');
-    //           }
-    //         },
-    //         (setErr: any) => {
-    //           this.toast.error(setErr.error.errors[0], 'Error');
-    //         }
-    //       );
-    //     } else {
-    //       this.toast.error(res?.errors[0], 'Error');
-    //     }
-    //   },
-    //   (err: any) => {
-    //     this.spinner.hide();
-    //     this.toast.error(err.error.errors[0], 'Error');
-    //   }
-    // );
+    },
+    (setErr: any) => {
+      this.termsSubmitted=false;
+      this.toast.error(setErr.error.errors[0], 'Error');
+    });  
   }
 
-  saveAbout() {
-    if (!this.aboutContent?.trim()) {
-      this.toast.warning('Please enter Privacy Policy content', 'Warning');
+  savePrivacy() {
+    this.policiesSubmitted=true;
+    if (this.f['policies'].invalid) {
+      this.toast.warning('Please enter privacy policy content', 'Warning');
       return;
     }
-    this.spinner.show();
+    // console.log(this.form.value.policies)
     const form = {
-      privacy_policy: this.aboutContent,
-      type: 'provider',
+     ...this.form.value.policies,
+     type:this.form.value.type
     };
-    this.cats.setfile(form).subscribe(
-      (setRes: any) => {
-        this.spinner.hide();
-        if (setRes.status == true) {
-          this.toast.success('About the app saved successfully!', 'Success', {
-            timeOut: 3000,
-            positionClass: 'toast-top-right',
-          });
-          this.showCats();
-          this.aboutContent = '';
-        } else {
-          this.toast.error(setRes.message, 'Error');
-        }
-      },
-      (setErr: any) => {
-        this.spinner.hide();
-        this.toast.error(setErr.error.errors[0], 'Error');
-      }
-    );
-    // Create a text file from the content
-    // const blob = new Blob([this.aboutContent], { type: 'text/plain' });
-    // const file = new File([blob], 'about_the_app.txt', { type: 'text/plain' });
 
-    // this.cats.uploadFiles([file]).subscribe(
-    //   (res: any) => {
-    //     this.spinner.hide();
-    //     if (res.status == true) {
-    //       let form = {
-    //         about_app: res.data[0],
-    //         type: 'provider',
-    //       };
-    //       this.cats.setfile(form).subscribe(
-    //         (setRes: any) => {
-    //           if (setRes.status == true) {
-    //             this.toast.success(
-    //               'About the app saved successfully!',
-    //               'Success',
-    //               {
-    //                 timeOut: 3000,
-    //                 positionClass: 'toast-top-right',
-    //               }
-    //             );
-    //             this.showCats();
-    //             this.aboutContent = '';
-    //           } else {
-    //             this.toast.error(setRes.message, 'Error');
-    //           }
-    //         },
-    //         (setErr: any) => {
-    //           this.toast.error(setErr.error.errors[0], 'Error');
-    //         }
-    //       );
-    //     } else {
-    //       this.toast.error(res?.errors[0], 'Error');
-    //     }
-    //   },
-    //   (err: any) => {
-    //     this.spinner.hide();
-    //     this.toast.error(err.error.errors[0], 'Error');
-    //   }
-    // );
+    this.service.setfile(form).subscribe((setRes: any) => {
+      this.policiesSubmitted=false;
+      if (setRes.status == true) {
+        this.toast.success('Privacy policy saved successfully!', 'Success',{ timeOut: 3000, positionClass: 'toast-top-right' });
+        this.showProviderAppFiles();
+      } 
+      else {
+        this.toast.error(setRes.message, 'Error');
+      }
+    },
+    (setErr: any) => {
+      this.policiesSubmitted=false;
+      this.toast.error(setErr.error.errors[0], 'Error');
+    });  
   }
+
+  saveAboutUs() {
+    this.aboutUsSubmitted=true;
+    if (this.f['about'].invalid) {
+      this.toast.warning('Please enter about us content', 'Warning');
+      return;
+    }
+    // console.log(this.form.value.policies)
+    const form = {
+     ...this.form.value.about,
+     type:this.form.value.type
+    };
+
+    this.service.setfile(form).subscribe((setRes: any) => {
+      this.aboutUsSubmitted=false;
+      if (setRes.status == true) {
+        this.toast.success('About saved successfully!', 'Success',{ timeOut: 3000, positionClass: 'toast-top-right' });
+        this.showProviderAppFiles();
+      } 
+      else {
+        this.toast.error(setRes.message, 'Error');
+      }
+    },
+    (setErr: any) => {
+      this.aboutUsSubmitted=false;
+      this.toast.error(setErr.error.errors[0], 'Error');
+    });  
+  }
+ 
+  // savePrivacy() {
+  //   if (!this.aboutContent?.trim()) {
+  //     this.toast.warning('Please enter Privacy Policy content', 'Warning');
+  //     return;
+  //   }
+  //   this.spinner.show();
+  //   const form = {
+  //     privacy_policy: this.aboutContent,
+  //     type: 'provider',
+  //   };
+  //   this.cats.setfile(form).subscribe(
+  //     (setRes: any) => {
+  //       this.spinner.hide();
+  //       if (setRes.status == true) {
+  //         this.toast.success('About the app saved successfully!', 'Success', {
+  //           timeOut: 3000,
+  //           positionClass: 'toast-top-right',
+  //         });
+  //         this.showProviderAppFiles();
+  //         this.aboutContent = '';
+  //       } else {
+  //         this.toast.error(setRes.message, 'Error');
+  //       }
+  //     },
+  //     (setErr: any) => {
+  //       this.spinner.hide();
+  //       this.toast.error(setErr.error.errors[0], 'Error');
+  //     }
+  //   );
+  //   // Create a text file from the content
+  //   // const blob = new Blob([this.aboutContent], { type: 'text/plain' });
+  //   // const file = new File([blob], 'about_the_app.txt', { type: 'text/plain' });
+
+  //   // this.cats.uploadFiles([file]).subscribe(
+  //   //   (res: any) => {
+  //   //     this.spinner.hide();
+  //   //     if (res.status == true) {
+  //   //       let form = {
+  //   //         about_app: res.data[0],
+  //   //         type: 'provider',
+  //   //       };
+  //   //       this.cats.setfile(form).subscribe(
+  //   //         (setRes: any) => {
+  //   //           if (setRes.status == true) {
+  //   //             this.toast.success(
+  //   //               'About the app saved successfully!',
+  //   //               'Success',
+  //   //               {
+  //   //                 timeOut: 3000,
+  //   //                 positionClass: 'toast-top-right',
+  //   //               }
+  //   //             );
+  //   //             this.showProviderAppFiles();
+  //   //             this.aboutContent = '';
+  //   //           } else {
+  //   //             this.toast.error(setRes.message, 'Error');
+  //   //           }
+  //   //         },
+  //   //         (setErr: any) => {
+  //   //           this.toast.error(setErr.error.errors[0], 'Error');
+  //   //         }
+  //   //       );
+  //   //     } else {
+  //   //       this.toast.error(res?.errors[0], 'Error');
+  //   //     }
+  //   //   },
+  //   //   (err: any) => {
+  //   //     this.spinner.hide();
+  //   //     this.toast.error(err.error.errors[0], 'Error');
+  //   //   }
+  //   // );
+  // }
 
   editTerms() {
     // Fetch existing content if available
@@ -248,7 +294,7 @@ export class HomeComponent implements OnInit {
       terms_conditions: val,
       type: 'provider',
     };
-    this.cats.setfile(form).subscribe(
+    this.service.setfile(form).subscribe(
       (res: any) => {
         if (res.status == true) {
           this.toast.success(
@@ -259,7 +305,7 @@ export class HomeComponent implements OnInit {
               positionClass: 'toast-top-right',
             }
           );
-          this.showCats();
+          this.showProviderAppFiles();
           this.isEditingTerms = false;
           this.termsContent = '';
         } else {
@@ -277,14 +323,14 @@ export class HomeComponent implements OnInit {
       about_app: val,
       type: 'provider',
     };
-    this.cats.setfile(form).subscribe(
+    this.service.setfile(form).subscribe(
       (res: any) => {
         if (res.status == true) {
           this.toast.success('About the app deleted successfully!', 'Success', {
             timeOut: 3000,
             positionClass: 'toast-top-right',
           });
-          this.showCats();
+          this.showProviderAppFiles();
           this.isEditingAbout = false;
           this.aboutContent = '';
         } else {
@@ -310,6 +356,7 @@ export class HomeComponent implements OnInit {
         item: item,
       },
     });
+
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.toast.success(
@@ -320,8 +367,90 @@ export class HomeComponent implements OnInit {
             positionClass: 'toast-top-right',
           }
         );
-        this.showCats();
+        this.showProviderAppFiles();
       }
     });
   }
+
+ 
+  // saveTerms() {
+  //   if (!this.termsContent?.trim()) {
+  //     this.toast.warning('Please enter Terms & Conditions content', 'Warning');
+  //     return;
+  //   }
+
+  //   this.spinner.show();
+  //   const form = {
+  //     terms_conditions: this.termsContent,
+  //     type: 'provider',
+  //   };
+  //   this.cats.setfile(form).subscribe(
+  //     (setRes: any) => {
+  //       this.spinner.hide();
+  //       if (setRes.status == true) {
+  //         this.toast.success(
+  //           'Terms & Conditions saved successfully!',
+  //           'Success',
+  //           {
+  //             timeOut: 3000,
+  //             positionClass: 'toast-top-right',
+  //           }
+  //         );
+  //         this.showProviderAppFiles();
+  //         this.termsContent = '';
+  //       } else {
+  //         this.toast.error(setRes.message, 'Error');
+  //       }
+  //     },
+  //     (setErr: any) => {
+  //       this.spinner.hide();
+  //       this.toast.error(setErr.error.errors[0], 'Error');
+  //     }
+  //   );
+
+  //   // // Create a text file from the content
+  //   // const blob = new Blob([this.termsContent], { type: 'text/plain' });
+  //   // const file = new File([blob], 'terms_and_conditions.txt', {
+  //   //   type: 'text/plain',
+  //   // });
+
+  //   // this.cats.uploadFiles([file]).subscribe(
+  //   //   (res: any) => {
+  //   //     this.spinner.hide();
+  //   //     if (res.status == true) {
+  //   //       let form = {
+  //   //         terms_conditions: res.data[0],
+  //   //         type: 'provider',
+  //   //       };
+  //   //       this.cats.setfile(form).subscribe(
+  //   //         (setRes: any) => {
+  //   //           if (setRes.status == true) {
+  //   //             this.toast.success(
+  //   //               'Terms & Conditions saved successfully!',
+  //   //               'Success',
+  //   //               {
+  //   //                 timeOut: 3000,
+  //   //                 positionClass: 'toast-top-right',
+  //   //               }
+  //   //             );
+  //   //             this.showProviderAppFiles();
+  //   //             this.termsContent = '';
+  //   //           } else {
+  //   //             this.toast.error(setRes.message, 'Error');
+  //   //           }
+  //   //         },
+  //   //         (setErr: any) => {
+  //   //           this.toast.error(setErr.error.errors[0], 'Error');
+  //   //         }
+  //   //       );
+  //   //     } else {
+  //   //       this.toast.error(res?.errors[0], 'Error');
+  //   //     }
+  //   //   },
+  //   //   (err: any) => {
+  //   //     this.spinner.hide();
+  //   //     this.toast.error(err.error.errors[0], 'Error');
+  //   //   }
+  //   // );
+  // }
 }

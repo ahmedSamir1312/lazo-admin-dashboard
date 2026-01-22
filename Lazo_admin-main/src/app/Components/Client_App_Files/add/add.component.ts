@@ -15,14 +15,12 @@ import { ToastrService } from 'ngx-toastr';
 export class AddComponent {
 submitted: boolean = false;
 form!: FormGroup;
-constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   public dialogRef: MatDialogRef<AddComponent> , private formbuilder:FormBuilder , private clint:AppService , private toastr :ToastrService){
- 
     console.log(data.item);
-    
   }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
       this.form = this.formbuilder.group({
   
        
@@ -40,7 +38,9 @@ constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   
     
   }
+
   get f():any{return this.form.controls}
+
 add(){
 
   this.submitted = true;
@@ -51,7 +51,7 @@ add(){
     ...this.form.value,
  
   }
-  this.clint.setfile(form).subscribe((res:any)=>{
+  this.clint.setfile(this.form.value).subscribe((res:any)=>{
 
       // console.log("success" ,res)
       if(res.status==true){

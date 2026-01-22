@@ -1,4 +1,645 @@
 <section>
+  
+    <div class="row main mt-5 mb-3 d-flex align-items-center">
+      <div class="fw-bold title col-xl-12 col-lg-12 col-md-12 col-12">
+        <h2 class="text-default fw-bold m-auto">Client App Content</h2>
+        <p class="text-muted mt-2">
+          Manage your app's content and contact information
+        </p>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <!-- <div class="row" *ngIf="loading">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="ph-item m-0" style="border: none">
+              <div class="ph-col-12">
+                <div class="ph-row">
+                  <div class="ph-col-12 big" style="height: 150px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Content Section - Displayed when not loading   *ngIf="!loading"-->
+    <div class="row" >
+      <form [formGroup]="form"> 
+        <mat-accordion class="card">
+        <mat-expansion-panel  [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            <div class="card-header">
+                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold text-danger">
+                  <img src="assets/images/terms.svg" alt="terms" class="me-1" height="25px" width="25px">
+                  Terms And Conditions
+                </h5>
+              </div>
+            </mat-panel-title>
+            
+          </mat-expansion-panel-header>
+          <!-- Terms And Conditions Section -->
+          <div class="col-12 mb-4">
+            <div class="shadow-sm">
+               <!-- @if (!files?.client_app_info.terms_conditions_path) { -->
+                <div class="card-body" formGroupName="terms">
+              
+                  <div class="form-group mb-3"> 
+
+                    <label for="termsTextarea" class="form-label fw-semibold fs-6">Terms And Conditions (English) :</label>
+                    <!-- [(ngModel)]="termsContent" -->
+                    <textarea
+                      id="termsTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="terms_conditions_en"
+                      placeholder="Type your terms and conditions here. You can include sections like: 
+                        1. Introduction
+                        2. User Responsibilities
+                        3. Termination
+                        4. Governing Law..."
+                      style="min-height: 250px; resize: vertical">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.terms?.controls?.terms_conditions_en?.errors?.required  && termsSubmitted">
+                      *This field is required 
+                    </p>
+
+                    <p class="text-danger mt-2" *ngIf="f.terms?.controls?.terms_conditions_en?.errors?.pattern  && termsSubmitted">
+                      *This field must contain english characters only. 
+                    </p>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <label for="termsArabicTextarea" class="form-label fw-semibold fs-6">Terms And Conditions (Arabic) :</label>
+
+                    <textarea
+                      id="termsArabicTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="terms_conditions_ar"
+                      placeholder="اكتب الشروط والأحكام الخاصة بك هنا. يمكنك تضمين أقسام مثل:
+                        1. المقدمة
+                        2. مسؤوليات المستخدم
+                        3. إنهاء الخدمة
+                        4. القانون المُنظِّم...
+                        "
+                      style="min-height: 250px; resize: vertical ; direction: rtl;">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.terms?.controls?.terms_conditions_ar?.errors?.required  && termsSubmitted">
+                      *This field is required 
+                    </p>
+
+                    <p class="text-danger mt-2" *ngIf="f.terms?.controls?.terms_conditions_ar?.errors?.pattern &&  termsSubmitted">
+                      *This field must contain arabic characters only. 
+                    </p>
+
+                  </div>
+
+                  <div class="mt-3 d-flex justify-content-end">
+                    <button
+                      type="button"
+                      (click)="saveTerms()"
+                      class="btn btn-danger px-4" > <!-- [disabled]="!termsContent?.trim()"    [disabled]="f['terms'].invalid"-->
+                    <img src="assets/images/save-terms.svg" alt="terms">
+                      Save Terms And Conditions
+                    </button>
+                  </div>
+
+                </div>
+                <!-- }  -->
+                <!-- @if (files?.client_app_info.terms_conditions_path) {
+                <div class="card-body">  
+                  <div>
+                    <div class="alert alert-info d-flex align-items-center">
+                      <svg
+                        class="me-2"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10 18.3333C14.6024 18.3333 18.3333 14.6024 18.3333 10C18.3333 5.39763 14.6024 1.66667 10 1.66667C5.39763 1.66667 1.66667 5.39763 1.66667 10C1.66667 14.6024 5.39763 18.3333 10 18.3333Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M10 13.3333V10"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M10 6.66667H10.0083"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <span
+                        >Terms and conditions are already uploaded. You can view or
+                        replace them.</span
+                      >
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                      <a
+                        [href]="files?.client_app_info.terms_conditions_path"
+                        target="_blank"
+                        class="btn btn-outline-primary d-inline-flex align-items-center"
+                      >
+                        <svg
+                          class="me-2"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2.25H4.5C3.67157 2.25 3 2.92157 3 3.75V14.25C3 15.0784 3.67157 15.75 4.5 15.75H13.5C14.3284 15.75 15 15.0784 15 14.25V6L12 2.25Z"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M12 2.25V6H15"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M6.75 8.25H11.25"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M6.75 11.25H9.75"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        View Current Terms And Conditions
+                      </a>
+                      <div class="d-flex gap-2">
+                        <button
+                          (click)="editTerms()"
+                          class="btn btn-warning d-inline-flex align-items-center">
+                          <svg
+                            class="me-2"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M11.3333 2.00001C11.5084 1.82499 11.7163 1.68601 11.9452 1.59028C12.174 1.49456 12.4193 1.44391 12.6667 1.44101C12.9141 1.44391 13.1593 1.49456 13.3882 1.59028C13.6171 1.68601 13.8249 1.82499 14 2.00001C14.175 2.17503 14.314 2.38291 14.4097 2.61177C14.5054 2.84063 14.5561 3.0859 14.559 3.33334C14.5561 3.58078 14.5054 3.82605 14.4097 4.05491C14.314 4.28377 14.175 4.49165 14 4.66668L5 13.6667L1.33333 14.6667L2.33333 11L11.3333 2.00001Z"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          Edit
+                        </button>
+
+                        <button
+                          class="btn btn-outline-danger"
+                          (click)="openDeleteModal('terms', '100ms', '100ms')">
+                          <svg
+                            class="me-2"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M2 4H14"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M12.6667 4V13.3333C12.6667 13.687 12.5262 14.0261 12.2761 14.2761C12.0261 14.5262 11.687 14.6667 11.3333 14.6667H4.66667C4.31304 14.6667 3.9739 14.5262 3.72386 14.2761C3.47381 14.0261 3.33333 13.687 3.33333 13.3333V4"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M5.33333 4V2.66667C5.33333 2.31304 5.47381 1.9739 5.72386 1.72386C5.9739 1.47381 6.31304 1.33334 6.66667 1.33334H9.33333C9.68696 1.33334 10.0261 1.47381 10.2761 1.72386C10.5262 1.9739 10.6667 2.31304 10.6667 2.66667V4"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                } -->
+               
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="card-header">
+                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold text-danger">
+                  <img src="assets/images/policy.svg" alt="policy" class="me-1" height="25px" width="25px">
+                  Privacy Policy
+                </h5>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <!-- Privacy Policy  Section -->
+          <div class="col-12 mb-4">
+            <div class="shadow-sm">
+              <!-- @if (!files?.client_app_info.about_app_path) { -->
+                <div class="card-body" formGroupName="policies">
+
+                  <div class="form-group mb-3"> 
+                    <label for="policiesEnglishTextarea" class="form-label fw-semibold fs-6">Privacy Policy (English) :</label>
+
+                    <textarea
+                      id="policiesEnglishTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="privacy_policy_en"
+                      placeholder="Type your Privacy and Policy content here. You can include sections like: 
+                      1. Data Collection
+                      2. Data Usage
+                      3. Data Sharing and Disclosure
+                      4. User Rights
+                      5. Security Measures"
+                      style="min-height: 250px; resize: vertical">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.policies?.controls?.privacy_policy_en?.errors?.required && policiesSubmitted">
+                      *This field is required 
+                    </p>
+                    <p class="text-danger mt-2" *ngIf="f.policies?.controls?.privacy_policy_en?.errors?.pattern && policiesSubmitted">
+                      *This field must contain english characters only. 
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="policiesArabicTextarea" class="form-label fw-semibold fs-6">Privacy Policy (Arabic) :</label>
+
+                    <textarea
+                      id="policiesArabicTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="privacy_policy_ar"
+                      placeholder="اكتب محتوى سياسة الخصوصية الخاصة بك هنا. يمكنك تضمين أقسام مثل:
+                        1. جمع البيانات
+                        2. استخدام البيانات
+                        3. مشاركة البيانات والإفصاح عنها
+                        4. حقوق المستخدم
+                        5. إجراءات الأمان
+                        "
+                      style="min-height: 250px; resize: vertical ; direction: rtl;">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.policies?.controls?.privacy_policy_ar?.errors?.required && policiesSubmitted">
+                      *This field is required 
+                    </p>
+
+                    <p class="text-danger mt-2" *ngIf="f.policies?.controls?.privacy_policy_ar?.errors?.pattern && policiesSubmitted">
+                      *This field must contain arabic characters only. 
+                    </p>
+
+                  </div>
+
+                  <div class="mt-3 d-flex justify-content-end">
+                    <button
+                      type="button"
+                      (click)="savePrivacy()"
+                      class="btn btn-danger px-4"> <!-- [disabled]="!termsContent?.trim()"    [disabled]="f['terms'].invalid"-->
+                      <img src="assets/images/save-terms.svg" alt="terms">
+                      Save Privacy Policy
+                    </button>
+                  </div>
+
+                </div>
+              <!-- }  -->
+             <!-- 
+              @if (files?.client_app_info.about_app_path) {
+                <div class="card-body">
+                  <div class="alert alert-info d-flex align-items-center">
+                    <svg
+                      class="me-2"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 18.3333C14.6024 18.3333 18.3333 14.6024 18.3333 10C18.3333 5.39763 14.6024 1.66667 10 1.66667C5.39763 1.66667 1.66667 5.39763 1.66667 10C1.66667 14.6024 5.39763 18.3333 10 18.3333Z"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10 13.3333V10"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M10 6.66667H10.0083"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span
+                      >Privacy Policy content is already uploaded. You can view or
+                      replace it.</span
+                    >
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                    <a
+                      [href]="files?.client_app_info.about_app_path"
+                      target="_blank"
+                      class="btn btn-outline-primary d-inline-flex align-items-center"
+                    >
+                      <svg
+                        class="me-2"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 2.25H4.5C3.67157 2.25 3 2.92157 3 3.75V14.25C3 15.0784 3.67157 15.75 4.5 15.75H13.5C14.3284 15.75 15 15.0784 15 14.25V6L12 2.25Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M12 2.25V6H15"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M6.75 8.25H11.25"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M6.75 11.25H9.75"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      View Current Privacy Policy
+                    </a>
+                    <div class="d-flex gap-2">
+                      <button
+                        (click)="editAbout()"
+                        class="btn btn-warning d-inline-flex align-items-center"
+                      >
+                        <svg
+                          class="me-2"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11.3333 2.00001C11.5084 1.82499 11.7163 1.68601 11.9452 1.59028C12.174 1.49456 12.4193 1.44391 12.6667 1.44101C12.9141 1.44391 13.1593 1.49456 13.3882 1.59028C13.6171 1.68601 13.8249 1.82499 14 2.00001C14.175 2.17503 14.314 2.38291 14.4097 2.61177C14.5054 2.84063 14.5561 3.0859 14.559 3.33334C14.5561 3.58078 14.5054 3.82605 14.4097 4.05491C14.314 4.28377 14.175 4.49165 14 4.66668L5 13.6667L1.33333 14.6667L2.33333 11L11.3333 2.00001Z"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Edit
+                      </button>
+                      <button
+                        class="btn btn-outline-danger"
+                        (click)="openDeleteModal('about', '100ms', '100ms')"
+                      >
+                        <svg
+                          class="me-2"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M2 4H14"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M12.6667 4V13.3333C12.6667 13.687 12.5262 14.0261 12.2761 14.2761C12.0261 14.5262 11.687 14.6667 11.3333 14.6667H4.66667C4.31304 14.6667 3.9739 14.5262 3.72386 14.2761C3.47381 14.0261 3.33333 13.687 3.33333 13.3333V4"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M5.33333 4V2.66667C5.33333 2.31304 5.47381 1.9739 5.72386 1.72386C5.9739 1.47381 6.31304 1.33334 6.66667 1.33334H9.33333C9.68696 1.33334 10.0261 1.47381 10.2761 1.72386C10.5262 1.9739 10.6667 2.31304 10.6667 2.66667V4"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              } -->
+              
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="card-header">
+                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold text-danger">
+                  <img src="assets/images/policy.svg" alt="policy" class="me-1" height="25px" width="25px">
+                 About Us
+                </h5>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <!-- Privacy Policy  Section -->
+          <div class="col-12 mb-4">
+            <div class="shadow-sm">
+              <!-- @if (!files?.client_app_info.about_app_path) { -->
+                <div class="card-body" formGroupName="about">
+
+                  <div class="form-group mb-3"> 
+                    <label for="aboutEnglishTextarea" class="form-label fw-semibold fs-6">About Us (English) :</label>
+
+                    <textarea
+                      id="aboutEnglishTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="about_app_en"
+                      placeholder="Write an overview about Lazo here, including our vision, mission, and goals."
+                      style="min-height: 250px; resize: vertical">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.about?.controls?.about_app_en?.errors?.required && aboutUsSubmitted">
+                      *This field is required 
+                    </p>
+                    <p class="text-danger mt-2" *ngIf="f.about?.controls?.about_app_en?.errors?.pattern && aboutUsSubmitted">
+                      *This field must contain english characters only. 
+                    </p>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="aboutArabicTextarea" class="form-label fw-semibold fs-6">About Us (Arabic) :</label>
+
+                    <textarea
+                      id="aboutArabicTextarea"
+                      class="form-control"
+                      rows="10"
+                      formControlName="about_app_ar"
+                      placeholder="اكتب هنا نبذة تعريفية عن لازو تشمل رؤيتنا ورسالتنا وأهدافنا."
+                      style="min-height: 250px; resize: vertical ; direction: rtl;">
+                    </textarea>
+
+                    <p class="text-danger mt-2" *ngIf="f.about?.controls?.about_app_ar?.errors?.required && aboutUsSubmitted">
+                      *This field is required 
+                    </p>
+
+                    <p class="text-danger mt-2" *ngIf="f.about?.controls?.about_app_ar?.errors?.pattern && aboutUsSubmitted">
+                      *This field must contain arabic characters only. 
+                    </p>
+
+                  </div>
+
+                  <div class="mt-3 d-flex justify-content-end">
+                    <button
+                      type="button"
+                      (click)="saveAboutUs()"
+                      class="btn btn-danger px-4"> <!-- [disabled]="!termsContent?.trim()"    [disabled]="f['terms'].invalid"-->
+                      <img src="assets/images/save-terms.svg" alt="terms">
+                      Save About Us
+                    </button>
+                  </div>
+
+                </div>
+              <!-- }  -->
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="card-header">
+                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold text-danger">
+                  <img src="assets/images/contact.svg" alt="contact" class="me-1" height="25px" width="25px">
+                  Contact Us  
+                </h5>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <!-- Contact Us Section (Unchanged - Button Only) -->
+          <div class="col-12">
+            <div class="shadow-sm">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-8  col-12">
+                    <p class="text-muted fs-6">
+                      Manage your contact information including email, phone number,
+                      and address.
+                    </p> 
+                    @if (files?.client_app_info) {
+                      <table class="table table-responsive border-1">
+                        <tr class="row">
+                          <td class="col-auto"><strong>Email</strong></td>
+                          <td class="col-auto">{{files?.client_app_info.contact_email || "No Data Available"}}</td>
+                        </tr>
+                        <tr class="row">
+                          <td class="col-auto"><strong>Phone</strong></td>
+                          <td class="col-auto">{{ files?.client_app_info.contact_phone || "No Data Available"}}</td>
+                        </tr>
+                        <tr class="row">
+                          <td class="col-auto"><strong>Whatsapp</strong></td>
+                          <td class="col-auto">{{files?.client_app_info.contact_whatsapp || "No Data Available" }}</td>
+                        </tr>
+                      </table>
+                    }
+                  </div>
+                  <div class="col-md-4 text-end">
+                    <button
+                      class="btn btn-danger px-4"
+                      (click)="AddContact(files?.client_app_info, '300ms', '300ms')"
+                    >
+                    <img src="assets/images/add-contact.svg" alt="add-contact" class="me-1" height="25px" width="25px">
+                      @if (files?.client_app_info?.email || files?.client_app_info?.phone) { 
+                        Edit Contact Info 
+                      } 
+                      @else {
+                        Add Contact Info 
+                      }
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        </mat-accordion>
+      </form>
+    </div>
+</section>
+
+<!-- <section>
   <div class="row main my-5 d-flex align-items-center">
     <div class="fw-bold title col-xl-12 col-lg-12 col-md-12 col-12">
       <h2 class="text-default fw-bold m-auto">Client App Content</h2>
@@ -7,7 +648,7 @@
       </p>
     </div>
   </div>
-  <!-- Loading State -->
+ 
   <div class="row" *ngIf="loading">
     <div class="col-12">
       <div class="card">
@@ -23,9 +664,9 @@
       </div>
     </div>
   </div>
-  <!-- Content Section - Displayed when not loading -->
+ 
   <div class="row" *ngIf="!loading">
-    <!-- Terms & Conditions Section -->
+   
     <div class="col-12 mb-4">
       <div class="card shadow-sm">
         <div class="card-header bg-light">
@@ -95,7 +736,8 @@
               </button>
             </div>
           </div>
-          } @if (files?.client_app_info.terms_conditions_path) {
+          }
+           @if (files?.client_app_info.terms_conditions_path) {
           <div>
             <div class="alert alert-info d-flex align-items-center">
               <svg
@@ -245,7 +887,7 @@
       </div>
     </div>
 
-    <!-- About the App Section -->
+    
     <div class="col-12 mb-4">
       <div class="card shadow-sm">
         <div class="card-header bg-light">
@@ -479,7 +1121,7 @@
       </div>
     </div>
 
-    <!-- Contact Us Section (Unchanged - Button Only) -->
+    
     <div class="col-12">
       <div class="card shadow-sm">
         <div class="card-header bg-light">
@@ -566,4 +1208,4 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->

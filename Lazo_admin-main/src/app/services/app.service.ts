@@ -288,7 +288,8 @@ export class AppService {
     );
   }
   // files
-  clintsfils() {
+  // clintsfils() {
+  appInfo() {
     return this.http.get(`${environment.endpoint}/app-info`);
   }
   setfile(form: any) {

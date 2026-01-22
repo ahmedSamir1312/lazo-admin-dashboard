@@ -110,3 +110,60 @@ textarea.form-control {
     max-height: 300px;
   }
 }
+
+
+
+
+.card {
+    padding: 0px !important;
+
+    .card-header {
+        width: 100%;
+        padding-inline: 10px;
+        border-bottom: 0px;
+        background: transparent;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(23%) sepia(78%) saturate(3799%) hue-rotate(342deg) brightness(96%) contrast(79%);
+        }
+
+        &:hover {
+              color:#000 !important;
+        }
+    }
+}
+
+ 
+
+::ng-deep {
+    .mat-expansion-panel {
+
+        &:not(:last-of-type) {
+             margin-bottom: 15px !important;
+        }
+
+        .mat-expansion-panel-header {
+            padding: 0 !important;
+            background-color: #f8e4e669;
+            .mat-expansion-panel-header-title {
+                margin-right: 0px !important;
+                padding: 0px !important;
+                width: 100% !important;
+            }
+
+             &:hover {
+                h5 {
+               color:#000 !important;
+                }
+                img {
+                    filter: none !important;
+                }
+            }     
+            
+        }
+
+        
+           
+
+    }
+}
