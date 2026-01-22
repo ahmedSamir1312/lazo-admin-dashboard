@@ -1,3 +1,4 @@
+
 .btn-danger {
   background-color: #e21b33;
   color: #fff;
@@ -7,15 +8,7 @@
     width: 20px;
   }
 }
-.Delete {
-  background: none;
-  border: none;
-  border-radius: 1px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  -ms-border-radius: 1px;
-  -o-border-radius: 1px;
-}
+ 
 a {
   color: black;
 }
@@ -32,14 +25,30 @@ a {
   }
 }
 
-// Responsive adjustments
-@media (max-width: 768px) {
-  .text-area-container {
-    .btn {
-      width: 100%;
+.faq {
+  .btn-soft-success {
+    background-color:#E1F3E6 ;
+    width: 100%;
+    color: #02B730;
+  }
+
+  .btn-danger{
+    background-color: #E21B33;
+    color: #fff;
+    width: 100%;
+    img{
+        width: 20px;
+
+    }
+  }
+
+  .delete_faq {
+    img {
+      filter: brightness(0) saturate(100%) invert(98%) sepia(100%) saturate(1%) hue-rotate(63deg) brightness(109%) contrast(101%);
     }
   }
 }
+
 .card {
   border: 1px solid #e0e0e0;
 
@@ -59,20 +68,7 @@ textarea.form-control {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 }
-
-.content-display {
-  pre {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.375rem;
-    border: 1px solid #e9ecef;
-    max-height: 400px;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-}
-
+  
 .btn {
   transition: all 0.3s ease;
 
@@ -110,10 +106,7 @@ textarea.form-control {
     max-height: 300px;
   }
 }
-
-
-
-
+ 
 .card {
     padding: 0px !important;
 
@@ -123,18 +116,17 @@ textarea.form-control {
         border-bottom: 0px;
         background: transparent;
 
-        img {
-            filter: brightness(0) saturate(100%) invert(23%) sepia(78%) saturate(3799%) hue-rotate(342deg) brightness(96%) contrast(79%);
-        }
+        // img {
+        //     filter: brightness(0) saturate(100%) invert(23%) sepia(78%) saturate(3799%) hue-rotate(342deg) brightness(96%) contrast(79%);
+        // }
 
-        &:hover {
-              color:#000 !important;
-        }
+        // &:hover {
+        //    color:#000 !important;
+        // }
     }
 }
 
  
-
 ::ng-deep {
     .mat-expansion-panel {
 
@@ -151,14 +143,14 @@ textarea.form-control {
                 width: 100% !important;
             }
 
-             &:hover {
-                h5 {
-               color:#000 !important;
-                }
-                img {
-                    filter: none !important;
-                }
-            }     
+            //  &:hover {
+            //     h5 {
+            //    color:#000 !important;
+            //     }
+            //     img {
+            //         filter: none !important;
+            //     }
+            // }     
             
         }
 

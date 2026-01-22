@@ -8,13 +8,13 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-add',
   standalone: true,
-  imports: [FormsModule , ReactiveFormsModule , CommonModule],
+  imports: [CommonModule , FormsModule , ReactiveFormsModule ],
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss'
 })
 export class AddComponent {
-submitted: boolean = false;
-form!: FormGroup;
+  submitted: boolean = false;
+  form!: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   public dialogRef: MatDialogRef<AddComponent> , private formbuilder:FormBuilder , private clint:AppService , private toastr :ToastrService){
     console.log(data.item);
@@ -41,18 +41,13 @@ form!: FormGroup;
 
   get f():any{return this.form.controls}
 
-add(){
+  add() {
 
-  this.submitted = true;
+    this.submitted = true;
 
-  if(this.form.invalid){ return}
-  let form ={
-    type:'client',
-    ...this.form.value,
- 
-  }
-  this.clint.setfile(this.form.value).subscribe((res:any)=>{
-
+    if(this.form.invalid){ return}
+    
+    this.clint.setfile(this.form.value).subscribe((res:any)=>{
       // console.log("success" ,res)
       if(res.status==true){
         this.toastr.success(res.message ,'success',{
@@ -62,26 +57,20 @@ add(){
           positionClass: 'toast-bottom-right'
         });
         this.dialogRef.close(true)
-
-
       }
       else {
         this.toastr.error(res.message,'error');
       }
-   },
-   (err:any) =>{
-
-    this.toastr.error(err.error.errors[0],'error',{closeButton: true,
-      tapToDismiss:true,
-  disableTimeOut:false,
-  timeOut: 5000,
-  positionClass: 'toast-bottom-right',})
-    
-   })
-    
-    
-  
-}
+    },
+    (err:any) =>{
+      this.toastr.error(err.error.errors[0],'error',{closeButton: true,
+        tapToDismiss:true,
+        disableTimeOut:false,
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',})
+    })
+      
+  }
 
   close(){
     this.dialogRef.close()

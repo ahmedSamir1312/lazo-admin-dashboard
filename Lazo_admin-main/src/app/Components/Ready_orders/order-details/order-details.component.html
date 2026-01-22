@@ -634,8 +634,7 @@
               </div>
               <div
                 class="status w-25 text-end"
-                style="position: absolute; top: 20px; right: 20px"
-              >
+                style="position: absolute; top: 20px;  right: 20px"> 
                 @if (product?.status_id<3) {
                 <span
                   style="
@@ -681,6 +680,65 @@
                   >Canceled</span
                 >
                 }
+
+              <!-- @switch (product.status_id){
+            @case ('1') {
+            <span style="color: #cdcb02; background-color: #f5f5e1; padding: 10px" >{{ product?.status }}</span>
+            }
+             @case ('2') {
+            <span style="color: #0582d2; background-color: #e1eef6; padding: 10px" >{{ product.status }}</span>
+          } 
+            @case ('3') {
+            <span style="color: #e21b33; background-color: #fde9eb; padding: 10px">{{ product.status | slice : 0 : 9 }}</span>
+            } 
+           
+           @case ('6') {
+            <span
+              style="color: #0582d2; background-color: #e1eef6; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('7') {
+            <span
+              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
+              >{{ product.status | slice : 0 : 12 }}</span
+            >} @case ('5.5') {
+            <span
+              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('5') {
+            <span
+              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('6.5') {
+            <span
+              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('4') {
+            <span
+              style="color: #02b730; background-color: #e1f3e6; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('10') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('11') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('12') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('14') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ product.status }}</span
+            >} @case ('8') {
+            <span
+              style="color: #9a6dff; background-color: #f0ecf9; padding: 10px"
+              >{{ product.status }}</span
+            >
+          } 
+              } -->
               </div>
 
               <div class="card mb-4 border-0 bg-transparent shadow-sm">

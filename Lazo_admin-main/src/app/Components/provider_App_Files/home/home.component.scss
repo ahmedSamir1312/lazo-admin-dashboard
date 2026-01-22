@@ -33,13 +33,13 @@ a {
         border-bottom: 0px;
         background: transparent;
 
-        img {
-            filter: brightness(0) saturate(100%) invert(23%) sepia(78%) saturate(3799%) hue-rotate(342deg) brightness(96%) contrast(79%);
-        }
+        // img {
+        //     filter: brightness(0) saturate(100%) invert(23%) sepia(78%) saturate(3799%) hue-rotate(342deg) brightness(96%) contrast(79%);
+        // }
 
-        &:hover {
-              color:#000 !important;
-        }
+        // &:hover {
+        //       color:#000 !important;
+        // }
     }
 }
 
@@ -61,19 +61,17 @@ a {
                 width: 100% !important;
             }
 
-             &:hover {
-                h5 {
-               color:#000 !important;
-                }
-                img {
-                    filter: none !important;
-                }
-            }     
+            //  &:hover {
+            //     h5 {
+            //    color:#000 !important;
+            //     }
+            //     img {
+            //         filter: none !important;
+            //     }
+            // }     
             
         }
-
-        
-           
+     
 
     }
 }

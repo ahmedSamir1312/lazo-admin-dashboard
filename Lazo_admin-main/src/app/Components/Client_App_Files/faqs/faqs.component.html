@@ -1,0 +1,99 @@
+<section class="add_admin p-4">
+    <div class="container">
+      <div class="w-100 text-end" (click)="close()">
+        <img src="assets/images/close.svg" alt="close" class="pointer" height="25px" width="25px">
+      </div>
+  
+      <div class="title text-center mb-5">
+        <h2 class="text-default fw-bold m-auto">  {{(data?.status=='add') ? 'Add' :'Edit'}}  FAQ </h2>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <form class="form" [formGroup]="form"  (ngSubmit)="save()">
+            <div class="row">
+            
+              <div class="col-lg-12 mb-2">
+                <div class="form-group">
+                  <label class="mb-3">Question (English)</label>
+                   <input
+                    placeholder="Enter Question (English)" 
+                    type="text"
+                    class="form-control"
+                    formControlName='question_en' 
+                    [ngStyle]="{'border': submitted && f.question_en.errors? '1px solid red' : (submitted && f.question_en.errors ? '1px solid #ebebeb' : null) }" >
+                    <div class="errors" *ngIf="submitted && f.question_en.errors">
+                      <p class="text-danger mt-2" *ngIf="f.question_en.errors?.required">* This field is required</p>
+                      <p class="text-danger mt-2" *ngIf="f.question_en.errors?.pattern">* This field must contain english characters only. </p>
+                    </div>
+                </div>
+              </div> 
+
+              <div class="col-lg-12 mb-2">
+                <div class="form-group">
+                  <label class="mb-3">Answer (English)</label>
+                   <textarea
+                    placeholder="Enter Answer (English)" 
+                    rows="10"
+                    class="form-control"
+                    formControlName='answer_en' 
+                    [ngStyle]="{'border': submitted && f.answer_en.errors? '1px solid red' : (submitted && f.answer_en.errors ? '1px solid #ebebeb' : null) }" ></textarea>
+                    <div class="errors" *ngIf="submitted && f.answer_en.errors">
+                      <p class="text-danger mt-2" *ngIf="f.answer_en.errors?.required">* This field is required</p>
+                      <p class="text-danger mt-2" *ngIf="f.answer_en.errors?.pattern">* This field must contain english characters only. </p>
+                    </div>
+                </div>
+              </div> 
+
+              <div class="col-lg-12 mb-2">
+                <div class="form-group">
+                  <label class="mb-3">Question (Arabic)</label>
+                   <input
+                    placeholder="اكتب السؤال (عربي)" 
+                    type="text"
+                    class="form-control"
+                    formControlName='question_ar' 
+                    [ngStyle]="{'border': submitted && f.question_ar.errors? '1px solid red' : (submitted && f.question_ar.errors ? '1px solid #ebebeb' : null) }" 
+                    style="direction: rtl;">
+                    <div class="errors" *ngIf="submitted && f.question_ar.errors">
+                      <p class="text-danger mt-2" *ngIf="f.question_ar.errors?.required">* This field is required</p>
+                      <p class="text-danger mt-2" *ngIf="f.question_ar.errors?.pattern">* This field must contain arabic characters only. </p>
+                    </div>
+                </div>
+              </div> 
+              
+               <div class="col-lg-12 mb-2">
+                <div class="form-group">
+                  <label class="mb-3">Answer (Arabic)</label>
+                   <textarea
+                    placeholder="اكتب الإجابة (عربي)" 
+                    rows="10"
+                    class="form-control"
+                    formControlName='answer_ar' 
+                    [ngStyle]="{'border': submitted && f.answer_ar.errors? '1px solid red' : (submitted && f.answer_ar.errors ? '1px solid #ebebeb' : null) }" style="direction: rtl;"></textarea>
+                    <div class="errors" *ngIf="submitted && f.answer_ar.errors">
+                      <p class="text-danger mt-2" *ngIf="f.answer_ar.errors?.required">* This field is required</p>
+                      <p class="text-danger mt-2" *ngIf="f.answer_ar.errors?.pattern">* This field must contain english characters only. </p>
+                    </div>
+                </div>
+               </div> 
+            </div>
+
+            <div class="row my-3">
+                <div class="col-md-6">
+                  <button type="submit"  class="btn confirm w-100">
+                    {{(data?.status=='add') ? 'Add' :'Edit'}} 
+                  </button>
+                  
+                </div>
+                <div class="col-md-6">
+                  <button type="button" (click)="close()" class="btn cancel w-100">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  

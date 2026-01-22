@@ -81,7 +81,7 @@
             {{ item.delivery_time }} - {{ item.delivery_date }}
           </td>
           <td scope="col">
-            @if(item?.status_id <3){
+            <!-- @if(item?.status_id <3){
             <span
               style="
                 color: #0582d2;
@@ -121,11 +121,10 @@
               "
               >Canceled</span
             >
-            }
+            } -->
 
-            <!-- @switch (item.status_id){
-
-
+            @switch (item.status_id){
+ 
             @case ('3') {
             <span
               style="color: #e21b33; background-color: #fde9eb; padding: 10px"
@@ -182,7 +181,7 @@
             <span
               style="color: #9a6dff; background-color: #f0ecf9; padding: 10px"
               >{{ item.status }}</span
-            >} } -->
+            >} }
           </td>
           <td
             scope="col"

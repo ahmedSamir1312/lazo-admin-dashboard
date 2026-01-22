@@ -1,39 +1,7 @@
 <section class="add_admin p-4">
     <div class="container">
-      <div class="w-100 text-end">
-        <svg
-          (click)="close()"
-          style="cursor: pointer"
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.5896 8.39922L8.40913 13.5797"
-            stroke="#8088A4"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M13.5922 13.5824L8.40677 8.39694"
-            stroke="#8088A4"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M15.6857 1H6.31429C3.04762 1 1 3.31208 1 6.58516V15.4148C1 18.6879 3.0381 21 6.31429 21H15.6857C18.9619 21 21 18.6879 21 15.4148V6.58516C21 3.31208 18.9619 1 15.6857 1Z"
-            stroke="#8088A4"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+      <div class="w-100 text-end" (click)="close()">
+        <img src="assets/images/close.svg" alt="close" class="pointer" height="25px" width="25px">
       </div>
   
       <div class="title text-center mb-5">
@@ -91,18 +59,20 @@
               </div>
               </div>
               
-              <div class="row my-3">
-                <div class="col-md-6">
-                  <button type="submit"  class="btn confirm w-100">
-                    Add 
-                  </button>
-                  
-                </div>
-                <div class="col-md-6">
-                  <button type="button" (click)="close()" class="btn  cancel  w-100">
-                    Cancel
-                  </button>
-                </div>
+             
+            </div>
+
+            <div class="row my-3">
+              <div class="col-md-6">
+                <button type="submit"  class="btn confirm w-100">
+                  Add 
+                </button>
+                
+              </div>
+              <div class="col-md-6">
+                <button type="button" (click)="close()" class="btn  cancel  w-100">
+                  Cancel
+                </button>
               </div>
             </div>
           </form>

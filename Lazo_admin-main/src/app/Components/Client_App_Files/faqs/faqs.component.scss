@@ -40,3 +40,9 @@
         color: #E21B33; 
     }
 }
+
+textarea.form-control {
+  &::placeholder {
+   color: #8088a4 !important;
+  }
+}

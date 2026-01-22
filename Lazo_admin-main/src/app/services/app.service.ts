@@ -292,6 +292,7 @@ export class AppService {
   appInfo() {
     return this.http.get(`${environment.endpoint}/app-info`);
   }
+
   setfile(form: any) {
     const formData: any = new FormData();
     for (const [key, value] of Object.entries(form)) {
@@ -303,10 +304,43 @@ export class AppService {
     );
   }
 
+  // faq
+  createFaq(form:any) {
+  const formData: any = new FormData();
+  formData.append('question_en', form.question_en);
+  formData.append('answer_en', form.answer_en);
+    formData.append('question_ar', form.question_ar);
+  formData.append('answer_ar', form.answer_ar);
+   return this.http.post(
+      `${environment.endpoint}/admin/faq/create`,
+      formData
+    );
+  }
+
+  updateFaq(form:any) {
+  const formData: any = new FormData();
+  formData.append('faq_id', form.faq_id);
+  formData.append('question_en', form.question_en);
+  formData.append('answer_en', form.answer_en);
+  formData.append('question_ar', form.question_ar);
+  formData.append('answer_ar', form.answer_ar);
+   return this.http.post(
+      `${environment.endpoint}/admin/faq/update`,
+      formData
+    );
+  }
+
+  deleteFaq(faq_id: any) {
+    return this.http.delete(
+      `${environment.endpoint}/admin/faq/delete?faq_id=${faq_id}`
+    );
+  }
+
   //tags
   tags() {
     return this.http.get(`${environment.endpoint}/tags`);
   }
+
   addTag(form: any) {
     const formData: any = new FormData();
     for (const [key, value] of Object.entries(form)) {
@@ -320,6 +354,7 @@ export class AppService {
     );
     // /admin/category/create
   }
+
   EditTag(form: any) {
     const formData: any = new FormData();
     for (const [key, value] of Object.entries(form)) {
@@ -333,6 +368,7 @@ export class AppService {
     );
     // /admin/category/create
   }
+
   deleteTag(id: any) {
     return this.http.delete(
       `${environment.endpoint}/admin/tag/delete?tag_id=${id}`
