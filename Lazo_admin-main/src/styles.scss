@@ -62,13 +62,13 @@ body {
 .form-control {
   background-color: $light;
   padding: 12px;
-  border: 1px solid #f4f5f7;
+  border: 1px solid #e9eaef;
   caret-color: $danger;
 
   &:focus {
     outline: none;
     box-shadow: none;
-    border: 1px solid #f4f5f7;
+    border: 1px solid #e9eaef;
     background-color: $light;
   }
 

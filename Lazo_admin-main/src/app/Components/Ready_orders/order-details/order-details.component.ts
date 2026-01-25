@@ -33,6 +33,7 @@ export class OrderDetailsComponent {
     });
     console.log(this.order?.providers_items, 'order details');
   }
+
   manageOrders(status: any): void {
     let form = {};
     if (this.order.status_id >= 2 && this.order.status_id <= 4) {
@@ -66,7 +67,24 @@ export class OrderDetailsComponent {
       this.order.status_id = res?.data.status_id;
       this.order.status = res?.data.status;
       this.order.finished_at = res?.data.finished_at;
-      this.toastr.success(res.message, 'success', {
+     if(res?.status) {
+       this.toastr.success(res?.message, 'success', {
+        tapToDismiss: true,
+        disableTimeOut: false,
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',
+      });
+     }else{
+       this.toastr.error(res?.message, 'fail', {
+        tapToDismiss: true,
+        disableTimeOut: false,
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',
+      });
+     }
+    },(err:any)=>{
+     // console.log("message",err?.error?.message)
+        this.toastr.error(err?.error?.message, 'fail', {
         tapToDismiss: true,
         disableTimeOut: false,
         timeOut: 5000,
@@ -74,6 +92,7 @@ export class OrderDetailsComponent {
       });
     });
   }
+
   edit_date(enterAnimationDuration: string, exitAnimationDuration: string) {
     var dialogRef = this.dialog.open(DateTimeComponent, {
       ...largepopup,
@@ -89,6 +108,7 @@ export class OrderDetailsComponent {
       }
     });
   }
+
   cancel_order(enterAnimationDuration: string, exitAnimationDuration: string) {
     var dialogRef = this.dialog.open(CancelReasonComponent, {
       ...largepopup,
@@ -118,6 +138,7 @@ export class OrderDetailsComponent {
       }
     });
   }
+
   accept_order(status: any) {
     if (this.receiver_address == '') {
       this.toastr.error('location is required', 'error');
@@ -142,8 +163,16 @@ export class OrderDetailsComponent {
         timeOut: 5000,
         positionClass: 'toast-bottom-right',
       });
+    },(err:any)=>{
+        this.toastr.error(err?.error?.message, 'fail', {
+        tapToDismiss: true,
+        disableTimeOut: false,
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',
+      });
     });
   }
+
   goBack() {
     this.location.back();
   }

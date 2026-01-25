@@ -1,11 +1,11 @@
 import { AppService } from './../../../services/app.service';
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { TableComponent } from '../../Ready_orders/table/table.component';
+// import { TableComponent } from '../../Ready_orders/table/table.component';
 import { ProvidweTableComponent } from '../providwe-table/providwe-table.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
-import { PalceholderTableComponent } from '../../../Shared/palceholder-table/palceholder-table.component';
+// import { PalceholderTableComponent } from '../../../Shared/palceholder-table/palceholder-table.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
     ProvidweTableComponent,
     MatTabsModule,
     CommonModule,
-    PalceholderTableComponent,
+    // PalceholderTableComponent,
     RouterModule,
   ],
   templateUrl: './home.component.html',

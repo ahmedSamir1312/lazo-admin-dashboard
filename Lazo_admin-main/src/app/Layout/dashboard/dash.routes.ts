@@ -1,8 +1,8 @@
-import { ProviderDetailsComponent } from './../../Components/Service_Providers/provider-details/provider-details.component';
+
 import { Routes } from '@angular/router';
 import { orderDetailsResolver } from '../../resolver/order-details.resolver';
 import { providerDetailsResolver } from '../../resolver/provider-details.resolver';
-
+ 
 export const routes: Routes = [
   { path: '', redirectTo: 'Dashboard', pathMatch: 'full' },
   {
@@ -181,6 +181,14 @@ export const routes: Routes = [
       import('../../Components/Countries/home/home.component').then(
         (x) => x.HomeComponent
       ),
+  },  
+  {
+    path: 'Fees',
+    loadComponent: () =>
+      import('../../Components/admin-fees/admin-fees.component').then(  
+        (x) => x.AdminFeesComponent 
+      ),  
   },
   //  Service Provider App Files
 ];
+ 

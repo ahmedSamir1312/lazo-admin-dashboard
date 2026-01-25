@@ -5,7 +5,6 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { PasswordValidatorService } from './validators/password.service';
 import { NgxSpinnerService } from 'ngx-spinner';

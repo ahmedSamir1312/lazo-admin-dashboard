@@ -20,11 +20,12 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           /></svg
-        >{{ order.id }}
+        > Order # {{ order?.id }}
       </h2>
     </div>
 
     <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
+     
       @if (order.order_family=="ready_made") { @switch (order.status_id){ @case
       ('2') {
       <button
@@ -133,7 +134,20 @@
   <div class="row my-4">
     <div class="col-md-12 my-3">
       <div class="card info">
-        <h5 class="section_title">Order Info</h5>
+        <div class="row">
+          <div class="col-md-6 col-12">
+              <h5 class="section_title">Order Info</h5>
+          </div>
+          <div class="col-md-6 col-12 text-end">
+             <button
+                class="btn btn-success"
+                *ngIf="order.status_id >= 2 && order.status_id < 5" class="btn_edit" (click)="edit_date('0ms', '0ms')">
+                <img src="assets/images/actions/lazo_edit.svg" />
+                <span>Edit</span>
+              </button>
+           </div>  
+        </div>
+       
         <div class="order_info">
           <div class="row">
             <div class="col-md-3 mb-3">
@@ -163,13 +177,11 @@
               <span class="title_info mx-1"> Date / Time </span>
               <span class="data"
                 >{{ order.delivery_time }} - {{ order.delivery_date }}
-                <button
-                  *ngIf="order.status_id >= 2 && order.status_id < 5"
-                  class="btn_edit"
-                  (click)="edit_date('0ms', '0ms')"
-                >
-                  <img src="assets/images/actions/lazo_edit.svg" /></button
-              ></span>
+               <!--  <button
+                  *ngIf="order.status_id >= 2 && order.status_id < 5" class="btn_edit" (click)="edit_date('0ms', '0ms')">
+                  <img src="assets/images/actions/lazo_edit.svg" />
+                  </button>  -->
+                  </span>
             </div>
             <div class="col-md-3 mb-3">
               <img
