@@ -1,8 +1,16 @@
 .order_details{
   .btn_edit{
-    background: none;
-    border: none;
-  }
+  //   background: green;
+  //   color:white;
+  //   border: none;
+    img {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(201deg) brightness(106%) contrast(106%);
+    }
+
+    &:hover {
+      color:#fff !important;
+    }
+   }
   .btn{
     min-width: 170px;
     &:hover{

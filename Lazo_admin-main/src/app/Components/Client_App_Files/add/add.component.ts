@@ -22,8 +22,7 @@ export class AddComponent {
 
   ngOnInit(): void {
       this.form = this.formbuilder.group({
-  
-       
+        type : ['client',Validators.required],
         contact_email:[this.data.item.contact_email,[Validators.required ,
         Validators.email]] ,
       

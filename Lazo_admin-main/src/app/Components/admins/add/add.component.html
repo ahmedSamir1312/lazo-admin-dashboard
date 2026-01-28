@@ -124,7 +124,7 @@
                     <path d="M19 8.5L12 15.5L5 8.5" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg></span> -->
                     
-                  <ng-select [items]="roles"
+                <ng-select [items]="roles"
                   #select
                   placeholder="Choose Roles"
                   (close)="select.blur();" 
@@ -135,7 +135,7 @@
                   dropdownPosition="top"
                   [ngModelOptions]="{standalone: true}"
                   [(ngModel)]="selectedRolesIds">
-       </ng-select>
+                </ng-select>
     
 
                 </div>

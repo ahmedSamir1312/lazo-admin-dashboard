@@ -141,8 +141,8 @@
           <div class="col-md-6 col-12 text-end">
              <button
                 class="btn btn-success"
-                *ngIf="order.status_id >= 2 && order.status_id < 5" class="btn_edit" (click)="edit_date('0ms', '0ms')">
-                <img src="assets/images/actions/lazo_edit.svg" />
+                *ngIf="order.status_id >= 2 && order.status_id < 5" class="btn btn-success btn_edit" (click)="edit_date('0ms', '0ms')">
+                <img src="assets/images/actions/lazo_edit.svg" class="mx-1"/>
                 <span>Edit</span>
               </button>
            </div>  
@@ -587,7 +587,7 @@
         </div>
       </div>
     </div>
-
+   @if( order?.card_from ||  order?.card_to ||  order?.card_message) { 
     <div class="col-md-12 my-3">
       <div class="card info">
         <h5 class="section_title">Message</h5>
@@ -601,28 +601,35 @@
               border-radius: 8px;
             "
           >
+           @if( order?.card_from ) { 
             <div class="col-md-4">
               <span class="title_info mx-1"> From</span>
               <span class="data">{{
                 order?.card_from ? order?.card_from : "-"
               }}</span>
             </div>
+          }
+           @if( order?.card_to ) { 
             <div class="col-md-4">
               <span class="title_info mx-1"> To</span>
               <span class="data">{{
                 order?.card_to ? order?.card_to : "-"
               }}</span>
             </div>
+          }
+           @if( order?.card_message ) { 
             <div class="col-md-4">
               <span class="title_info mx-1"> Content</span>
               <span class="data">{{
                 order?.card_message ? order?.card_message : "-"
               }}</span>
             </div>
+          }
           </div>
         </div>
       </div>
     </div>
+    }
     <div class="col-md-12 my-3">
       <div class="card info">
         <h5 class="section_title">Products</h5>
@@ -835,10 +842,29 @@
               <span class="title_info mx-1 fw-bold"> Order Price </span>
               <span class="data">{{ order.total_before_discount }} SAR</span>
             </div>
+
+             @if(order.shipping_fee && order.shipping_fee!=0) { 
             <div>
-              <span class="title_info mx-1 fw-bold"> Shipping Fees </span>
+              <span class="title_info mx-1 fw-bold"> Shipping Fee  </span>
               <span class="data">{{ order.shipping_fee }} SAR</span>
             </div>
+            }
+
+            @if(order.wrapping_fee && order.wrapping_fee!=0) { 
+             <div>
+              <span class="title_info mx-1 fw-bold"> Collection And Wrapping Fee  </span>
+              <span class="data">{{ order.wrapping_fee }} SAR</span>
+            </div>
+            }
+
+            @if(order.collection_fee && order.collection_fee!=0) { 
+             <div>
+              <span class="title_info mx-1 fw-bold"> Collection Fee  </span>
+              <span class="data">{{ order.collection_fee }} SAR</span>
+            </div>
+            }
+
+            @if(order.promocode_discount_value && order.promocode_discount_value!=0) { 
             <div>
               <span class="title_info text-danger mx-1 fw-bold">
                 Discount
@@ -850,7 +876,7 @@
                 {{ order.promocode_discount_type == "percent" ? "%" : "SAR" }}
               </span>
             </div>
-
+            }
             <div>
               <span class="title_info mx-1 fw-bold">Total Price </span>
               <span class="data fw-bold text-black"

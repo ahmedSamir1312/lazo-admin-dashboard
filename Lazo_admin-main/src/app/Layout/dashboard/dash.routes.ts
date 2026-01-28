@@ -34,6 +34,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'Fees',
+    loadComponent: () =>
+      import('../../Components/admin-fees/admin-fees.component').then(  
+        (x) => x.AdminFeesComponent 
+      ),  
+  },
+  {
     path: 'Admins',
     loadComponent: () =>
       import('../../Components/admins/show/show.component').then(
@@ -181,14 +188,8 @@ export const routes: Routes = [
       import('../../Components/Countries/home/home.component').then(
         (x) => x.HomeComponent
       ),
-  },  
-  {
-    path: 'Fees',
-    loadComponent: () =>
-      import('../../Components/admin-fees/admin-fees.component').then(  
-        (x) => x.AdminFeesComponent 
-      ),  
-  },
+  }   
+   
   //  Service Provider App Files
 ];
  

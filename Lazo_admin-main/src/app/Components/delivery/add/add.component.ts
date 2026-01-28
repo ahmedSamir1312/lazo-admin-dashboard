@@ -90,7 +90,7 @@ export class AddComponent {
         }
       );
     } else {
-      this.service.addDeliveryFees(this.form.value).subscribe(
+      this.service.changeDeliveryFees(this.form.value).subscribe(
         (res: any) => {
           this.spinner.hide();
           this.dialogRef.close(res?.message);

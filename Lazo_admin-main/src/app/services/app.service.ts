@@ -155,7 +155,28 @@ export class AppService {
   loadDeliveryFees() {
     return this.http.get(`${environment.endpoint}/admin/delivery-fees`);
   }
-  addDeliveryFees(form: any) {
+
+  // addDeliveryFees(form: any) {
+  //   const formData: any = new FormData();
+  //   for (const [key, value] of Object.entries(form)) {
+  //     if (value != null) {
+  //       formData.append(key, `${value}`);
+  //     }
+  //   }
+  //   return this.http.post(
+  //     `${environment.endpoint}/admin/delivery-fees`,
+  //     formData
+  //   );
+  // }
+
+  // EditDeliveryFees(id: number, form: any) {
+  //   return this.http.put(
+  //     `${environment.endpoint}/admin/delivery-fees/${id}`,
+  //     form
+  //   );
+  // }
+
+  changeDeliveryFees(form: any) {
     const formData: any = new FormData();
     for (const [key, value] of Object.entries(form)) {
       if (value != null) {
@@ -167,10 +188,23 @@ export class AppService {
       formData
     );
   }
-  EditDeliveryFees(id: number, form: any) {
-    return this.http.put(
-      `${environment.endpoint}/admin/delivery-fees/${id}`,
-      form
+
+  //additional fee
+
+  loadAdditionalFees() {
+    return this.http.get(`${environment.endpoint}/admin/additional-fees`);
+  }
+
+  changeAdditionalFees(form:any) {
+   const formData: any = new FormData();
+    for (const [key, value] of Object.entries(form)) {
+      if (value != null) {
+        formData.append(key, `${value}`);
+      }
+    }
+    return this.http.post(
+      `${environment.endpoint}/admin/additional-fees`,
+      formData
     );
   }
   //category

@@ -96,7 +96,7 @@ export class UpdateComponent {
         );
     } else {
       this.service
-        .EditDeliveryFees(this.data?.item?.id, this.form.value)
+        .changeDeliveryFees(this.form.value)
         .subscribe(
           (res: any) => {
             this.spinner.hide();

@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PalceholderTableComponent } from '../../../Shared/palceholder-table/palceholder-table.component';
 import { CommonModule } from '@angular/common';
 import { AppService } from '../../../services/app.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
-import { DeletePopupComponent } from '../../../Shared/delete-popup/delete-popup.component';
-import { largepopup, smallpopup } from '../../../Shared/configration';
+import { largepopup } from '../../../Shared/configration';
 import { AddComponent } from '../add/add.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';

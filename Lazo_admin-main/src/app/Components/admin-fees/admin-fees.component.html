@@ -8,29 +8,150 @@
 
                 <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end"></div>
             </div>
+        </div>
+        <div class="row">
+          <form [formGroup]="form"> 
+                <mat-accordion class="card" multi>
+                    <!-- Collection Fee Section -->
+                    <mat-expansion-panel [expanded]="activePanel == 'delivery'" (opened)="setActivePanel('delivery')">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            <div class="card-header">
+                                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold">
+                                    <img src="assets/images/terms.svg" alt="terms" class="me-1" height="25px" width="25px">
+                                    Delivery Fee
+                                </h5>
+                                </div>
+                            </mat-panel-title>
 
-            <div class="col-12 mt-5 mb-3">
-                <div class="form-group">
-                    <label class="mb-2" for="shipping_fee">Shipping Fee</label>
-                    <input type="number" id="shipping_fee" class="form-control">
-                </div>
-            </div>
-             <div class="col-12 mb-3">
-                <div class="form-group">
-                    <label class="mb-2" for="base_fee">Base Fee</label>
-                    <input type="number" id="base_fee" class="form-control">
-                </div>
-            </div>
-             <div class="col-12 mb-3">
-                <div class="form-group">
-                    <label class="mb-2" for="additional_fee">Additional Fee</label>
-                    <input type="number" id="additional_fee" class="form-control">
-                </div>
-            </div>
+                            
+                        </mat-expansion-panel-header>
+                        <div class="content m-3"  formGroupName="delivery"> 
+                            <div class="col-12 my-4">
+                                <div class="form-group">
+                                    <label class="mb-2" for="amount"> Delivery Fee</label>
+                                    <input type="number" id="amount" class="form-control"  formControlName="amount" placeholder="Enter Delivery Fee">
+                                    <p class="text-danger mt-2" *ngIf="f.delivery?.controls['amount']?.errors && delivery_submitted">
+                                        <span *ngIf="f?.delivery?.controls['amount']?.errors?.required"> *This field is required</span>
+                                        <span *ngIf="f?.delivery?.controls['amount']?.errors?.min"> *This field must be positive </span>
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="col-12 my-4 text-end">
+                                <button class="btn btn-danger py-2 px-3" (click)="saveDelivery()">Save</button>
+                            </div>
+                         </div>
+                    </mat-expansion-panel>
 
-            <div class="col-12 my-3 text-end">
-                <button class="btn btn-danger py-2 px-4" (click)="save()">Save</button>
-            </div>
+                     <mat-expansion-panel  [expanded]="activePanel == 'wrapping_fee'" (opened)="setActivePanel('wrapping_fee')">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            <div class="card-header">
+                                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold">
+                                    <img src="assets/images/terms.svg" alt="terms" class="me-1" height="25px" width="25px">
+                                    Additional (Wrapping Fee)
+                                </h5>
+                                </div>
+                            </mat-panel-title>
+
+                            
+                        </mat-expansion-panel-header>
+                        <div class="content m-3" formGroupName="additional_wrapping"> 
+                            <!-- <div class="col-12">
+                                <ng-select 
+                                   [items]="types"
+                                    placeholder="Choose Additional Type"
+                                    bindLabel="name"
+                                    bindValue="value"
+                                    [multiple]="false"
+                                    dropdownPosition="top"
+                                    formControlName="type">
+                                </ng-select>
+                                <p class="text-danger mt-2" *ngIf="f.additional_wrapping?.controls['type']?.errors && additional_wrapping_submitted">
+                                   <span *ngIf="f?.additional_wrapping?.controls['type']?.errors?.required"> *This field is required</span>
+                                </p>
+                            </div> -->
+                            <div class="col-12 my-4">
+                                <div class="form-group">
+                                   <label class="mb-2" for="base_amount"> Base Amount</label>
+                                    <input type="number" id="base_amount" class="form-control" placeholder="Enter Base Amout" formControlName="base_amount">
+                                    <p class="text-danger mt-2" *ngIf="f.additional_wrapping?.controls['base_amount']?.errors && additional_wrapping_submitted">
+                                        <span *ngIf="f?.additional_wrapping?.controls['base_amount']?.errors?.required"> *This field is required</span>
+                                        <span *ngIf="f?.additional_wrapping?.controls['base_amount']?.errors?.min"> *This field must be positive </span>
+                                    </p>
+                                </div> 
+                            </div>
+                             <div class="col-12 my-4">
+                                <div class="form-group">
+                                    <label class="mb-2" for="extra_amount"> Extra Amount</label>
+                                    <input type="number" id="extra_amount" class="form-control" placeholder="Enter Extra Amout" formControlName="extra_amount">
+                                    <p class="text-danger mt-2" *ngIf="f.additional_wrapping?.controls['extra_amount']?.errors && additional_wrapping_submitted">
+                                        <span *ngIf="f?.additional_wrapping?.controls['extra_amount']?.errors?.required"> *This field is required</span>
+                                        <span *ngIf="f?.additional_wrapping?.controls['extra_amount']?.errors?.min"> *This field must be positive </span>
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="col-12 my-4 text-end">
+                                <button class="btn btn-danger py-2 px-3" (click)="saveAdditional('wrapping_fee')">Save</button>
+                            </div>
+                         </div>
+                    </mat-expansion-panel>
+                    
+                       <mat-expansion-panel  [expanded]="activePanel == 'collection_fee'" (opened)="setActivePanel('collection_fee')">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            <div class="card-header">
+                                <h5 class="card-title mb-0 d-flex align-items-center fw-semibold">
+                                    <img src="assets/images/terms.svg" alt="terms" class="me-1" height="25px" width="25px">
+                                    Additional (Collection Fee)
+                                </h5>
+                                </div>
+                            </mat-panel-title>
+
+                            
+                        </mat-expansion-panel-header>
+                        <div class="content m-3" formGroupName="additional_collection"> 
+                            <!-- <div class="col-12">
+                                <ng-select 
+                                   [items]="types"
+                                    placeholder="Choose Additional Type"
+                                    bindLabel="name"
+                                    bindValue="value"
+                                    [multiple]="false"
+                                    dropdownPosition="top"
+                                    formControlName="type">
+                                </ng-select>
+                                <p class="text-danger mt-2" *ngIf="f.additional_collection?.controls['type']?.errors && additional_collection_submitted">
+                                   <span *ngIf="f?.additional_collection?.controls['type']?.errors?.required"> *This field is required</span>
+                                </p>
+                            </div> -->
+                            <div class="col-12 my-4">
+                                <div class="form-group">
+                                   <label class="mb-2" for="base_amount"> Base Amount</label>
+                                    <input type="number" id="base_amount" class="form-control" placeholder="Enter Base Amout" formControlName="base_amount">
+                                    <p class="text-danger mt-2" *ngIf="f.additional_collection?.controls['base_amount']?.errors && additional_collection_submitted">
+                                        <span *ngIf="f?.additional_collection?.controls['base_amount']?.errors?.required"> *This field is required</span>
+                                        <span *ngIf="f?.additional_collection?.controls['base_amount']?.errors?.min"> *This field must be positive </span>
+                                    </p>
+                                </div> 
+                            </div>
+                             <div class="col-12 my-4">
+                                <div class="form-group">
+                                    <label class="mb-2" for="extra_amount"> Extra Amount</label>
+                                    <input type="number" id="extra_amount" class="form-control" placeholder="Enter Extra Amout" formControlName="extra_amount">
+                                    <p class="text-danger mt-2" *ngIf="f.additional_collection?.controls['extra_amount']?.errors && additional_wrapping_submitted">
+                                        <span *ngIf="f?.additional_collection?.controls['extra_amount']?.errors?.required"> *This field is required</span>
+                                        <span *ngIf="f?.additional_collection?.controls['extra_amount']?.errors?.min"> *This field must be positive </span>
+                                    </p>
+                                </div> 
+                            </div>
+                            <div class="col-12 my-4 text-end">
+                                <button class="btn btn-danger py-2 px-3" (click)="saveAdditional('collection_fee')">Save</button>
+                            </div>
+                         </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </form>
         </div>
     </div>
 </section>
