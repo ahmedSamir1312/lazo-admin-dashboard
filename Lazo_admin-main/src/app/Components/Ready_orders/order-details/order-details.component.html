@@ -26,8 +26,8 @@
 
     <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
      
-      @if (order.order_family=="ready_made") { @switch (order.status_id){ @case
-      ('2') {
+      @if (order.order_family=="ready_made") { @switch (order.status_id){ 
+      @case('2') {
       <button
         (click)="accept_order('3')"
         class="btn mx-1 custom px-4"
@@ -42,7 +42,8 @@
         <span class="mx-1"> Cancel</span>
       </button>
 
-      } @case ('3') {
+      }
+      @case ('3') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('4')"
@@ -50,19 +51,24 @@
         <span class="mx-1"> Perparing</span>
       </button>
 
-      } @case ('4') {
+      } 
+      @case ('4') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('5')"
       >
         <span class="mx-1"> Ready for shipping</span></button
-      >} @case ('5') {
+      >
+      } 
+      @case ('5') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('5.5')"
       >
         <span class="mx-1">On delivery </span></button
-      >} @case ('5.5') {
+      >
+      }
+      @case ('5.5') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('8')"
@@ -91,8 +97,7 @@
       >
         <span class="mx-1"> Perparing</span>
       </button>
-
-      } @case ('4') {
+       } @case ('4') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('5')"
@@ -148,172 +153,127 @@
            </div>  
         </div>
        
-        <div class="order_info">
-          <div class="row">
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/id.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Order ID </span>
-              <span class="data"> {{ order.id }}</span>
-            </div>
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/counts.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> No. of items </span>
-              <span class="data">{{ order.items_count }}</span>
-            </div>
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/Calendar.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Date / Time </span>
-              <span class="data"
-                >{{ order.delivery_time }} - {{ order.delivery_date }}
-               <!--  <button
-                  *ngIf="order.status_id >= 2 && order.status_id < 5" class="btn_edit" (click)="edit_date('0ms', '0ms')">
-                  <img src="assets/images/actions/lazo_edit.svg" />
-                  </button>  -->
-                  </span>
-            </div>
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/status.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1">Status </span>
-              <span class="data">
-                @switch (order.status_id){
-                <!-- #E1F3E6 -->
-                @case ('3') {
-                <span style="color: #e21b33; padding: 10px">{{
-                  order.status | slice : 0 : 9
-                }}</span
-                >} @case ('1') {
-                <span style="color: #cdcb02; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('2') {
-                <span style="color: #0582d2; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('6') {
-                <span style="color: #0582d2; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('7') {
-                <span style="color: #ffb58b; padding: 10px">{{
-                  order.status | slice : 0 : 12
-                }}</span
-                >} @case ('5.5') {
-                <span style="color: #ffb58b; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('5') {
-                <span style="color: #ac418e; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('6.5') {
-                <span style="color: #ac418e; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('4') {
-                <span style="color: #02b730; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('10') {
-                <span style="color: #e21b33; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('11') {
-                <span style="color: #e21b33; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('12') {
-                <span style="color: #e21b33; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('14') {
-                <span style="color: #e21b33; padding: 10px">{{
-                  order.status
-                }}</span
-                >} @case ('8') {
-                <span style="color: #9a6dff; padding: 10px">{{
-                  order.status
-                }}</span
-                >} }</span
-              >
-            </div>
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/provider.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Service provider ID </span>
-              @if(order?.order_family =='collective' && order?.is_multi_providers) {
-                @for(item of order?.order_items ; track item) {
-                  <span class="data name">
-                    {{item?.provider?.id}}  
-                  </span>
-                }
-               }
-               @else {
-                <span class="data">{{ order?.order_items[0]?.provider?.id }}</span>
-               }
-            
-            </div>
-            <div class="col-md-3 mb-3 text-center">
-              <img
-                src="assets/images/oder_details/Profile.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Service provider name </span>
-              
-               @if(order?.order_family =='collective' && order?.is_multi_providers) {
-                @for(item of order?.order_items ; track item) {
-                  <span class="data name">
-                    {{item?.provider?.name}}  
-                  </span>
-                }
-               }
-               @else {
-                <span class="data">
-                  {{ order?.order_items[0]?.provider.name_en }}
-                </span>
-               }
-              
-              
-            </div>
-            <div class="col-md-3 mb-3 text-center">
-              <img
-                src="assets/images/oder_details/User.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Client name </span>
-              <span class="data">{{ order?.user.name }}</span>
-            </div>
-            <div class="col-md-3 mb-3">
-              <img
-                src="assets/images/oder_details/family.svg"
-                alt=""
-                class="mx-1"
-              />
-              <span class="title_info mx-1"> Order type </span>
-              <span class="data">{{ order.type }}</span>
-            </div>
-          </div>
-        </div>
+      <div class="order_info">
+  <div class="d-flex flex-wrap gap-3">
+    <!-- Order ID -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/id.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Order ID</span>
+        <span class="data mx-1">{{ order.id }}</span>
+      </div>
+    </div>
+
+    <!-- No. of items -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/counts.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">No. of items</span>
+        <span class="data mx-1">{{ order.items_count }}</span>
+      </div>
+    </div>
+
+    <!-- Date / Time -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/Calendar.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Date</span>
+        <span class="data mx-1">{{ order.created_at |date }} </span>
+      </div>
+    </div>
+
+     <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/Calendar.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Delivery Date </span>
+        <span class="data mx-1"> {{ order.delivery_date |date}}</span>
+      </div>
+    </div>
+
+     <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/Calendar.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Delivery Time</span>
+        <span class="data mx-1">{{ order.delivery_time }}</span>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/status.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Status</span>
+        <span class="data mx-1">
+          @switch(order.status_id){
+            @case('3'){<span style="color:#e21b33; padding:10px">{{ order.status | slice:0:9 }}</span>}
+            @case('1'){<span style="color:#cdcb02; padding:10px">{{ order.status }}</span>}
+            @case('2'){<span style="color:#0582d2; padding:10px">{{ order.status }}</span>}
+            @case('6'){<span style="color:#0582d2; padding:10px">{{ order.status }}</span>}
+            @case('7'){<span style="color:#ffb58b; padding:10px">{{ order.status | slice:0:12 }}</span>}
+            @case('5.5'){<span style="color:#ffb58b; padding:10px">{{ order.status }}</span>}
+            @case('5'){<span style="color:#ac418e; padding:10px">{{ order.status }}</span>}
+            @case('6.5'){<span style="color:#ac418e; padding:10px">{{ order.status }}</span>}
+            @case('4'){<span style="color:#02b730; padding:10px">{{ order.status }}</span>}
+            @case('10'){<span style="color:#e21b33; padding:10px">{{ order.status }}</span>}
+            @case('11'){<span style="color:#e21b33; padding:10px">{{ order.status }}</span>}
+            @case('12'){<span style="color:#e21b33; padding:10px">{{ order.status }}</span>}
+            @case('14'){<span style="color:#e21b33; padding:10px">{{ order.status }}</span>}
+            @case('8'){<span style="color:#9a6dff; padding:10px">{{ order.status }}</span>}
+          }
+        </span>
+      </div>
+    </div>
+
+    <!-- Service provider ID -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/provider.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Service provider ID</span>
+        @if(order?.order_family =='collective' && order?.is_multi_providers){
+          @for(item of order?.order_items ; track item){
+            <span class="data name mx-1">{{item?.provider?.id}}</span>
+          }
+        } @else {
+          <span class="data mx-1">{{ order?.order_items[0]?.provider?.id }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- Service provider name -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/Profile.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Service provider name</span>
+        @if(order?.order_family =='collective' && order?.is_multi_providers){
+          @for(item of order?.order_items ; track item){
+            <span class="data name mx-1">{{item?.provider?.name}}</span>
+          }
+        } @else {
+          <span class="data mx-1">{{ order?.order_items[0]?.provider.name_en }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- Client name -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/User.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Client name</span>
+        <span class="data mx-1">{{ order?.user.name }}</span>
+      </div>
+    </div>
+
+    <!-- Order type -->
+    <div class="d-flex align-items-center flex-grow-1 min-w-200px my-2">
+      <img src="assets/images/oder_details/family.svg" alt="" class="me-2" />
+      <div>
+        <span class="title_info">Order type</span>
+        <span class="data mx-1">{{ order.type }}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
       </div>
     </div>
     @if((order.status_id==10

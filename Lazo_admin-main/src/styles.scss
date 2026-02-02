@@ -368,7 +368,8 @@ input.is-invalid {
 
 .ng-value,
 .ng-option.ng-option-marked {
-  background-color: #e21b327c !important;
+  background-color: #a80c1e !important;
+  padding-inline:10px !important;
 
   * {
     color: #fff !important;

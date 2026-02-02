@@ -31,9 +31,11 @@ export class AppService {
     }
     return this.http.post(`${environment.endpoint}/upload/files`, formData);
   }
+
   loadDeliveryData() {
     return this.http.get(`${environment.endpoint}/admin/delivery-periods`);
   }
+  
   addDelevery(data: any) {
     return this.http.post(
       `${environment.endpoint}/admin/delivery-periods`,

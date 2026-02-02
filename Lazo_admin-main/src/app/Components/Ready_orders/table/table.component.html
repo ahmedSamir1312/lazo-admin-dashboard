@@ -78,7 +78,13 @@
           <td scope="col">{{ item.items_count }}</td>
           <td scope="col">{{ item.total_with_shipping_fee }} SAR</td>
           <td scope="col">
-            {{ item.delivery_time }} - {{ item.delivery_date }}
+            {{ item.created_at |date}} 
+          </td>
+           <td scope="col">
+            {{ item.delivery_date|date }}
+          </td>
+           <td scope="col">
+            {{ item.delivery_time }} 
           </td>
           <td scope="col">
             <!-- @if(item?.status_id <3){

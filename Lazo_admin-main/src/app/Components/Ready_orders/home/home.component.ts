@@ -25,7 +25,9 @@ export class HomeComponent implements OnInit {
     'Order Type',
     'No. of items',
     'Total Price',
-    'Placed Date / Time',
+    'Date',
+    'Delivery Date',
+    'Delivery Time',
     'Status',
     'Action',
   ];

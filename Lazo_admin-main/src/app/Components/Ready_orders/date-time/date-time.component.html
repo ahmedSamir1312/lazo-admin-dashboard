@@ -33,7 +33,7 @@
                     <path d="M19 8.5L12 15.5L5 8.5" stroke="#E21B33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg></span> -->
 
-                <ng-select
+                <!-- <ng-select
                   [items]="types"
                   style="border-radius: 8px"
                   #select
@@ -41,14 +41,24 @@
                   placeholder="Enter Promo Code Type "
                   (close)="select.blur()"
                   [clearable]="false"
-                  bindLabel="name"
-                  bindValue="value"
                   appendTo="body"
                   dropdownPosition="bottom"
                   [ngModelOptions]="{ standalone: true }"
                   [(ngModel)]="time"
                 >
+                </ng-select> -->
+                <ng-select
+                  [ngModelOptions]="{ standalone: true }"
+                  [(ngModel)]="time"
+                  placeholder="Enter Promo Code Type"
+                  [clearable]="false">
+
+                  <ng-option *ngFor="let type of types" [value]="type.id">
+                    {{ type.from +'-'+ type.to }}
+                  </ng-option>
+
                 </ng-select>
+
               </div>
             </div>
             @if (this.order?.order_family=="collective") {
@@ -59,7 +69,7 @@
                 <ng-select
                   [items]="details"
                   style="border-radius: 8px"
-                  #selects
+                  #select
                   class="promo"
                   placeholder="Choose  packaging_provider "
                   (close)="select.blur()"
