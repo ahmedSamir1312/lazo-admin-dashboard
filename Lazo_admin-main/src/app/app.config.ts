@@ -7,14 +7,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatNativeDateModule } from '@angular/material/core';
 import { provideToastr } from 'ngx-toastr';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptors([JwtInterceptor])),
     provideAnimationsAsync(),
-    importProvidersFrom(MatNativeDateModule),
+    importProvidersFrom(MatNativeDateModule , ModalModule.forRoot()),
     provideAnimations(),
     provideToastr(),
+      
   ],
 };

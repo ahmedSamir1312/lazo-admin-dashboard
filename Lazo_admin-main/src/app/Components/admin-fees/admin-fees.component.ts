@@ -26,6 +26,7 @@ export class AdminFeesComponent implements OnInit {
     this.form= this.formBuilder.group({
       delivery: this.formBuilder.group({
         amount:[null,[Validators.required , Validators.min(0)]],
+        free_shipping_threshold:[null,[Validators.required , Validators.min(0)]],
       }), 
       additional_wrapping: this.formBuilder.group({   
         type:['wrapping_fee',Validators.required],
@@ -56,7 +57,8 @@ export class AdminFeesComponent implements OnInit {
       console.log("deliveryDetails",res?.data[0]?.amount)
       if(res?.data[0]?.amount) { 
       this.f['delivery'].patchValue({
-        amount:res?.data[0]?.amount
+        amount:res?.data[0]?.amount,
+        free_shipping_threshold:res?.data[0]?.free_shipping_threshold
       })
       }
     })

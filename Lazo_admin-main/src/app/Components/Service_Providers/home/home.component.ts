@@ -1,5 +1,5 @@
 import { AppService } from './../../../services/app.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, TemplateRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 // import { TableComponent } from '../../Ready_orders/table/table.component';
 import { ProvidweTableComponent } from '../providwe-table/providwe-table.component';
@@ -7,7 +7,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 // import { PalceholderTableComponent } from '../../../Shared/palceholder-table/palceholder-table.component';
 import { FormsModule } from '@angular/forms';
-
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgSelectModule, } from '@ng-select/ng-select';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -18,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     // PalceholderTableComponent,
     RouterModule,
+    NgSelectModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -26,7 +29,9 @@ export class HomeComponent implements OnDestroy {
   matTabGroup: any;
   title: any;
   type: any = 'active';
+  package_providers_list:any[]=[];
   account_type: any;
+  selectedPackageIds:any;
   header: any = [
     'No.',
     'Store Name',
@@ -49,6 +54,7 @@ export class HomeComponent implements OnDestroy {
     'Service Type',
     'Action',
   ];
+
   block_header: any = [
     'No.',
     'Store Name',
@@ -60,8 +66,11 @@ export class HomeComponent implements OnDestroy {
     'Block',
     'Action',
   ];
+
   search: any = '';
-  constructor(private route: ActivatedRoute, private AppService: AppService) {
+  modalRef?: BsModalRef;
+  
+  constructor(private route: ActivatedRoute, private toastr:ToastrService,private AppService: AppService , private modalService: BsModalService) {
     this.route.data.subscribe((data) => {
       this.account_type = data['account_type'];
       this.title = data['title'];
@@ -81,6 +90,24 @@ export class HomeComponent implements OnDestroy {
         : this.header;
       console.log(this.account_type, this.title);
     });
+    
+   
+  }
+
+   showTabs(status: any, account_type: any, page: any): void {
+    this.AppService
+      .getProviders(status, account_type, page)
+      .subscribe((stats: any) => {
+        console.log(stats.data.data);
+        this.package_providers_list = stats?.data?.data;
+        // this.total_pages = stats.data.last_page;
+        // this.details.push(...stats.data.data);
+        // this.loading = false;
+      });
+  }
+
+  closeModal() {
+    this.modalRef?.hide();
   }
 
   resetShowItem(event: any) {
@@ -105,10 +132,34 @@ export class HomeComponent implements OnDestroy {
     }
     console.log(this.type);
   }
+
   sendData(event: any) {
     this.AppService.updateData(event.target.value);
   }
+
   ngOnDestroy(): void {
     this.AppService.updateData('');
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    this.showTabs('active',this.account_type,1)
+  }
+
+  SaveDefultPackageProvider(){
+    // console.log("selectedPackageIds" ,this.selectedPackageIds)
+    if(this.selectedPackageIds) {
+      this.AppService.setPackageProviderAsDefault(this.selectedPackageIds).subscribe((res:any)=>{
+        if(res?.status){ 
+        this.toastr.success(res?.message, 'Success') 
+         this.modalService.hide();
+        }
+      },(err:any)=>{
+        this.toastr.error(err.error.errors?.provider_id[0], 'Error')
+      }) 
+    }else{
+      this.toastr.error('You Have To Select Package Provider', 'Error')
+    }
+  }
+
 }

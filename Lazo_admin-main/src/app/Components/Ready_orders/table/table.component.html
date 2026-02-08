@@ -130,70 +130,88 @@
             } -->
 
             @switch (item.status_id){
- 
-            @case ('3') {
-            <span
-              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
-              >{{ item.status | slice : 0 : 9 }}</span
-            >} @case ('1') {
+            @case ('1') {
             <span
               style="color: #cdcb02; background-color: #f5f5e1; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('2') {
+            >} 
+            @case ('2') {
             <span
               style="color: #0582d2; background-color: #e1eef6; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('6') {
+            >} 
+             @case ('3') {
             <span
-              style="color: #0582d2; background-color: #e1eef6; padding: 10px"
-              >{{ item.status }}</span
-            >} @case ('7') {
-            <span
-              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
-              >{{ item.status | slice : 0 : 12 }}</span
-            >} @case ('5.5') {
-            <span
-              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
-              >{{ item.status }}</span
-            >} @case ('5') {
-            <span
-              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
-              >{{ item.status }}</span
-            >} @case ('6.5') {
-            <span
-              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
-              >{{ item.status }}</span
-            >} @case ('4') {
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status | slice : 0 : 9 }}</span
+            >} 
+             @case ('4') {
             <span
               style="color: #02b730; background-color: #e1f3e6; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('10') {
+            >
+            }
+            @case ('5') {
             <span
-              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('11') {
+            >} 
+            @case ('5.5') {
             <span
-              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('12') {
+            >} 
+            @case ('6') {
             <span
-              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              style="color: #0582d2; background-color: #e1eef6; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('14') {
+            >} 
+            @case ('6.5') {
             <span
-              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              style="color: #ac418e; background-color: #fbf2f9; padding: 10px"
               >{{ item.status }}</span
-            >} @case ('8') {
+            >} 
+            @case ('7') {
+            <span
+              style="color: #ffb58b; background-color: #faf3ef; padding: 10px"
+              >{{ item.status | slice : 0 : 12 }}</span
+            >} 
+            @case ('8') {
             <span
               style="color: #9a6dff; background-color: #f0ecf9; padding: 10px"
               >{{ item.status }}</span
-            >} }
+            >}
+            @case ('9') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status }}</span
+            >}
+            @case ('10') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status }}</span
+            >} 
+            @case ('11') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status }}</span
+            >} 
+            @case ('12') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status }}</span
+            >} 
+            @case ('14') {
+            <span
+              style="color: #e21b33; background-color: #fde9eb; padding: 10px"
+              >{{ item.status }}</span
+            >} 
+            }
           </td>
           <td
             scope="col"
             style="cursor: pointer"
-            [routerLink]="['/Order_details', item.id]"
-          >
+            [routerLink]="['/Order_details', item.id]">
             <span style="text-decoration: underline; color: #e21b33">
               See details
             </span>

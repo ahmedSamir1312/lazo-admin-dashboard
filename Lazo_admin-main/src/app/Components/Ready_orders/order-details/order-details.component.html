@@ -25,7 +25,7 @@
     </div>
 
     <div class="fw-bold title col-xl-6 col-lg-6 col-md-6 col-12 text-end">
-     
+      
       @if (order.order_family=="ready_made") { @switch (order.status_id){ 
       @case('2') {
       <button
@@ -109,18 +109,20 @@
         (click)="manageOrders('5.5')"
       >
         <span class="mx-1">On delivery </span></button
-      >} @case ('5.5') {
+      >} 
+      @case ('5.5') {
       <button
         class="btn mx-1 btn-danger custom px-4"
         (click)="manageOrders('6')"
       >
-        <span class="mx-1">Packaging </span></button
-      >} @case ('6') {
+        <span class="mx-1">In Packaging </span></button
+      >} 
+      @case ('6') {
       <button
         class="btn mx-1 btn-danger custom px-4"
-        (click)="manageOrders('7')"
+        (click)="manageOrders('6.5')"
       >
-        <span class="mx-1">On delivery </span></button
+        <span class="mx-1">Ready For Shipping</span></button
       >} @case ('6.5') {
       <button
         class="btn mx-1 btn-danger custom px-4"
@@ -803,12 +805,12 @@
               <span class="data">{{ order.total_before_discount }} SAR</span>
             </div>
 
-             @if(order.shipping_fee && order.shipping_fee!=0) { 
+          <!-- @if(order.shipping_fee && order.shipping_fee!=0) { -->
             <div>
-              <span class="title_info mx-1 fw-bold"> Shipping Fee  </span>
-              <span class="data">{{ order.shipping_fee }} SAR</span>
+              <span class="title_info mx-1 fw-bold"> Shipping Fee  </span> 
+              <span class="data">{{ (order.shipping_fee != 0 ? (order.shipping_fee +'SAR') : 'Free' )}} </span>
             </div>
-            }
+            <!-- } -->
 
             @if(order.wrapping_fee && order.wrapping_fee!=0) { 
              <div>

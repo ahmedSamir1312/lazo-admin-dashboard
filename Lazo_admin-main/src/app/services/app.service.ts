@@ -584,6 +584,12 @@ export class AppService {
   }
   // /admin/order/show?order_id=11
   // providers
+  setPackageProviderAsDefault(provider_id:any) {
+    const formData: any = new FormData();
+    formData.append('provider_id',provider_id);
+    return this.http.post(`${environment.endpoint}/admin/provider/set-default-package-provider`, formData);
+  }
+
   getProviders(status: any, family: any, page: any) {
     return this.http.get(
       `${environment.endpoint}/admin/providers/show?status=${status}&account_type=${family}&page=${page}`

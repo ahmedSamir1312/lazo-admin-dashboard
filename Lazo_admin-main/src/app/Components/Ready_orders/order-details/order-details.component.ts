@@ -102,8 +102,10 @@ export class OrderDetailsComponent {
         item: this.order,
       },
     });
+
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
+        console.log("result",result)
         this.order = result;
       }
     });
@@ -120,7 +122,7 @@ export class OrderDetailsComponent {
         let form = {
           cancellation_reason: result.reason,
           order_id: this.order.id,
-          status_id: this.order.order_family == 'ready_made' ? 10 : 11,
+          status_id: 9 // this.order.order_family == 'ready_made' ? 10 : 11,
         };
         this.orders.manageOrders(form).subscribe((res: any) => {
           this.order.status_id = res?.data.status_id;

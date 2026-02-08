@@ -1,11 +1,11 @@
 <section>
   <div class="row main my-5 d-flex align-items-center">
-    <div class="fw-bold title col-xl-7 col-lg-7 col-md-6 col-12">
+    <div class="fw-bold title col-xl-4 col-lg-4 col-md-6 col-12">
       <h2 class="text-default fw-bold m-auto">{{ title }}</h2>
     </div>
-    <div class="fw-bold title col-xl-5 col-lg-5 col-md-6 col-12">
+    <div class="fw-bold title col-xl-8 col-lg-8 col-md-6 col-12">
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-3 col-12">
           <div class="search">
             <img src="assets/images/Search.svg" alt="" class="search_svg" />
             <input
@@ -16,9 +16,9 @@
             />
           </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4 col-12">
           <button
-            class="btn btn-danger custom px-2 w-100"
+            class="btn btn-danger custom p-2 w-100"
             [routerLink]="['/add_provider']"
           >
             <svg
@@ -35,6 +35,13 @@
             </svg>
 
             <span class="mx-2"> Add New Provider</span>
+          </button>
+        </div>
+         <div class="col-md-5 col-12">
+          <button
+            class="btn btn-outline-danger custom p-2 w-100"
+            (click)="openModal(myTemplate)">
+           <span class="mx-2"> Assign Default Package Provider</span>
           </button>
         </div>
       </div>
@@ -87,3 +94,33 @@
     </mat-tab-group>
   </div>
 </div>
+ 
+<ng-template #myTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"> Assign Default Package Provider</h4>
+    <button type="button" class="btn-close" (click)="closeModal()"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <label for="package_provider" class="mb-3"> Package </label>
+         <ng-select 
+            [items]="package_providers_list"
+            #select
+            placeholder="Choose Roles"
+            (close)="select.blur();" 
+            bindLabel="name_en"
+            bindValue="id"
+            dropdownPosition="bottom"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="selectedPackageIds">
+          </ng-select> 
+        </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="SaveDefultPackageProvider()">Save</button>
+  </div>
+</ng-template>
