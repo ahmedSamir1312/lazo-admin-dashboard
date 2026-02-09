@@ -590,6 +590,10 @@ export class AppService {
     return this.http.post(`${environment.endpoint}/admin/provider/set-default-package-provider`, formData);
   }
 
+  getPackageProviderAsDefault() {
+   return this.http.get(`${environment.endpoint}/admin/provider/show-default-package-providers`);
+  }
+
   getProviders(status: any, family: any, page: any) {
     return this.http.get(
       `${environment.endpoint}/admin/providers/show?status=${status}&account_type=${family}&page=${page}`

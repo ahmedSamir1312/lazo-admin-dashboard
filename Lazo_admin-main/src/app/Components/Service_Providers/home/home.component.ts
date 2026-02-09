@@ -90,11 +90,12 @@ export class HomeComponent implements OnDestroy {
         : this.header;
       console.log(this.account_type, this.title);
     });
-    
-   
+
+    this.getDefaultPackageProvider();
+    console.log("this.account_type",this.account_type == 'Packaging Providers')
   }
 
-   showTabs(status: any, account_type: any, page: any): void {
+  showTabs(status: any, account_type: any, page: any): void {
     this.AppService
       .getProviders(status, account_type, page)
       .subscribe((stats: any) => {
@@ -139,6 +140,13 @@ export class HomeComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.AppService.updateData('');
+  }
+
+  getDefaultPackageProvider() {
+    this.AppService.getPackageProviderAsDefault().subscribe((res:any)=>{
+      // console.log("getDefaultPackageProvider",res?.data)
+      this.selectedPackageIds = res?.data[0]?.id
+    })
   }
 
   openModal(template: TemplateRef<any>) {
