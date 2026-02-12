@@ -69,7 +69,7 @@
             <div class="col-lg-12 mb-4">
               <div class="form-group position-relative">
                 <svg
-                  (click)="about.click()"
+                  (click)="image_ref.click()"
                   class="upload"
                   width="21"
                   height="21"
@@ -105,7 +105,7 @@
                   id="file"
                   accept="image/*"
                   type="file"
-                  #about
+                  #image_ref
                   readonly
                   class="custom-file-upload"
                   multiple=""
@@ -136,6 +136,81 @@
                   />
                 </div>
                 } @if(f.image?.errors && submitted){
+                <p class="text-danger mt-2">*This field is required</p>
+                }
+              </div>
+            </div>
+
+              <div class="col-lg-12 mb-4">
+              <div class="form-group position-relative">
+                <svg
+                  (click)="mobile_image_ref.click()"
+                  class="upload"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 21 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.38948 7.87319H4.45648C2.42148 7.87319 0.771484 9.52319 0.771484 11.5582L0.771484 16.4332C0.771484 18.4672 2.42148 20.1172 4.45648 20.1172H15.5865C17.6215 20.1172 19.2715 18.4672 19.2715 16.4332V11.5482C19.2715 9.51919 17.6265 7.87319 15.5975 7.87319L14.6545 7.87319"
+                    stroke="#E21B33"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.0215 1.08009V13.1211"
+                    stroke="#E21B33"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M7.10547 4.00781L10.0205 1.07981L12.9365 4.00781"
+                    stroke="#E21B33"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <label class="mb-3">Mobile Image </label>
+                <input
+                  hidden
+                  id="file"
+                  accept="image/*"
+                  type="file"
+                  #mobile_image_ref
+                  readonly
+                  class="custom-file-upload"
+                  multiple=""
+                  (change)="onMobileBannerChange($event)"
+                />
+                <input
+                  readonly
+                  placeholder="Upload Mobile Image
+                    "
+                  type="text"
+                  class="form-control"
+                  formControlName="mobile_image"
+                  [ngStyle]="{
+                    border:
+                      submitted && f.mobile_image.errors
+                        ? '1px solid red'
+                        : submitted && f.mobile_image.errors
+                        ? '1px solid #ebebeb'
+                        : null
+                  }"
+                />
+                @if (f.mobile_image?.value) {
+                <div class="img my-3">
+                  <img
+                    [src]="mobile_image"
+                    alt=""
+                    style="width: 100%; height: 200px"
+                  />
+                </div>
+                } @if(f.mobile_image?.errors && submitted){
                 <p class="text-danger mt-2">*This field is required</p>
                 }
               </div>

@@ -23,6 +23,7 @@ export class AddComponent implements OnInit {
   form!: FormGroup;
   submitted: boolean = false;
   image: any;
+  mobile_image:any;
   constructor(
     public dialogRef: MatDialogRef<AddComponent>,
     private formbuilder: FormBuilder,
@@ -35,51 +36,66 @@ export class AddComponent implements OnInit {
     this.form = this.formbuilder.group({
       title: [null, Validators.required],
       image: [null, Validators.required],
+      mobile_image: [null, Validators.required],
     });
   }
+
   get f(): any {
     return this.form.controls;
   }
-  add() {
-    this.submitted = true;
+ 
 
-    if (this.form.invalid) {
-      return;
-    }
-    let form = {
-      ...this.form.value,
-    };
-
-    this.banners.addbanner(form).subscribe(
-      (res: any) => {
-        // console.log("success" ,res)
-        if (res.status == true) {
-          this.toastr.success(res.message, 'success', {
-            tapToDismiss: true,
-            disableTimeOut: false,
-            timeOut: 5000,
-            positionClass: 'toast-bottom-right',
-          });
-          this.dialogRef.close(true);
-        } else {
-          // this.toastr.error(res.message,'error');
+  onMobileBannerChange(event: any) {
+    if (event.target.files[0]?.size <= 6000000) {
+      if (event.target.files && event.target.files[0]) {
+        var filesAmount = event.target.files.length;
+       
+        for (let i = 0; i < filesAmount; i++) {
+          var reader = new FileReader();
+          
+          reader.onload = (event: any) => {
+            console.log(event.target.result);
+          };
+          reader.readAsDataURL(event.target.files[i]);
         }
-      },
-      (err: any) => {
-        this.toastr.error(err.error.errors[0], 'error', {
-          closeButton: true,
-          tapToDismiss: true,
-          disableTimeOut: false,
-          timeOut: 5000,
-          positionClass: 'toast-bottom-right',
-        });
       }
-    );
-  }
 
-  close() {
-    this.dialogRef.close();
+      this.spinner.show();
+      this.banners.uploadFiles(event.target.files).subscribe(
+        (res: any) => {
+          this.spinner.hide();
+          this.mobile_image = 'https://backend-dev.lazo.sa/public/' + res['data'][0];
+
+          console.log(this.mobile_image, 'image url');
+          if (res.status == true) {
+            this.toastr.success(res.message, 'success', {
+              tapToDismiss: true,
+              disableTimeOut: false,
+              timeOut: 5000,
+              positionClass: 'toast-bottom-right',
+            });
+            this.f.mobile_image.setValue(res.data);
+          } else {
+            this.spinner.hide();
+            this.toastr.error(res?.errors[0], 'error');
+          }
+        },
+        (err: any) => {
+          this.spinner.hide();
+          this.toastr.error(err.error.errors[0], 'error');
+        }
+      );
+    } else {
+      this.spinner.hide();
+      this.toastr.error('Image size must be less than 600KB', 'error', {
+        tapToDismiss: true,
+        disableTimeOut: false,
+        timeOut: 5000,
+        positionClass: 'toast-bottom-right',
+      });
+    }
   }
+ 
   onBannerChange(event: any) {
     if (event.target.files[0]?.size <= 6000000) {
       if (event.target.files && event.target.files[0]) {
@@ -134,5 +150,47 @@ export class AddComponent implements OnInit {
         positionClass: 'toast-bottom-right',
       });
     }
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+
+  add() {
+    this.submitted = true;
+
+    if (this.form.invalid) {
+      return;
+    }
+    let form = {
+      ...this.form.value,
+    };
+
+    this.banners.addbanner(form).subscribe(
+      (res: any) => {
+        // console.log("success" ,res)
+        if (res.status == true) {
+          this.toastr.success(res.message, 'success', {
+            tapToDismiss: true,
+            disableTimeOut: false,
+            timeOut: 5000,
+            positionClass: 'toast-bottom-right',
+          });
+          this.dialogRef.close(true);
+        } else {
+          // this.toastr.error(res.message,'error');
+        }
+      },
+      (err: any) => {
+        this.toastr.error(err.error.errors[0], 'error', {
+          closeButton: true,
+          tapToDismiss: true,
+          disableTimeOut: false,
+          timeOut: 5000,
+          positionClass: 'toast-bottom-right',
+        });
+      }
+    );
   }
 }

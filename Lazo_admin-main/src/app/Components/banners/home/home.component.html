@@ -99,9 +99,9 @@
             class="background-info text-default position-sticky"
             style="top: -1px; z-index: 33"
           >
-            @for (head of header; track $index) {
+          @for (head of header; track $index) {
             <td>{{ head }}</td>
-            }
+          }
           </tr>
           @for (item of Banners; track $index) {
           <tr class="table_body text-center">
@@ -120,7 +120,15 @@
                 style="width: 70px; height: 70px; border-radius: 50%"
               />
             </td>
-
+            <td scope="col">
+              <img
+                onerror="this.src='assets/images/profile.svg'"
+                [src]="item?.mobileImagePath"
+                alt=""
+                style="width: 70px; height: 70px; border-radius: 50%"
+              />
+            </td>
+ 
             <td scope="col" style="width: 300px">
               <div class="row buttons justify-content-center">
                 <div class="col-lg-6 co-md-6 col-6 align-self-center mb-2">
